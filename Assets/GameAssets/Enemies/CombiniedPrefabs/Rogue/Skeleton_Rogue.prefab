@@ -198,6 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4103583032354040770}
   - component: {fileID: 1184059725733591294}
+  - component: {fileID: 5419525754414423286}
   m_Layer: 0
   m_Name: Skeleton_Rogue
   m_TagString: Untagged
@@ -251,6 +252,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5419525754414423286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276373197862094712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e541048f37d9c3c4c9d45ce9ef0eac82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {x: 8.38, y: 0.883889, z: 8.54}
+  moveSpeed: 3
+  detectionDistance: 25
+  stopDistance: 10
 --- !u!1 &1334166119499958142
 GameObject:
   m_ObjectHideFlags: 0
