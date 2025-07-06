@@ -736,6 +736,8 @@ MonoBehaviour:
   _verticalSpeed: 0.01
   _horizontalSpeed: 3
   yPos: 1
+  leftBound: 1.5
+  rightBound: 13.5
 --- !u!114 &1963327905
 MonoBehaviour:
   m_ObjectHideFlags: 0

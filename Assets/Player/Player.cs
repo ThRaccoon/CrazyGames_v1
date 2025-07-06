@@ -2,21 +2,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [field: Header("Components")]
+    [Header("Components")]
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private GameObject _player;
 
     [field: Space(10)]
-    [field: Header("Speeds")]
+    [Header("Speeds")]
     [SerializeField] private float _verticalSpeed;
     [SerializeField] private float _horizontalSpeed;
 
     [field: Space(10)]
     [SerializeField] private float yPos;
 
-    private float newX;
-    private float newZ;
-    private Vector3 oldPos;
+    [field: Space(10)]
+    [Header("Boundaries")]
+    [SerializeField] private float leftBound;
+    [SerializeField] private float rightBound;
 
 
     private void Update()
@@ -24,14 +25,15 @@ public class Player : MonoBehaviour
         MovePlayerWithInBounds();
     }
 
+
     private void MovePlayerWithInBounds()
     {
-        oldPos = _player.transform.position;
-        
-        newX = oldPos.x + _playerInputManager.movementInput.x * _horizontalSpeed * Time.deltaTime;
-        newZ = oldPos.z + _verticalSpeed;
+        Vector3 oldPos = _player.transform.position;
 
-        if (newX <= 1.5 || newX >= 13.5)
+        float newX = oldPos.x + _playerInputManager.movementInput.x * _horizontalSpeed * Time.deltaTime;
+        float newZ = oldPos.z + _verticalSpeed;
+
+        if (newX <= leftBound || newX >= rightBound)
         {
             newX = oldPos.x;
         }
