@@ -6,6 +6,15 @@
             "id": "1c2d0298-f852-4e93-bf25-f7c857c8d419",
             "actions": [
                 {
+                    "name": "LMB",
+                    "type": "Button",
+                    "id": "31455cfe-0d0d-4d5d-823c-d7006aff569a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "AD",
                     "type": "Value",
                     "id": "aa518826-050c-44a1-8175-b5704c6b9d89",
@@ -125,6 +134,17 @@
                     "action": "AD",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7531a8aa-7d27-4107-aa21-8d50905ebd4c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LMB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

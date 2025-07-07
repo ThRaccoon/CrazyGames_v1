@@ -3,7 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
-    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private Player _player;
+
+    private PlayerInput _playerInput;
 
     public Vector2 movementInput { get; private set; }
 
@@ -18,12 +20,16 @@ public class PlayerInputManager : MonoBehaviour
         _playerInput.Enable();
 
 
+        _playerInput.Player.LMB.performed += GetLMBInput;
+
         _playerInput.Player.AD.performed += GetMovementInput;
         _playerInput.Player.AD.canceled += GetMovementInput;
     }
 
     private void OnDisable()
     {
+        _playerInput.Player.LMB.performed -= GetLMBInput;
+
         _playerInput.Player.AD.performed -= GetMovementInput;
         _playerInput.Player.AD.canceled -= GetMovementInput;
 
@@ -31,6 +37,11 @@ public class PlayerInputManager : MonoBehaviour
         _playerInput.Disable();
     }
 
+
+    private void GetLMBInput(InputAction.CallbackContext ctx)
+    {
+        _player.SelectTarget();
+    }
 
     private void GetMovementInput(InputAction.CallbackContext ctx)
     {
