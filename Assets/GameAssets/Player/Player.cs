@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
@@ -11,17 +12,19 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private float _projectileSpeed;
 
-
+    private Vector3 _spawnPoint;
     private GameObject _target;
 
     private bool _canAttack = true;
 
     [SerializeField] private float _spawnProjectileInterval;
-    private float _countDown;
+    [SerializeField] float _attackSpeed = 1f;
+    [SerializeField] float _attackRange = 20f;
 
     private void Awake()
     {
-        _countDown = _spawnProjectileInterval;
+        _spawnPoint = new Vector3(transform.position.x,transform.position.y+1.5f,transform.position.z);
+        _attackSpeed = _spawnProjectileInterval;
     }
 
     private void Update()
@@ -36,11 +39,11 @@ public class Player : MonoBehaviour
 
         if (!_canAttack) 
         {
-            _countDown -= Time.deltaTime;
+            _attackSpeed -= Time.deltaTime;
             
-            if (_countDown <= 0) 
+            if (_attackSpeed <= 0) 
             {
-                _countDown = _spawnProjectileInterval;
+                _attackSpeed = _spawnProjectileInterval;
                 _canAttack = true;
             }
         }
@@ -61,12 +64,11 @@ public class Player : MonoBehaviour
 
     private void AttackTarget()
     {
-        if (_target != null)
+        float targetDistance = Vector3.Distance(transform.position, _target.transform.position);
+        if (_target != null && _attackRange >= targetDistance)
         {
-            Vector3 dir = (_target.transform.position - transform.position).normalized;
-
-            GameObject projectile = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(dir, _projectileSpeed);
+            GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint, Quaternion.identity);
+            projectile.GetComponent<Projectile>().Init(_projectileSpeed,_target);
         }
     }
 }

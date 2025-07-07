@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3202481649183299803}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: upperleg.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3587714480555425352}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: control-foot-roll.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,135 +65,6 @@ Transform:
   - {fileID: 6715710260073627725}
   m_Father: {fileID: 3669920602467002996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &408990221100759919
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5567561798029870663}
-  - component: {fileID: 7631382700116560563}
-  m_Layer: 0
-  m_Name: Skeleton_Warrior_Cloak
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5567561798029870663
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408990221100759919}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 861977594427186478}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &7631382700116560563
-SkinnedMeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408990221100759919}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 3
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  serializedVersion: 2
-  m_Quality: 0
-  m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8095535506122507930, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
-  m_Bones:
-  - {fileID: 3700383849822434964}
-  - {fileID: 8832834888400512224}
-  - {fileID: 7640553861231310788}
-  - {fileID: 6264422289432752047}
-  - {fileID: 4400346793839999477}
-  - {fileID: 8198006773957568357}
-  - {fileID: 7454747949458641351}
-  - {fileID: 7145010395631897426}
-  - {fileID: 6193998138605406154}
-  - {fileID: 3252376296859200202}
-  - {fileID: 7074154783075607550}
-  - {fileID: 4973480840981042420}
-  - {fileID: 6010812456520026616}
-  - {fileID: 6045572111687314691}
-  - {fileID: 3769330614482127816}
-  - {fileID: 3202481649183299803}
-  - {fileID: 5259103168908648051}
-  - {fileID: 6993669990041405017}
-  - {fileID: 4006127067468570483}
-  - {fileID: 5190295116351266460}
-  - {fileID: 2469469084508553446}
-  - {fileID: 4907163057228767384}
-  - {fileID: 6240783596356305782}
-  - {fileID: 5572672980048567011}
-  - {fileID: 4731754942330108475}
-  - {fileID: 5443083319958996248}
-  - {fileID: 2408144950874871906}
-  - {fileID: 3891465569182028539}
-  - {fileID: 7515559925006934998}
-  - {fileID: 8762275120320310202}
-  - {fileID: 4012545357722274282}
-  - {fileID: 4773478411892280341}
-  - {fileID: 3669920602467002996}
-  - {fileID: 3587714480555425352}
-  - {fileID: 4226116862568395335}
-  - {fileID: 6715710260073627725}
-  - {fileID: 5524592274373970519}
-  - {fileID: 2868188862083253006}
-  - {fileID: 7101041043728327941}
-  - {fileID: 3005126614508589232}
-  - {fileID: 6225504533843404263}
-  m_BlendShapeWeights: []
-  m_RootBone: {fileID: 3700383849822434964}
-  m_AABB:
-    m_Center: {x: 0.000000834465, y: 1.0546455, z: 0.014189869}
-    m_Extent: {x: 0.43566138, y: 0.25708342, z: 0.3724229}
-  m_DirtyAABB: 0
 --- !u!1 &766526291903649661
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6225504533843404263}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handIK.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3005126614508589232}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: elbowIK.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7640553861231310788}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3700383849822434964}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3891465569182028539}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: heelIK.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5524592274373970519}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IK-toe.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2868188862083253006}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: elbowIK.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1990632460410167571}
   - component: {fileID: 7081997583072810359}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +332,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764962624401054048}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -476,7 +347,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -559,7 +430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5443083319958996248}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: control-heel-roll.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,7 +463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4400346793839999477}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: upperarm.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4006127067468570483}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: toes.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1900709635599108642}
   - component: {fileID: 7660494489732348537}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +557,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2446017604495776858}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -701,7 +572,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -784,7 +655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7101041043728327941}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handIK.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6010812456520026616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: hand.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6715710260073627725}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IK-foot.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,7 +749,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4731754942330108475}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: control-toe-roll.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -910,7 +781,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7145010395631897426}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: hand.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4773478411892280341}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: control-toe-roll.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +845,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8832834888400512224}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1010,7 +881,8 @@ GameObject:
   - component: {fileID: 861977594427186478}
   - component: {fileID: 9022399601266066971}
   - component: {fileID: 4706898690359360352}
-  m_Layer: 0
+  - component: {fileID: 5308610279397096342}
+  m_Layer: 9
   m_Name: Skeleton_Warrior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1034,7 +906,6 @@ Transform:
   - {fileID: 6225873038764564277}
   - {fileID: 7379203527280014677}
   - {fileID: 1990632460410167571}
-  - {fileID: 5567561798029870663}
   - {fileID: 3371322511026640718}
   - {fileID: 1900709635599108642}
   - {fileID: 8225403505939819111}
@@ -1080,6 +951,27 @@ MonoBehaviour:
   moveSpeed: 3
   detectionDistance: 25
   stopDistance: 1.75
+--- !u!65 &5308610279397096342
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484581747811076669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.1905675, z: 1}
+  m_Center: {x: 0, y: 1.2618548, z: 0}
 --- !u!1 &4766517512218571427
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,7 +981,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4226116862568395335}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: heelIK.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1120,7 +1012,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3669920602467002996}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: control-heel-roll.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1155,7 +1047,7 @@ GameObject:
   - component: {fileID: 8104644420909767995}
   - component: {fileID: 8946136851107753315}
   - component: {fileID: 8742813096305174628}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Shield_Small_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1085,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5184772558690903042}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1208,7 +1100,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: bbfd497b9c5a4ca49a53fc4c7542a9cd, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1239,7 +1131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2408144950874871906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: control-foot-roll.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1273,7 +1165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6616377204402406955}
   - component: {fileID: 8522151302438309899}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_LegRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1303,7 +1195,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5351006078017851377}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1318,7 +1210,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1401,7 +1293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3252376296859200202}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: upperarm.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1433,7 +1325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6993669990041405017}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: foot.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1465,7 +1357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5714559106663502103}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1498,7 +1390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6225873038764564277}
   - component: {fileID: 491134559492159538}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_ArmLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1528,7 +1420,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6131618386655902708}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1543,7 +1435,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1627,7 +1519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2656484981734855615}
   - component: {fileID: 6762759717980604739}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_LegLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1657,7 +1549,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6207524157433421412}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1672,7 +1564,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1755,7 +1647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8198006773957568357}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lowerarm.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1787,7 +1679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7515559925006934998}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IK-foot.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1819,7 +1711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3371322511026640718}
   - component: {fileID: 600553694645229984}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1849,7 +1741,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6560843253090439221}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1864,7 +1756,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7848952084472943420, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1947,7 +1839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2469469084508553446}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lowerleg.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1979,7 +1871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6193998138605406154}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handslot.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2011,7 +1903,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4907163057228767384}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: foot.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2043,7 +1935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4012545357722274282}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: kneeIK.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2075,7 +1967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8225403505939819111}
   - component: {fileID: 5025565946572598629}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_Jaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2105,7 +1997,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6899652282366177777}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -2120,7 +2012,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2203,7 +2095,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5259103168908648051}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lowerleg.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2235,7 +2127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7074154783075607550}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lowerarm.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2267,7 +2159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4973480840981042420}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wrist.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2299,7 +2191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6240783596356305782}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: toes.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2330,7 +2222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5190295116351266460}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: upperleg.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2362,7 +2254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769330614482127816}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2394,7 +2286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5572672980048567011}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: kneeIK.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2425,7 +2317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6045572111687314691}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handslot.r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2458,7 +2350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7379203527280014677}
   - component: {fileID: 1011345502255821155}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_ArmRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2488,7 +2380,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8647992346725247226}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -2503,7 +2395,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: d6fff633b7b450642a53c5e837f6b56d, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2586,7 +2478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6264422289432752047}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2622,7 +2514,7 @@ GameObject:
   - component: {fileID: 5579352762588249512}
   - component: {fileID: 3376798339026921336}
   - component: {fileID: 6927674373227982194}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Warrior_Helmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2706,7 +2598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8762275120320310202}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IK-toe.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2739,7 +2631,7 @@ GameObject:
   - component: {fileID: 2081825718754549404}
   - component: {fileID: 830777639384489153}
   - component: {fileID: 4542991270860442878}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skeleton_Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2777,7 +2669,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9019744918613981492}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -2792,7 +2684,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8468983757882266563, guid: 93c580872634ec642860fa2100720153, type: 3}
+  - {fileID: 2100000, guid: 3f6cd943565bd2b43939be2fbdca421b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2823,7 +2715,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7454747949458641351}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wrist.l
   m_TagString: Untagged
   m_Icon: {fileID: 0}

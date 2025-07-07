@@ -15,6 +15,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float stopDistance = 1.75f;
 
     private bool chasingPlayer = false;
+    Vector3 targetPosition;
+
+    private void Awake()
+    {
+        targetPosition = player;
+        targetPosition.y = 0;
+    }
 
     void Update()
     {
@@ -40,7 +47,7 @@ public class Enemy : MonoBehaviour
             if (distanceToPlayer > stopDistance)
             {
                 // Move toward the player's current position
-                Vector3 direction = (player - transform.position).normalized;
+                Vector3 direction = (targetPosition - transform.position).normalized;
                 transform.position += direction * moveSpeed * Time.deltaTime;
 
                 // Optionally rotate enemy to face the player
