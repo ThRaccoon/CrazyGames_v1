@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private float _x;
     private float _moveSpeed;
     private Vector3 _direction;
     private GameObject _target;
@@ -13,6 +14,7 @@ public class Projectile : MonoBehaviour
         _moveSpeed = moveSpeed;
         _target = target;
         _direction = (targetInitPos - transform.position).normalized;
+        transform.eulerAngles = new Vector3(_x, transform.eulerAngles.y, transform.eulerAngles.z);
 
         Destroy(gameObject, lifeTime);
     }

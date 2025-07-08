@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -32,7 +35,8 @@ public class Player : MonoBehaviour
 
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
-    
+
+    public LinkedList<GameObject> enemies;
 
     private void Awake()
     {
@@ -61,6 +65,17 @@ public class Player : MonoBehaviour
                 _canAttack = false;
             }
         }
+      /*  else if (enemies.First() != null && _canAttack && !_shouldSyncAnim)
+        {
+            _projectileTarget = enemies.First();
+            if(AttackTarget())
+            {
+                _canAttack = false;
+            }
+
+        }
+      */
+
     }
 
 
@@ -72,16 +87,21 @@ public class Player : MonoBehaviour
         {
             _projectileTarget = hit.collider.gameObject;
 
+            UpdateLookAt();
+
             Debug.Log(_projectileTarget.name);
         }
     }
 
     private bool AttackTarget()
-    {
+    {      
+
         float targetDistance = Vector3.Distance(transform.position, _projectileTarget.transform.position);
 
         if (_projectileTarget != null && _attackRange >= targetDistance)
         {
+            UpdateLookAt();
+
             _projectileTargetInitPos = _projectileTarget.transform.position;
 
             if (_animator != null)
@@ -131,5 +151,13 @@ public class Player : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
+    }
+
+    private void UpdateLookAt()
+    {
+        if (_projectileTarget != null)
+        {
+            transform.LookAt(_projectileTarget.transform);
+        }
     }
 }

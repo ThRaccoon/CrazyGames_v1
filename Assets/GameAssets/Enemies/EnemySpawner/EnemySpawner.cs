@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        timer = spawnInterval;
+        timer = 0;
     }
 
     void Update()
