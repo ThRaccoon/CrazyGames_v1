@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
@@ -8,43 +7,58 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private LayerMask _targetLayerMask;
 
+    [Header("Stats")]
+    [SerializeField] private float _health;
+    [SerializeField] private float _damage;
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private float _attackRange;
+
+    [Header("Animations")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private float _syncAnimLength;
+
     [Header("Projectile")]
     [SerializeField] private GameObject _projectilePrefab;
-    [SerializeField] private float _projectileSpeed;
+    [SerializeField] private float _projectileMoveSpeed;
+    [SerializeField] private float _projectileLifeTime;
+    [SerializeField] private float _projectileYOffset;
 
-    private Vector3 _spawnPoint;
-    private GameObject _target;
+    private GameObject _projectileTarget;
+    private Vector3 _projectileTargetInitPos;
+    private Vector3 _projectileSpawnPoint;
 
     private bool _canAttack = true;
+    private bool _shouldSyncAnim = false;
 
-    [SerializeField] private float _spawnProjectileInterval;
-    [SerializeField] float _attackSpeed = 1f;
-    [SerializeField] float _attackRange = 20f;
+    private GlobalTimer _attackTimer;
+    private GlobalTimer _syncAnimTimer;
+    
 
     private void Awake()
     {
-        _spawnPoint = new Vector3(transform.position.x,transform.position.y+1.5f,transform.position.z);
-        _attackSpeed = _spawnProjectileInterval;
+        _projectileSpawnPoint = new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z);
+
+        _attackTimer = new GlobalTimer(_attackSpeed);
+        _syncAnimTimer = new GlobalTimer(_syncAnimLength);
     }
 
     private void Update()
     {
-        if (_canAttack && _target != null) 
+        if (_shouldSyncAnim)
         {
-            AttackTarget();
-        
-            _canAttack = false;
+            SyncAnimation();
         }
-        
 
-        if (!_canAttack) 
+        if (!_canAttack && !_shouldSyncAnim)
         {
-            _attackSpeed -= Time.deltaTime;
-            
-            if (_attackSpeed <= 0) 
+            AttackCooldown();
+        }
+
+        if (_projectileTarget != null && _canAttack && !_shouldSyncAnim)
+        {
+            if (AttackTarget())
             {
-                _attackSpeed = _spawnProjectileInterval;
-                _canAttack = true;
+                _canAttack = false;
             }
         }
     }
@@ -56,19 +70,66 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, _targetLayerMask))
         {
-            _target = hit.collider.gameObject;
+            _projectileTarget = hit.collider.gameObject;
 
-            Debug.Log(_target.name);
+            Debug.Log(_projectileTarget.name);
         }
     }
 
-    private void AttackTarget()
+    private bool AttackTarget()
     {
-        float targetDistance = Vector3.Distance(transform.position, _target.transform.position);
-        if (_target != null && _attackRange >= targetDistance)
+        float targetDistance = Vector3.Distance(transform.position, _projectileTarget.transform.position);
+
+        if (_projectileTarget != null && _attackRange >= targetDistance)
         {
-            GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(_projectileSpeed,_target);
+            _projectileTargetInitPos = _projectileTarget.transform.position;
+
+            if (_animator != null)
+            {
+                _animator.Play("Attack");
+            }
+
+            _shouldSyncAnim = true;
+
+            return true;
         }
+        return false;
+    }
+
+    private void AttackCooldown()
+    {
+        _attackTimer.Tick();
+
+        if (_attackTimer.Flag)
+        {
+            _canAttack = true;
+
+            _attackTimer.Reset();
+        }
+    }
+
+    private void SyncAnimation()
+    {
+        _syncAnimTimer.Tick();
+
+        if (_syncAnimTimer.Flag)
+        {
+            GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
+            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget);
+
+            _shouldSyncAnim = false;
+
+            _syncAnimTimer.Reset();
+        }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z), Vector3.forward);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
 }

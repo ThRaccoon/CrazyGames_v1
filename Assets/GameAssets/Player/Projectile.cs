@@ -1,30 +1,25 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
     private float _moveSpeed;
-    private GameObject _target = null;
-    private float _lifeTime = 4f; 
-    private float _timer = 0f;
     private Vector3 _direction;
+    private GameObject _target;
 
-    public void Init(float speed, GameObject target)
+
+    public void Init(float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target)
     {
-        _moveSpeed = speed;
+        _moveSpeed = moveSpeed;
         _target = target;
+        _direction = (targetInitPos - transform.position).normalized;
+
+        Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
-        _timer += Time.deltaTime;
-        if (_timer >= _lifeTime)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        //If don't have a target, projectile continue in straight line until his lifetime
-        if (_target)
+        if (_target != null)
         {
             Vector3 targetPos = new Vector3(_target.transform.position.x, transform.position.y, _target.transform.position.z);
             _direction = (targetPos - transform.position).normalized;
@@ -34,7 +29,6 @@ public class Projectile : MonoBehaviour
         {
             transform.position += _direction * _moveSpeed * Time.deltaTime;
         }
-        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +36,8 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Destroy(other.gameObject);
-            Destroy(gameObject);
         }
+
+        Destroy(gameObject);
     }
 }

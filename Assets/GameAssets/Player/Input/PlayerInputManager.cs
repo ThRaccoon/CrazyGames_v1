@@ -7,8 +7,6 @@ public class PlayerInputManager : MonoBehaviour
 
     private PlayerInput _playerInput;
 
-    public Vector2 movementInput { get; private set; }
-
 
     private void Awake()
     {
@@ -21,17 +19,11 @@ public class PlayerInputManager : MonoBehaviour
 
 
         _playerInput.Player.LMB.performed += GetLMBInput;
-
-        _playerInput.Player.AD.performed += GetMovementInput;
-        _playerInput.Player.AD.canceled += GetMovementInput;
     }
 
     private void OnDisable()
     {
         _playerInput.Player.LMB.performed -= GetLMBInput;
-
-        _playerInput.Player.AD.performed -= GetMovementInput;
-        _playerInput.Player.AD.canceled -= GetMovementInput;
 
 
         _playerInput.Disable();
@@ -41,10 +33,5 @@ public class PlayerInputManager : MonoBehaviour
     private void GetLMBInput(InputAction.CallbackContext ctx)
     {
         _player.SelectTarget();
-    }
-
-    private void GetMovementInput(InputAction.CallbackContext ctx)
-    {
-        movementInput = ctx.ReadValue<Vector2>();
     }
 }
