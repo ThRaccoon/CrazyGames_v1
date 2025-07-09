@@ -2092,8 +2092,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3466756216857089033}
   - component: {fileID: 5067180448802765387}
-  - component: {fileID: 3397945010162210208}
+  - component: {fileID: 585191977470685527}
   - component: {fileID: 8844406691508481647}
+  - component: {fileID: 3397945010162210208}
   m_Layer: 9
   m_Name: Skeleton_Rogue 1
   m_TagString: Untagged
@@ -2147,22 +2148,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3397945010162210208
-MonoBehaviour:
+--- !u!54 &585191977470685527
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8007046465294484937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e541048f37d9c3c4c9d45ce9ef0eac82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {x: 8.38, y: 0.883889, z: 8.54}
-  moveSpeed: 3
-  detectionDistance: 25
-  stopDistance: 10
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &8844406691508481647
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2184,6 +2196,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.8098227, z: 1}
   m_Center: {x: 0, y: 1.1821351, z: 0}
+--- !u!114 &3397945010162210208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8007046465294484937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e541048f37d9c3c4c9d45ce9ef0eac82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerPos: {x: 8, y: 0, z: 8.5}
+  _health: 10
+  _damage: 5
+  _attackSpeed: 3
+  _attackRange: 12
+  _moveSpeed: 3
+  _detectionDistance: 20
+  _isRange: 1
 --- !u!1 &8406537144065556926
 GameObject:
   m_ObjectHideFlags: 0

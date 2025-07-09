@@ -73,14 +73,12 @@ public class Player : MonoBehaviour
         else if (enemies.Count > 0 && enemies.First() != null && _canAttack && !_shouldSyncAnim)
         {
             _projectileTarget = enemies.First();
-            if(AttackTarget())
+
+            if (AttackTarget())
             {
                 _canAttack = false;
             }
-
         }
-      
-
     }
 
 
@@ -99,7 +97,7 @@ public class Player : MonoBehaviour
     }
 
     private bool AttackTarget()
-    {      
+    {
 
         float targetDistance = Vector3.Distance(transform.position, _projectileTarget.transform.position);
 
@@ -121,6 +119,14 @@ public class Player : MonoBehaviour
         return false;
     }
 
+    private void UpdateLookAt()
+    {
+        if (_projectileTarget != null)
+        {
+            transform.LookAt(_projectileTarget.transform);
+        }
+    }
+
     private void AttackCooldown()
     {
         _attackTimer.Tick();
@@ -140,7 +146,7 @@ public class Player : MonoBehaviour
         if (_syncAnimTimer.Flag)
         {
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget,_damage);
+            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _damage);
 
             _shouldSyncAnim = false;
 
@@ -156,13 +162,5 @@ public class Player : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
-    }
-
-    private void UpdateLookAt()
-    {
-        if (_projectileTarget != null)
-        {
-            transform.LookAt(_projectileTarget.transform);
-        }
     }
 }

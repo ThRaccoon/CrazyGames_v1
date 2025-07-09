@@ -2,100 +2,111 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Tooltip("Player transform to target.")]
-    [SerializeField] private Vector3 player;
+    [Header("Target")]
+    [SerializeField] private Vector3 _targetPos;
 
-    [Tooltip("Speed of the enemy movement.")]
-    [SerializeField] private float moveSpeed = 3f;
+    [Space(15)]
+    [Header("Stats")]
+    [SerializeField] private float _health;
+    [SerializeField] private float _damage;
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private float _attackRange;
 
-    [Tooltip("Distance at which enemy starts chasing the player.")]
-    [SerializeField] private float detectionDistance = 5f;
-
-    [Tooltip("Distance at which enemy stops moving (considered reached).")]
-    [SerializeField] private float stopDistance = 1.75f;
-
-    private bool chasingPlayer = false;
-    private Vector3 targetPosition;
-    private float _health;
+    [Space(5)]
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _detectionDistance;
 
 
-    public void Init(float health)
-    {
-        _health = health;
-    }
+    [Space(15)]
+    [Header("Type")]
+    [SerializeField] private bool _isRange;
 
-    public void TakeDamage (float damage)
-    {
-        _health -= damage;
-    }
+
+    private bool _isChasingTarget;
+    private float _distanceToTarget;
+    private Vector3 _targetPosition;
 
 
     private void Awake()
     {
-        if(hasPlayer())
+        if (hasPlayer())
         {
             Player.SPlayerScript.enemies.AddLast(gameObject);
         }
 
-        targetPosition = player;
-        targetPosition.y = 0;
+        _targetPosition.Set(_targetPos.x, 0f, _targetPos.z);
     }
 
     void Update()
     {
-        if(_health<=0)
+        if (_health <= 0)
         {
             Destroy(gameObject);
         }
-       
-        float distanceToPlayer = Vector3.Distance(transform.position, player);
 
-        if (!chasingPlayer)
+        _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
+
+        if (!_isChasingTarget)
         {
-            // If player is within detection range, start chasing
-            if (distanceToPlayer <= detectionDistance)
+            if (_distanceToTarget <= _detectionDistance)
             {
-                chasingPlayer = true;
+                _isChasingTarget = true;
             }
             else
             {
-                // Move forward in a straight line
-                transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                transform.position += transform.forward * _moveSpeed * Time.deltaTime;
             }
         }
 
-        if (chasingPlayer)
+        if (_isChasingTarget)
         {
-            if (distanceToPlayer > stopDistance)
+            if (_distanceToTarget > _attackRange)
             {
-                // Move toward the player's current position
-                Vector3 direction = (targetPosition - transform.position).normalized;
-                transform.position += direction * moveSpeed * Time.deltaTime;
+                Vector3 direction = (_targetPosition - transform.position).normalized;
+                transform.position += direction * _moveSpeed * Time.deltaTime;
 
-                // Optionally rotate enemy to face the player
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 10f * Time.deltaTime);
+                transform.LookAt(_targetPosition);
             }
             else
             {
-                // Stop moving
-                // Optional: add behavior like attacking
+                if (_isRange)
+                {
+
+                }
+                else
+                {
+
+                }
             }
         }
-
-
     }
 
-    private void OnDestroy()
+    public void Init(float healthMultiplier, float damageMultiplier)
     {
-        if(hasPlayer())
-        {
-            Player.SPlayerScript.enemies.Remove(gameObject);
-        }
+        _health *= healthMultiplier;
+        _damage *= damageMultiplier;
     }
 
     private bool hasPlayer()
     {
         return (Player.SPlayerScript != null && Player.SPlayerScript.enemies != null);
     }
+
+    public void TakeDamage(float damage)
+    {
+        _health -= damage;
+    }
+
+    private void OnDestroy()
+    {
+        if (hasPlayer())
+        {
+            Player.SPlayerScript.enemies.Remove(gameObject);
+        }
+    }
+
+
+    //===//
+
+
 }
