@@ -3,7 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Target")]
-    [SerializeField] private Vector3 _targetPos;
+    [SerializeField] private Vector3 _PlayerPos;
 
     [Space(15)]
     [Header("Stats")]
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     private bool _isChasingTarget;
     private float _distanceToTarget;
-    private Vector3 _targetPosition;
+    private Vector3 _targetPos;
 
 
     private void Awake()
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
             Player.SPlayerScript.enemies.Add(gameObject);
         }
 
-        _targetPosition.Set(_targetPos.x, 0f, _targetPos.z);
+        _targetPos.Set(_PlayerPos.x, 0f, _PlayerPos.z);
     }
 
     void Update()
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
+        _distanceToTarget = Vector3.Distance(transform.position, _PlayerPos);
 
         if (!_isChasingTarget)
         {
@@ -62,10 +62,10 @@ public class Enemy : MonoBehaviour
         {
             if (_distanceToTarget > _attackRange)
             {
-                Vector3 direction = (_targetPosition - transform.position).normalized;
+                Vector3 direction = (_targetPos - transform.position).normalized;
                 transform.position += direction * _moveSpeed * Time.deltaTime;
 
-                transform.LookAt(_targetPosition);
+                transform.LookAt(_targetPos);
             }
             else
             {
