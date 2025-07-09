@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
                 _canAttack = false;
             }
         }
-        else 
+        else if(!_shouldSyncAnim)
         {
             _projectileTarget = FindClosest();
 

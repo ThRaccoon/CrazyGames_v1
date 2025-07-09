@@ -62,7 +62,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         GameObject prefab = _enemyPrefabs[UnityEngine.Random.Range(0, _enemyPrefabs.Length)];
-        Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15f), 0, 65);
+        Vector3 position = _enemySpawnPositions[UnityEngine.Random.Range(0, _enemySpawnPositions.Length)];
         var enemy = Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
         var enemyScript = enemy.GetComponent<Enemy>();
 
