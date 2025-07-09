@@ -15,16 +15,38 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float stopDistance = 1.75f;
 
     private bool chasingPlayer = false;
-    Vector3 targetPosition;
+    private Vector3 targetPosition;
+    private float _health;
+
+
+    public void Init(float health)
+    {
+        _health = health;
+    }
+
+    public void TakeDamage (float damage)
+    {
+        _health -= damage;
+    }
+
 
     private void Awake()
     {
+        if(hasPlayer())
+        {
+            Player.SPlayerScript.enemies.AddLast(gameObject);
+        }
+
         targetPosition = player;
         targetPosition.y = 0;
     }
 
     void Update()
     {
+        if(_health<=0)
+        {
+            Destroy(gameObject);
+        }
        
         float distanceToPlayer = Vector3.Distance(transform.position, player);
 
@@ -60,5 +82,20 @@ public class Enemy : MonoBehaviour
                 // Optional: add behavior like attacking
             }
         }
+
+
+    }
+
+    private void OnDestroy()
+    {
+        if(hasPlayer())
+        {
+            Player.SPlayerScript.enemies.Remove(gameObject);
+        }
+    }
+
+    private bool hasPlayer()
+    {
+        return (Player.SPlayerScript != null && Player.SPlayerScript.enemies != null);
     }
 }

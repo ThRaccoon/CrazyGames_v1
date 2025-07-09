@@ -12,13 +12,14 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Time between spawns (seconds).")]
     [SerializeField] private float spawnInterval = 3f;
 
-    [Tooltip("Maximum number of enemies to spawn (-1 for infinite).")]
-    [SerializeField] private int maxSpawnCount = -1;
-
     [SerializeField] private Vector3 player;
 
+    [SerializeField] private float _health;
+    [SerializeField] private float _healthMultiplier;
+    [SerializeField] private float _upgradeOnEvery;
+    [SerializeField] private int _upgradeCounter = 0;
+
     private float timer;
-    private int spawnedCount;
 
     void Start()
     {
@@ -27,8 +28,14 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
+        if(_upgradeCounter > _upgradeOnEvery )
+        {
+            _health *= _healthMultiplier;
+            _upgradeCounter = 0;
+        }
+
         timer -= Time.deltaTime;
-        if (timer <= 0f && (maxSpawnCount < 0 || spawnedCount < maxSpawnCount))
+        if (timer <= 0f)
         {
             SpawnEnemy();
             timer = spawnInterval;
@@ -43,10 +50,15 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        Vector3 position = new Vector3(Random.Range(1.5f, 15f),0, 65);        
-        Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
+        GameObject prefab = enemyPrefabs[UnityEngine.Random.Range(0, enemyPrefabs.Length)];
+        Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15f),0, 65);        
+       var enemy = Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
+        var enemyScript = enemy.GetComponent<Enemy>();
+        if(enemyScript != null) 
+        {
+            enemyScript.Init(_health);
+        }
 
-        spawnedCount++;
+        _upgradeCounter ++;
     }
 }

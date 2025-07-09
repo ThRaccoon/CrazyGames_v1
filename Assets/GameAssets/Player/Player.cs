@@ -38,8 +38,13 @@ public class Player : MonoBehaviour
 
     public LinkedList<GameObject> enemies;
 
+    public static Player SPlayerScript;
+
     private void Awake()
     {
+        SPlayerScript = this;
+        enemies = new LinkedList<GameObject>();
+
         _projectileSpawnPoint = new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z);
 
         _attackTimer = new GlobalTimer(_attackSpeed);
@@ -65,7 +70,7 @@ public class Player : MonoBehaviour
                 _canAttack = false;
             }
         }
-      /*  else if (enemies.First() != null && _canAttack && !_shouldSyncAnim)
+        else if (enemies.Count > 0 && enemies.First() != null && _canAttack && !_shouldSyncAnim)
         {
             _projectileTarget = enemies.First();
             if(AttackTarget())
@@ -74,7 +79,7 @@ public class Player : MonoBehaviour
             }
 
         }
-      */
+      
 
     }
 
@@ -135,7 +140,7 @@ public class Player : MonoBehaviour
         if (_syncAnimTimer.Flag)
         {
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget);
+            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget,_damage);
 
             _shouldSyncAnim = false;
 

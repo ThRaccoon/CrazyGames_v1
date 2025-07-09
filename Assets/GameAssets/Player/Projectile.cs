@@ -7,14 +7,16 @@ public class Projectile : MonoBehaviour
     private float _moveSpeed;
     private Vector3 _direction;
     private GameObject _target;
+    private float _damage;
 
 
-    public void Init(float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target)
+    public void Init(float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target, float damage)
     {
         _moveSpeed = moveSpeed;
         _target = target;
         _direction = (targetInitPos - transform.position).normalized;
         transform.eulerAngles = new Vector3(_x, transform.eulerAngles.y, transform.eulerAngles.z);
+        _damage = damage;
 
         Destroy(gameObject, lifeTime);
     }
@@ -37,7 +39,11 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Destroy(other.gameObject);
+            var enemyScript = other.gameObject.GetComponent<Enemy>();
+            if (enemyScript != null) 
+            {
+                enemyScript.TakeDamage(_damage);
+            }
         }
 
         Destroy(gameObject);
