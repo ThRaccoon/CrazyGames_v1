@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541048f37d9c3c4c9d45ce9ef0eac82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPos: {x: 8, y: 0, z: 8.5}
+  _targetPos: {x: 9.031, y: 0, z: 7.91}
   _health: 10
   _damage: 5
   _attackSpeed: 3
@@ -2560,13 +2560,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8788690435315566585}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: -0.49999976, z: -0.49999988, w: 0.5000004}
+  m_LocalRotation: {x: 0.02274636, y: -0.7067398, z: 0.022745335, w: 0.7067419}
   m_LocalPosition: {x: 0.07248424, y: 0.056583434, z: 0.07073898}
   m_LocalScale: {x: 0.80000025, y: 0.8000008, z: 0.8000007}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7039030032341405600}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 90}
+  m_LocalEulerAnglesHint: {x: 3.687, y: -90, z: 0}
 --- !u!33 &3818005774796973359
 MeshFilter:
   m_ObjectHideFlags: 0

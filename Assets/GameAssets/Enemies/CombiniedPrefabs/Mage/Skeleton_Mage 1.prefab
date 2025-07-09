@@ -1740,7 +1740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541048f37d9c3c4c9d45ce9ef0eac82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPos: {x: 8, y: 0, z: 8.5}
+  _targetPos: {x: 9.031, y: 0, z: 7.91}
   _health: 10
   _damage: 5
   _attackSpeed: 3

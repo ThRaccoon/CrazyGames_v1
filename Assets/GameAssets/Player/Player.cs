@@ -36,14 +36,14 @@ public class Player : MonoBehaviour
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
 
-    public LinkedList<GameObject> enemies;
+    public List<GameObject> enemies;
 
     public static Player SPlayerScript;
 
     private void Awake()
     {
         SPlayerScript = this;
-        enemies = new LinkedList<GameObject>();
+        enemies = new List<GameObject>();
 
         _projectileSpawnPoint = new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z);
 
@@ -70,11 +70,11 @@ public class Player : MonoBehaviour
                 _canAttack = false;
             }
         }
-        else if (enemies.Count > 0 && enemies.First() != null && _canAttack && !_shouldSyncAnim)
+        else 
         {
-            _projectileTarget = enemies.First();
+            _projectileTarget = FindClosest();
 
-            if (AttackTarget())
+            if (_projectileTarget != null && AttackTarget())
             {
                 _canAttack = false;
             }
@@ -152,6 +152,28 @@ public class Player : MonoBehaviour
 
             _syncAnimTimer.Reset();
         }
+    }
+
+
+
+    private GameObject FindClosest()
+    {
+        GameObject closest = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (GameObject obj in enemies)
+        {
+            if (obj == null) continue;
+
+            float distance = Vector3.Distance(obj.transform.position, gameObject.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closest = obj;
+            }
+        }
+
+        return closest;
     }
 
 

@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     {
         if (hasPlayer())
         {
-            Player.SPlayerScript.enemies.AddLast(gameObject);
+            Player.SPlayerScript.enemies.Add(gameObject);
         }
 
         _targetPosition.Set(_targetPos.x, 0f, _targetPos.z);

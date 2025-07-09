@@ -8,10 +8,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Vector3[] _enemySpawnPositions;
 
     [Space(15)]
-    [SerializeField] private Vector3 _playerPos;
-
-
-    [Space(15)]
     [Header("Multipliers")]
     [SerializeField] private float _healthMultiplier;
     [SerializeField] private float _damageMultiplier;
