@@ -37,6 +37,7 @@ public class GlobalTimer
         _elapsedTime = _duration;
     }
 
+
     public bool Tick()
     {
         if (_flag) return _flag;

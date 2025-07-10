@@ -1740,14 +1740,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e541048f37d9c3c4c9d45ce9ef0eac82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PlayerPos: {x: 8.7, y: 0, z: 8}
+  _animator: {fileID: 7523251217267889082}
+  _syncAnimLength: 1
   _health: 10
   _damage: 5
   _attackSpeed: 3
   _attackRange: 8
   _moveSpeed: 3
   _detectionDistance: 20
-  _isRange: 1
 --- !u!1 &5992815189511913194
 GameObject:
   m_ObjectHideFlags: 0

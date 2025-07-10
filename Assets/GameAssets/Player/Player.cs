@@ -1,25 +1,68 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // ----------------------------------------------------------------------------------------------------------------------------------
     [Header("Components")]
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private Camera _mainCamera;
+    [SerializeField] private Animator _animator;
     [SerializeField] private LayerMask _targetLayerMask;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
+    // ----------------------------------------------------------------------------------------------------------------------------------
+    [Space(15)]
     [Header("Stats")]
     [SerializeField] private float _health;
+    #region Getters / Setters
+
+    public float Health
+    {
+        get => _health;
+        set => _health = value;
+    }
+    #endregion
+
     [SerializeField] private float _damage;
+    #region Getters / Setters
+
+    public float Damage
+    {
+        get => _damage;
+        set => _damage = value;
+    }
+    #endregion
+
     [SerializeField] private float _attackSpeed;
+    #region Getters / Setters
+
+    public float AttackSpeed
+    {
+        get => _attackSpeed;
+        set => _attackSpeed = value;
+    }
+    #endregion
+
     [SerializeField] private float _attackRange;
+    #region Getters / Setters
 
+    public float AttackRange
+    {
+        get => _attackRange;
+        set => _attackRange = value;
+    }
+    #endregion
+    // ----------------------------------------------------------------------------------------------------------------------------------
+
+    // ----------------------------------------------------------------------------------------------------------------------------------
+    [Space(15)]
     [Header("Animations")]
-    [SerializeField] private Animator _animator;
-    [SerializeField] private float _syncAnimLength;
+    [SerializeField] private float _syncedAttackAnimLength;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
+    // ----------------------------------------------------------------------------------------------------------------------------------
+    [Space(15)]
     [Header("Projectile")]
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private float _projectileMoveSpeed;
@@ -29,52 +72,58 @@ public class Player : MonoBehaviour
     private GameObject _projectileTarget;
     private Vector3 _projectileTargetInitPos;
     private Vector3 _projectileSpawnPoint;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
-    private bool _canAttack = true;
-    private bool _shouldSyncAnim = false;
-
+    // --- Timers ---
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
+    private bool _canAttack = true;
+    private bool _shouldSyncAttackAnim;
 
-    public List<GameObject> enemies;
-
-    public static Player SPlayerScript;
+    // --- Public ---
+    [HideInInspector] public static Player SPlayerScript;
+    [HideInInspector] public List<GameObject> enemies;
 
     private void Awake()
     {
-        SPlayerScript = this;
-        enemies = new List<GameObject>();
-
+        // Projectile
         _projectileSpawnPoint = new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z);
 
+        // Timers
         _attackTimer = new GlobalTimer(_attackSpeed);
-        _syncAnimTimer = new GlobalTimer(_syncAnimLength);
+        _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
+
+        // Public
+        SPlayerScript = this;
+        enemies = new List<GameObject>();
     }
+
 
     private void Update()
     {
-        if (_shouldSyncAnim)
+        if (_health <= 0)
         {
-            SyncAnimation();
+            Destroy(gameObject);
         }
 
-        if (!_canAttack && !_shouldSyncAnim)
+        if (_projectileTarget == null)
+        {
+            _projectileTarget = FindClosest();
+        }
+
+        if (_shouldSyncAttackAnim)
+        {
+            SyncAttackAnimation();
+        }
+
+        if (!_canAttack && !_shouldSyncAttackAnim)
         {
             AttackCooldown();
         }
 
-        if (_projectileTarget != null && _canAttack && !_shouldSyncAnim)
+        if (_projectileTarget != null && _canAttack && !_shouldSyncAttackAnim)
         {
             if (AttackTarget())
-            {
-                _canAttack = false;
-            }
-        }
-        else if(!_shouldSyncAnim)
-        {
-            _projectileTarget = FindClosest();
-
-            if (_projectileTarget != null && AttackTarget())
             {
                 _canAttack = false;
             }
@@ -98,7 +147,6 @@ public class Player : MonoBehaviour
 
     private bool AttackTarget()
     {
-
         float targetDistance = Vector3.Distance(transform.position, _projectileTarget.transform.position);
 
         if (_projectileTarget != null && _attackRange >= targetDistance)
@@ -112,10 +160,11 @@ public class Player : MonoBehaviour
                 _animator.Play("Attack");
             }
 
-            _shouldSyncAnim = true;
+            _shouldSyncAttackAnim = true;
 
             return true;
         }
+        
         return false;
     }
 
@@ -139,7 +188,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void SyncAnimation()
+    private void SyncAttackAnimation()
     {
         _syncAnimTimer.Tick();
 
@@ -148,13 +197,11 @@ public class Player : MonoBehaviour
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
             projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _damage);
 
-            _shouldSyncAnim = false;
+            _shouldSyncAttackAnim = false;
 
             _syncAnimTimer.Reset();
         }
     }
-
-
 
     private GameObject FindClosest()
     {
@@ -166,6 +213,7 @@ public class Player : MonoBehaviour
             if (obj == null) continue;
 
             float distance = Vector3.Distance(obj.transform.position, gameObject.transform.position);
+            
             if (distance < minDistance)
             {
                 minDistance = distance;

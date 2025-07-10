@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Target")]
-    [SerializeField] private Vector3 _PlayerPos;
+    // ----------------------------------------------------------------------------------------------------------------------------------
+    [Header("Components")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private VisualEffect _visualEffect;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
+    // ----------------------------------------------------------------------------------------------------------------------------------
     [Space(15)]
     [Header("Stats")]
     [SerializeField] private float _health;
@@ -15,13 +20,20 @@ public class Enemy : MonoBehaviour
     [Space(5)]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _detectionDistance;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
-
+    // ----------------------------------------------------------------------------------------------------------------------------------
     [Space(15)]
-    [Header("Type")]
-    [SerializeField] private bool _isRange;
+    [Header("Animations")]
+    [SerializeField] private float _syncedAttackAnimLength;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
+    // --- Timers ---
+    private GlobalTimer _attackTimer;
+    private GlobalTimer _syncAnimTimer;
 
+    private bool _canAttack = true;
+    private bool _shouldSyncAttackAnim;
     private bool _isChasingTarget;
     private float _distanceToTarget;
     private Vector3 _targetPos;
@@ -32,9 +44,12 @@ public class Enemy : MonoBehaviour
         if (hasPlayer())
         {
             Player.SPlayerScript.enemies.Add(gameObject);
+
+            _targetPos.Set(Player.SPlayerScript.transform.position.x, 0f, Player.SPlayerScript.transform.position.z);
         }
 
-        _targetPos.Set(_PlayerPos.x, 0f, _PlayerPos.z);
+        _attackTimer = new GlobalTimer(_attackSpeed);
+        _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
     }
 
     void Update()
@@ -44,7 +59,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _distanceToTarget = Vector3.Distance(transform.position, _PlayerPos);
+        _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
 
         if (!_isChasingTarget)
         {
@@ -69,27 +84,34 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                if (_isRange)
+                if (_shouldSyncAttackAnim)
                 {
-
+                    SyncAttackAnimation();
                 }
-                else
-                {
 
+                if (!_canAttack && !_shouldSyncAttackAnim)
+                {
+                    AttackCooldown();
+                }
+
+                if (_canAttack && !_shouldSyncAttackAnim)
+                {
+                    AttackTarget();
                 }
             }
         }
     }
 
+    private bool hasPlayer()
+    {
+        return (Player.SPlayerScript != null && Player.SPlayerScript.enemies != null);
+    }
+
+
     public void Init(float healthMultiplier, float damageMultiplier)
     {
         _health *= healthMultiplier;
         _damage *= damageMultiplier;
-    }
-
-    private bool hasPlayer()
-    {
-        return (Player.SPlayerScript != null && Player.SPlayerScript.enemies != null);
     }
 
     public void TakeDamage(float damage)
@@ -105,8 +127,53 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void AttackTarget()
+    {
+        if (_animator != null)
+        {
+            _animator.Play("Attack");
+        }
 
-    //===//
+        if (_visualEffect != null) 
+        {
+            _visualEffect.Play();
+        }
 
+        _canAttack = false;
+        _shouldSyncAttackAnim = true;
+    }
 
+    private void SyncAttackAnimation()
+    {
+        _syncAnimTimer.Tick();
+
+        if (_syncAnimTimer.Flag)
+        {
+            _shouldSyncAttackAnim = false;
+
+            if (hasPlayer())
+            {
+                Player.SPlayerScript.Health -= _damage;
+            }
+
+            if (_visualEffect != null)
+            {
+                _visualEffect.Stop();
+            }
+
+            _syncAnimTimer.Reset();
+        }
+    }
+
+    private void AttackCooldown()
+    {
+        _attackTimer.Tick();
+
+        if (_attackTimer.Flag)
+        {
+            _canAttack = true;
+
+            _attackTimer.Reset();
+        }
+    }
 }

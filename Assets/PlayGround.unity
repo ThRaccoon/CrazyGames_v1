@@ -3353,7 +3353,6 @@ MonoBehaviour:
   - {x: 6.5, y: 0, z: 65}
   - {x: 8.5, y: 0, z: 65}
   - {x: 10.5, y: 0, z: 65}
-  _playerPos: {x: 6.75, y: 0, z: 65}
   _healthMultiplier: 1
   _damageMultiplier: 1
   _incrementOnEvery: 3
@@ -4180,19 +4179,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInputManager: {fileID: 635782558021502646}
   _mainCamera: {fileID: 330585545}
+  _animator: {fileID: 635782558021502647}
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
   _health: 100
-  _damage: 5
-  _attackSpeed: 1
+  _damage: 15
+  _attackSpeed: 0.25
   _attackRange: 20
-  _animator: {fileID: 635782558021502647}
-  _syncAnimLength: 0.25
+  _syncedAttackAnimLength: 0.25
   _projectilePrefab: {fileID: 8192564083586663239, guid: 1572b1de40d4c7e41b1f0cc39f9aef67, type: 3}
   _projectileMoveSpeed: 10
   _projectileLifeTime: 3
   _projectileYOffset: 1.5
+  enemies: []
 --- !u!114 &635782558021502646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4958,6 +4958,7 @@ Transform:
   m_Children:
   - {fileID: 3470547476282271814}
   - {fileID: 4872480465627635405}
+  - {fileID: 8162068439985206914}
   - {fileID: 8380889776795355349}
   - {fileID: 8442731006885891644}
   m_Father: {fileID: 9011434756858474248}
@@ -5338,6 +5339,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!33 &5110078787307026727
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8795159180203715640}
+  m_Mesh: {fileID: 7981414054652206969, guid: d3416cc63b5f4644da3e8dedc3be82bd, type: 3}
 --- !u!1 &5114796416158512742
 GameObject:
   m_ObjectHideFlags: 0
@@ -5880,6 +5889,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7705029757547885771}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &6993618379447815661
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8795159180203715640}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b143fe2ebb44b9f42be177da68197bf8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!4 &7015300399822022496
 Transform:
   m_ObjectHideFlags: 0
@@ -6151,6 +6205,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &8162068439985206914
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8795159180203715640}
+  serializedVersion: 2
+  m_LocalRotation: {x: -2.9966205e-16, y: 8.057807e-15, z: 0.20782632, w: 0.97816575}
+  m_LocalPosition: {x: -0.03999996, y: -0.14162894, z: -0.35599995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3715111320123504478}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 23.99}
 --- !u!1 &8190482221655968944
 GameObject:
   m_ObjectHideFlags: 0
@@ -6550,6 +6619,24 @@ GameObject:
   - component: {fileID: 183740296964098275}
   m_Layer: 0
   m_Name: upperleg.l
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &8795159180203715640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8162068439985206914}
+  - component: {fileID: 5110078787307026727}
+  - component: {fileID: 6993618379447815661}
+  m_Layer: 0
+  m_Name: Rogue_quiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
