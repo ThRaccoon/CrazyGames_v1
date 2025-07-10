@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
 
     private GameObject _projectileTarget;
     private Vector3 _projectileTargetInitPos;
-    private Vector3 _projectileSpawnPoint;
+    [SerializeField] private Transform _projectileSpawnPoint;
     // ----------------------------------------------------------------------------------------------------------------------------------
 
     // --- Timers ---
@@ -86,9 +86,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        // Projectile
-        _projectileSpawnPoint = new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z);
-
         // Timers
         _attackTimer = new GlobalTimer(_attackSpeed);
         _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
@@ -194,7 +191,7 @@ public class Player : MonoBehaviour
 
         if (_syncAnimTimer.Flag)
         {
-            GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
+            GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
             projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _damage);
 
             _shouldSyncAttackAnim = false;
@@ -214,7 +211,7 @@ public class Player : MonoBehaviour
 
             float distance = Vector3.Distance(obj.transform.position, gameObject.transform.position);
             
-            if (distance < minDistance)
+            if (distance < minDistance && distance <= _attackRange)
             {
                 minDistance = distance;
                 closest = obj;

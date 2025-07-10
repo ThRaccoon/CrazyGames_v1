@@ -315,13 +315,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1184059725733591294}
-  _syncAnimLength: 1
+  _visualEffect: {fileID: 0}
   _health: 10
   _damage: 5
   _attackSpeed: 3
   _attackRange: 12
   _moveSpeed: 3
   _detectionDistance: 20
+  _syncedAttackAnimLength: 1
 --- !u!1 &1334166119499958142
 GameObject:
   m_ObjectHideFlags: 0
