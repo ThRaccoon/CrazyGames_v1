@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -69,7 +70,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _projectileLifeTime;
     [SerializeField] private float _projectileYOffset;
 
-    private GameObject _projectileTarget;
+    public GameObject _projectileTarget;
     private Vector3 _projectileTargetInitPos;
     [SerializeField] private Transform _projectileSpawnPoint;
     // ----------------------------------------------------------------------------------------------------------------------------------
@@ -192,7 +193,7 @@ public class Player : MonoBehaviour
         if (_syncAnimTimer.Flag)
         {
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _damage);
+            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, (float)Math.Round(UnityEngine.Random.Range((_damage-_damage*0.1f), (_damage+_damage * 0.1f)),2));
 
             _shouldSyncAttackAnim = false;
 
@@ -221,7 +222,6 @@ public class Player : MonoBehaviour
         return closest;
     }
 
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -230,4 +230,5 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
+
 }

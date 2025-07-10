@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        if (_target != null)
+        if (_target != null && _target.GetComponent<Enemy>()._isDeadth == false)
         {
             Vector3 targetPos = new Vector3(_target.transform.position.x, transform.position.y, _target.transform.position.z);
             _direction = (targetPos - transform.position).normalized;

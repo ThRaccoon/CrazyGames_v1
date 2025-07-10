@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -27,6 +28,16 @@ public class Enemy : MonoBehaviour
     [Header("Animations")]
     [SerializeField] private float _syncedAttackAnimLength;
     // ----------------------------------------------------------------------------------------------------------------------------------
+    [Space(15)]
+    [Header("FloatingText")]
+    [SerializeField] private GameObject _floatingText;
+    [SerializeField] private float _flotingTextYOffset;
+    // ----------------------------------------------------------------------------------------------------------------------------------
+    [Space(15)]
+    [Header("OnDeath")]
+    [SerializeField] float _waitBeforeDestroy = 1.5f;
+    public bool _isDeadth = false;
+    // ----------------------------------------------------------------------------------------------------------------------------------
 
     // --- Timers ---
     private GlobalTimer _attackTimer;
@@ -54,9 +65,40 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (_isDeadth)
+        {
+            return;
+        }
+
         if (_health <= 0)
         {
-            Destroy(gameObject);
+            _isDeadth = true;
+
+            if (hasPlayer())
+            {
+                Player.SPlayerScript._projectileTarget = null;
+                Player.SPlayerScript.enemies.Remove(gameObject);
+            }
+
+
+            BoxCollider collider = GetComponent<BoxCollider>();
+            if (collider != null)
+            {
+                Destroy(collider);
+            }
+
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null) 
+            {
+                Destroy(rb);
+            }
+
+            if (_animator != null)
+            {
+                _animator.Play("Death");
+            }
+
+            Destroy(gameObject, _waitBeforeDestroy);
         }
 
         _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
@@ -117,14 +159,8 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _health -= damage;
-    }
+        DisplayDamage(damage);
 
-    private void OnDestroy()
-    {
-        if (hasPlayer())
-        {
-            Player.SPlayerScript.enemies.Remove(gameObject);
-        }
     }
 
     private void AttackTarget()
@@ -176,4 +212,25 @@ public class Enemy : MonoBehaviour
             _attackTimer.Reset();
         }
     }
+
+    private void DisplayDamage(float damage)
+    {
+        if (_floatingText)
+        {
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_flotingTextYOffset - 0.5f, _flotingTextYOffset + 0.5f) ,transform.position.z);           
+            var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
+            if (floatingTextObject)
+            {
+                var floatingTextMesh = floatingTextObject.GetComponent<TextMesh>();
+
+                if (floatingTextMesh)
+                {
+                    floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0,100)/ 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
+                    floatingTextMesh.text = damage.ToString();
+                }
+
+            }
+        }
+    }
+
 }

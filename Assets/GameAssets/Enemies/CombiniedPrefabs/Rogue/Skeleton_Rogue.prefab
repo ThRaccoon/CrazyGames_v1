@@ -316,13 +316,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1184059725733591294}
   _visualEffect: {fileID: 0}
-  _health: 10
-  _damage: 5
+  _health: 25
+  _damage: 1
   _attackSpeed: 3
-  _attackRange: 12
-  _moveSpeed: 3
+  _attackRange: 8
+  _moveSpeed: 3.5
   _detectionDistance: 20
   _syncedAttackAnimLength: 1
+  _floatingText: {fileID: 6412869242250956483, guid: 0e0175709a17ff74793ba3189cf8fc16, type: 3}
+  _flotingTextYOffset: 2.5
+  _waitBeforeDestroy: 1
+  _isDeadth: 0
 --- !u!1 &1334166119499958142
 GameObject:
   m_ObjectHideFlags: 0
