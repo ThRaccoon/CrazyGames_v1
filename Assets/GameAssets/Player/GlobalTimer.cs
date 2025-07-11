@@ -59,6 +59,14 @@ public class GlobalTimer
         _flag = false;
     }
 
+    public void Reset(float duration)
+    {
+
+        _elapsedTime = duration;
+        _flag = false;
+    }
+
+
     public bool TickReversed()
     {
         if (!_flag) return _flag;

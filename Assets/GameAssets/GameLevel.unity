@@ -3372,14 +3372,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefabs:
-  - {fileID: 4484581747811076669, guid: 86c9c7ed6c69f5f4aa89b668e5a95bd7, type: 3}
-  - {fileID: 3712357233187331368, guid: f6a5fbd8ee3423f4a804ff3dc6cec25b, type: 3}
+  - {fileID: 6326080321931030636, guid: fba0bb63d827e474e9d5a06e8c06a082, type: 3}
+  - {fileID: 5465197081236333267, guid: 56c65eccb7ea08b4cbbdf4ffdd40a874, type: 3}
   - {fileID: 8007046465294484937, guid: dc0bdaaf95946f849959be45f0f9f9fb, type: 3}
   - {fileID: 1276373197862094712, guid: bb7f7e43f40a5a54a99e2c8259f3bab2, type: 3}
-  - {fileID: 6528388067129873977, guid: 1971ea92124718f4d8c655cc1cd65f12, type: 3}
-  - {fileID: 7691492850685575951, guid: 2a42de0ba33bf2b4984ecbbe4927d36e, type: 3}
-  - {fileID: 5465197081236333267, guid: 56c65eccb7ea08b4cbbdf4ffdd40a874, type: 3}
-  - {fileID: 6326080321931030636, guid: fba0bb63d827e474e9d5a06e8c06a082, type: 3}
   _enemySpawnPositions:
   - {x: 1.5, y: 0, z: 65}
   - {x: 8.5, y: 0, z: 65}
@@ -3387,7 +3383,7 @@ MonoBehaviour:
   _healthMultiplier: 1
   _damageMultiplier: 1
   _incrementOnEvery: 100
-  spawnInterval: 0.5
+  spawnInterval: 5
   _incrementCounter: 0
 --- !u!4 &1801344111 stripped
 Transform:
@@ -6823,18 +6819,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _health: 9999
-  _damage: 0
-  _attackSpeed: 0.05
-  _attackRange: 20
-  _syncedAttackAnimLength: 0.05
-  _projectilePrefab: {fileID: 3284760774840709846, guid: 69e5b9cdc220ce046ad598e25b69acbd, type: 3}
+  _damage: 3
+  _attackSpeed: 0.5
+  _attackRange: 40
+  _syncedAttackAnimLength: 0.5
+  _projectilePrefab: {fileID: 4186548445768455643, guid: ec9915b9077e1fb46b8070dc173b0609, type: 3}
   _projectileSpawnPoint: {fileID: 228992661}
-  _projectileMoveSpeed: 35
+  _projectileMoveSpeed: 10
   _projectileLifeTime: 3
   _projectileYOffset: 1.25
   _projectileTarget: {fileID: 0}
   enemies: []
-  _floatingText: {fileID: 6412869242250956483, guid: 27983ea7d69e79f459341cb03298a127, type: 3}
+  _floatingText: {fileID: 6412869242250956483, guid: 0e0175709a17ff74793ba3189cf8fc16, type: 3}
   _flotingTextYOffset: 2
   _textSize: 0
 --- !u!95 &9132245414744027222

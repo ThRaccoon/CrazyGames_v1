@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float _xRotation;
-
+ 
     // --- Stats ---
     private float _dmg;
     private float _moveSpeed;
@@ -29,8 +28,6 @@ public class Projectile : MonoBehaviour
 
         _isPlayer = isPlayer;
 
-        transform.eulerAngles = new Vector3(_xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
-
         Destroy(gameObject, lifeTime);
     }
 
@@ -44,8 +41,6 @@ public class Projectile : MonoBehaviour
         _targetLayerMask = targetLayerMask;
 
         _isPlayer = isPlayer;
-
-        transform.eulerAngles = new Vector3(_xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
 
         Destroy(gameObject, lifeTime);
     }

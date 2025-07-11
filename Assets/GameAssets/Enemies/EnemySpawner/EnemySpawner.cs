@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
     
     void Start()
     {
-        _spawnTimer = new GlobalTimer(spawnInterval);
+        _spawnTimer = new GlobalTimer(0);
     }
 
     void Update()
@@ -49,7 +49,7 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnEnemy();
             
-            _spawnTimer.Reset();
+            _spawnTimer.Reset(spawnInterval);
         }
     }
 

@@ -328,8 +328,8 @@ MonoBehaviour:
   _moveSpeed: 3.5
   _detectionDistance: 20
   _isRange: 1
-  _projectilePrefab: {fileID: 8192564083586663239, guid: 1572b1de40d4c7e41b1f0cc39f9aef67, type: 3}
-  _projectileMoveSpeed: 5
+  _projectilePrefab: {fileID: 4186548445768455643, guid: 4a7bec143622c1b45b0014b82615f2b7, type: 3}
+  _projectileMoveSpeed: 8
   _projectileLifeTime: 3
   _projectileYOffset: 1.5
   _syncedAttackAnimLength: 0.35
@@ -2576,9 +2576,9 @@ Transform:
   m_GameObject: {fileID: 8788690435315566585}
   serializedVersion: 2
   m_LocalRotation: {x: 0.02274636, y: -0.7067398, z: 0.022745335, w: 0.7067419}
-  m_LocalPosition: {x: 0.07248424, y: 0.056583434, z: 0.07073898}
-  m_LocalScale: {x: 0.80000025, y: 0.8000008, z: 0.8000007}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.109, y: 0.057, z: 0.053}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7039030032341405600}
   m_LocalEulerAnglesHint: {x: 3.687, y: -90, z: 0}

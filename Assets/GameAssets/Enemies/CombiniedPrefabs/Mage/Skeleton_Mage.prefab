@@ -1727,8 +1727,8 @@ MonoBehaviour:
   _moveSpeed: 3.5
   _detectionDistance: 20
   _isRange: 1
-  _projectilePrefab: {fileID: 3284760774840709846, guid: 69e5b9cdc220ce046ad598e25b69acbd, type: 3}
-  _projectileMoveSpeed: 5
+  _projectilePrefab: {fileID: 4186548445768455643, guid: 69e5b9cdc220ce046ad598e25b69acbd, type: 3}
+  _projectileMoveSpeed: 8
   _projectileLifeTime: 3
   _projectileYOffset: 1.5
   _syncedAttackAnimLength: 0.35
