@@ -6284,7 +6284,9 @@ GameObject:
   - component: {fileID: 9132245414744027222}
   - component: {fileID: 9132245414744027221}
   - component: {fileID: 9132245414744027220}
-  m_Layer: 0
+  - component: {fileID: 9132245414744027224}
+  - component: {fileID: 9132245414744027223}
+  m_Layer: 8
   m_Name: Mage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6817,18 +6819,24 @@ MonoBehaviour:
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  _ignoredLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   _health: 9999
-  _damage: 15
+  _damage: 0
   _attackSpeed: 0.05
   _attackRange: 20
   _syncedAttackAnimLength: 0.05
   _projectilePrefab: {fileID: 3284760774840709846, guid: 69e5b9cdc220ce046ad598e25b69acbd, type: 3}
+  _projectileSpawnPoint: {fileID: 228992661}
   _projectileMoveSpeed: 35
   _projectileLifeTime: 3
   _projectileYOffset: 1.25
   _projectileTarget: {fileID: 0}
-  _projectileSpawnPoint: {fileID: 228992661}
   enemies: []
+  _floatingText: {fileID: 6412869242250956483, guid: 27983ea7d69e79f459341cb03298a127, type: 3}
+  _flotingTextYOffset: 2
+  _textSize: 0
 --- !u!95 &9132245414744027222
 Animator:
   serializedVersion: 7
@@ -6851,6 +6859,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &9132245414744027223
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8500421690129492713}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &9132245414744027224
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8500421690129492713}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.743332, z: 1}
+  m_Center: {x: 0, y: 0.87166667, z: 0}
 --- !u!4 &9199049125403501758
 Transform:
   m_ObjectHideFlags: 0

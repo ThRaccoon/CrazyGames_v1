@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -197,9 +198,10 @@ public class Enemy : MonoBehaviour
 
             if (_isRange)
             {
+                float damage = ((float)Math.Round(UnityEngine.Random.Range((_damage - _damage * 0.1f), (_damage + _damage * 0.1f)), 2));
                 _projectileSpawnPoint.Set(transform.position.x, _projectileYOffset, transform.position.z);
                 GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
-                projectile.GetComponent<Projectile>().Init(_damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, false);
+                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, false);
             }
             else
             {

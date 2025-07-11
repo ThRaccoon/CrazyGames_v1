@@ -86,6 +86,12 @@ public class Player : MonoBehaviour
     [HideInInspector] public static Player SPlayerScript;
     [HideInInspector] public List<GameObject> enemies;
 
+    [Space(15)]
+    [Header("Floating Text")]
+    [SerializeField] private GameObject _floatingText;
+    [SerializeField] private float _flotingTextYOffset;
+    [SerializeField] private int _textSize;
+
     private void Awake()
     {
         // Timers
@@ -227,6 +233,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(float dmg) 
     {
         _health -= dmg;
+        DisplayDamage(dmg);
     }
 
     private void OnDrawGizmos()
@@ -236,5 +243,25 @@ public class Player : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
+    }
+
+    private void DisplayDamage(float damage)
+    {
+        if (_floatingText)
+        {
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_flotingTextYOffset - 0.5f, _flotingTextYOffset + 0.5f), transform.position.z);
+            var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
+
+            if (floatingTextObject)
+            {
+                var floatingTextMesh = floatingTextObject.GetComponent<TextMesh>();
+
+                if (floatingTextMesh)
+                {
+                    floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0, 100) / 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
+                    floatingTextMesh.text = damage.ToString();
+                }
+            }
+        }
     }
 }
