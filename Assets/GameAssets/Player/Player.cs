@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Animator _animator;
     [SerializeField] private LayerMask _targetLayerMask;
+    [SerializeField] private LayerMask _ignoredLayerMask;
     // ----------------------------------------------------------------------------------------------------------------------------------
 
     // ----------------------------------------------------------------------------------------------------------------------------------
@@ -66,13 +67,13 @@ public class Player : MonoBehaviour
     [Space(15)]
     [Header("Projectile")]
     [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private Transform _projectileSpawnPoint;
     [SerializeField] private float _projectileMoveSpeed;
     [SerializeField] private float _projectileLifeTime;
     [SerializeField] private float _projectileYOffset;
 
-    public GameObject _projectileTarget;
     private Vector3 _projectileTargetInitPos;
-    [SerializeField] private Transform _projectileSpawnPoint;
+    [HideInInspector] public GameObject _projectileTarget;
     // ----------------------------------------------------------------------------------------------------------------------------------
 
     // --- Timers ---
@@ -162,7 +163,7 @@ public class Player : MonoBehaviour
 
             return true;
         }
-        
+
         return false;
     }
 
@@ -193,7 +194,8 @@ public class Player : MonoBehaviour
         if (_syncAnimTimer.Flag)
         {
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init(_projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, (float)Math.Round(UnityEngine.Random.Range((_damage-_damage*0.1f), (_damage+_damage * 0.1f)),2));
+            projectile.GetComponent<Projectile>().Init((float)Math.Round(UnityEngine.Random.Range((_damage - _damage * 0.1f), (_damage + _damage * 0.1f)), 2), 
+                                                       _projectileMoveSpeed, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _targetLayerMask, _ignoredLayerMask, true);
 
             _shouldSyncAttackAnim = false;
 
@@ -211,7 +213,7 @@ public class Player : MonoBehaviour
             if (obj == null) continue;
 
             float distance = Vector3.Distance(obj.transform.position, gameObject.transform.position);
-            
+
             if (distance < minDistance && distance <= _attackRange)
             {
                 minDistance = distance;
@@ -222,6 +224,11 @@ public class Player : MonoBehaviour
         return closest;
     }
 
+    public void TakeDamage(float dmg) 
+    {
+        _health -= dmg;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -230,5 +237,4 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
-
 }

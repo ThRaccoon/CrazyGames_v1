@@ -4,13 +4,12 @@ using UnityEngine.VFX;
 
 public class Enemy : MonoBehaviour
 {
-    // ----------------------------------------------------------------------------------------------------------------------------------
     [Header("Components")]
     [SerializeField] private Animator _animator;
-    [SerializeField] private VisualEffect _visualEffect;
-    // ----------------------------------------------------------------------------------------------------------------------------------
+    [SerializeField] private LayerMask _targetLayerMask;
+    [SerializeField] private LayerMask _ignoredLayerMask;
 
-    // ----------------------------------------------------------------------------------------------------------------------------------
+
     [Space(15)]
     [Header("Stats")]
     [SerializeField] private float _health;
@@ -21,23 +20,38 @@ public class Enemy : MonoBehaviour
     [Space(5)]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _detectionDistance;
-    // ----------------------------------------------------------------------------------------------------------------------------------
 
-    // ----------------------------------------------------------------------------------------------------------------------------------
+
+    [Space(15)]
+    [Header("Type")]
+    [SerializeField] private bool _isRange;
+
+    [Space(15)]
+    [Header("Projectile")]
+    [SerializeField] private GameObject _projectilePrefab;
+    private Vector3 _projectileSpawnPoint;
+    [SerializeField] private float _projectileMoveSpeed;
+    [SerializeField] private float _projectileLifeTime;
+    [SerializeField] private float _projectileYOffset;
+
+
     [Space(15)]
     [Header("Animations")]
     [SerializeField] private float _syncedAttackAnimLength;
-    // ----------------------------------------------------------------------------------------------------------------------------------
+
+
     [Space(15)]
-    [Header("FloatingText")]
+    [Header("Floating Text")]
     [SerializeField] private GameObject _floatingText;
     [SerializeField] private float _flotingTextYOffset;
-    // ----------------------------------------------------------------------------------------------------------------------------------
+
+
     [Space(15)]
-    [Header("OnDeath")]
-    [SerializeField] float _waitBeforeDestroy = 1.5f;
-    public bool _isDeadth = false;
-    // ----------------------------------------------------------------------------------------------------------------------------------
+    [Header("On Death")]
+    [SerializeField] float _waitBeforeDestroy;
+
+    public bool _isDeadth;
+
 
     // --- Timers ---
     private GlobalTimer _attackTimer;
@@ -88,7 +102,7 @@ public class Enemy : MonoBehaviour
             }
 
             Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null) 
+            if (rb != null)
             {
                 Destroy(rb);
             }
@@ -160,7 +174,6 @@ public class Enemy : MonoBehaviour
     {
         _health -= damage;
         DisplayDamage(damage);
-
     }
 
     private void AttackTarget()
@@ -168,11 +181,6 @@ public class Enemy : MonoBehaviour
         if (_animator != null)
         {
             _animator.Play("Attack");
-        }
-
-        if (_visualEffect != null) 
-        {
-            _visualEffect.Play();
         }
 
         _canAttack = false;
@@ -187,14 +195,18 @@ public class Enemy : MonoBehaviour
         {
             _shouldSyncAttackAnim = false;
 
-            if (hasPlayer())
+            if (_isRange)
             {
-                Player.SPlayerScript.Health -= _damage;
+                _projectileSpawnPoint.Set(transform.position.x, _projectileYOffset, transform.position.z);
+                GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
+                projectile.GetComponent<Projectile>().Init(_damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, false);
             }
-
-            if (_visualEffect != null)
+            else
             {
-                _visualEffect.Stop();
+                if (hasPlayer())
+                {
+                    Player.SPlayerScript.Health -= _damage;
+                }
             }
 
             _syncAnimTimer.Reset();
@@ -217,20 +229,19 @@ public class Enemy : MonoBehaviour
     {
         if (_floatingText)
         {
-            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_flotingTextYOffset - 0.5f, _flotingTextYOffset + 0.5f) ,transform.position.z);           
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_flotingTextYOffset - 0.5f, _flotingTextYOffset + 0.5f), transform.position.z);
             var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
+
             if (floatingTextObject)
             {
                 var floatingTextMesh = floatingTextObject.GetComponent<TextMesh>();
 
                 if (floatingTextMesh)
                 {
-                    floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0,100)/ 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
+                    floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0, 100) / 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
                     floatingTextMesh.text = damage.ToString();
                 }
-
             }
         }
     }
-
 }

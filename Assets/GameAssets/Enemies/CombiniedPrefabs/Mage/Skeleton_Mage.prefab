@@ -1714,19 +1714,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4297658090310485131}
-  _visualEffect: {fileID: 0}
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _ignoredLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   _health: 25
   _damage: 1
   _attackSpeed: 3
   _attackRange: 8
   _moveSpeed: 3.5
   _detectionDistance: 20
-  _syncedAttackAnimLength: 1
+  _isRange: 1
+  _projectilePrefab: {fileID: 3284760774840709846, guid: 69e5b9cdc220ce046ad598e25b69acbd, type: 3}
+  _projectileMoveSpeed: 5
+  _projectileLifeTime: 3
+  _projectileYOffset: 1.5
+  _syncedAttackAnimLength: 0.35
   _floatingText: {fileID: 6412869242250956483, guid: 0e0175709a17ff74793ba3189cf8fc16, type: 3}
   _flotingTextYOffset: 2.5
-  _rigidbody: {fileID: -1183564259508836211}
-  _collider: {fileID: 5385975286120277028}
   _waitBeforeDestroy: 1
+  _isDeadth: 0
 --- !u!1 &6451032385376237051
 GameObject:
   m_ObjectHideFlags: 0

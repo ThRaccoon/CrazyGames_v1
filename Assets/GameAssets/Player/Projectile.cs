@@ -2,27 +2,57 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float _x;
+    [SerializeField] private float _xRotation;
+
+    // --- Stats ---
+    private float _dmg;
     private float _moveSpeed;
-    private Vector3 _direction;
+
+    // --- Target ---
     private GameObject _target;
-    private float _damage;
+    private Vector3 _direction;
+    private LayerMask _targetLayerMask;
+    private LayerMask _ignoredLayerMask;
 
+    // --- Sender ---
+    private bool _isPlayer;
 
-    public void Init(float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target, float damage)
+    // For Player
+    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer)
     {
+        _dmg = dmg;
         _moveSpeed = moveSpeed;
-        _target = target;
+
         _direction = (targetInitPos - transform.position).normalized;
-        transform.eulerAngles = new Vector3(_x, transform.eulerAngles.y, transform.eulerAngles.z);
-        _damage = damage;
+        _target = target;
+        _targetLayerMask = targetLayerMask;
+
+        _isPlayer = isPlayer;
+
+        transform.eulerAngles = new Vector3(_xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
+
+        Destroy(gameObject, lifeTime);
+    }
+
+    // For Enemy
+    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer)
+    {
+        _dmg = dmg;
+        _moveSpeed = moveSpeed;
+
+        _direction = (new Vector3(targetPos.x, 1.5f, targetPos.z) - transform.position).normalized;
+        _targetLayerMask = targetLayerMask;
+
+        _isPlayer = isPlayer;
+
+        transform.eulerAngles = new Vector3(_xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
 
         Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
-        if (_target != null && _target.GetComponent<Enemy>()._isDeadth == false)
+        if (_target != null)
         {
             Vector3 targetPos = new Vector3(_target.transform.position.x, transform.position.y, _target.transform.position.z);
             _direction = (targetPos - transform.position).normalized;
@@ -36,15 +66,35 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        int otherLayer = other.gameObject.layer;
+
+        if (((1 << otherLayer) & _ignoredLayerMask.value) != 0)
+            return;
+
+        if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
         {
-            var enemyScript = other.gameObject.GetComponent<Enemy>();
-            if (enemyScript != null) 
+            if (_isPlayer)
             {
-                enemyScript.TakeDamage(_damage);
+                var enemyScript = other.gameObject.GetComponent<Enemy>();
+
+                if (enemyScript != null)
+                {
+                    enemyScript.TakeDamage(_dmg);
+                }
+
+                Destroy(gameObject);
+            }
+            else
+            {
+                var playerScript = other.gameObject.GetComponent<Player>();
+
+                if (playerScript != null)
+                {
+                    playerScript.TakeDamage(_dmg);
+                }
+                
+                Destroy(gameObject);
             }
         }
-
-        Destroy(gameObject);
     }
 }
