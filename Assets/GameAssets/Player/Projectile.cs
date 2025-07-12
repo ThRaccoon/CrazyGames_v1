@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
- 
     // --- Stats ---
     private float _dmg;
     private float _moveSpeed;
@@ -17,7 +16,7 @@ public class Projectile : MonoBehaviour
     private bool _isPlayer;
 
     // For Player
-    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer)
+    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer, Transform projectileParent)
     {
         _dmg = dmg;
         _moveSpeed = moveSpeed;
@@ -28,11 +27,13 @@ public class Projectile : MonoBehaviour
 
         _isPlayer = isPlayer;
 
+        gameObject.transform.SetParent(projectileParent);
+
         Destroy(gameObject, lifeTime);
     }
 
     // For Enemy
-    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer)
+    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer, Transform projectileParent)
     {
         _dmg = dmg;
         _moveSpeed = moveSpeed;
@@ -41,6 +42,8 @@ public class Projectile : MonoBehaviour
         _targetLayerMask = targetLayerMask;
 
         _isPlayer = isPlayer;
+
+        gameObject.transform.SetParent(projectileParent);
 
         Destroy(gameObject, lifeTime);
     }

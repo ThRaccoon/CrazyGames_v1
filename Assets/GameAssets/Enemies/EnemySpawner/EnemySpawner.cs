@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private Transform _projectileParent;
+
     [SerializeField] private GameObject[] _enemyPrefabs;
 
     [Space(15)]
@@ -69,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _projectileParent);
         }
 
         _incrementCounter++;

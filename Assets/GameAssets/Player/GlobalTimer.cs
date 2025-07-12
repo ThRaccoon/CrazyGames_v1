@@ -61,7 +61,6 @@ public class GlobalTimer
 
     public void Reset(float duration)
     {
-
         _elapsedTime = duration;
         _flag = false;
     }

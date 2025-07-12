@@ -30,10 +30,12 @@ public class Enemy : MonoBehaviour
     [Space(15)]
     [Header("Projectile")]
     [SerializeField] private GameObject _projectilePrefab;
-    private Vector3 _projectileSpawnPoint;
     [SerializeField] private float _projectileMoveSpeed;
     [SerializeField] private float _projectileLifeTime;
     [SerializeField] private float _projectileYOffset;
+
+    private Transform _projectileParent;
+    private Vector3 _projectileSpawnPoint;
 
 
     [Space(15)]
@@ -165,10 +167,12 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void Init(float healthMultiplier, float damageMultiplier)
+    public void Init(float healthMultiplier, float damageMultiplier, Transform projectileParent)
     {
         _health *= healthMultiplier;
         _damage *= damageMultiplier;
+    
+        _projectileParent = projectileParent;
     }
 
     public void TakeDamage(float damage)
@@ -201,13 +205,13 @@ public class Enemy : MonoBehaviour
                 float damage = ((float)Math.Round(UnityEngine.Random.Range((_damage - _damage * 0.1f), (_damage + _damage * 0.1f)), 2));
                 _projectileSpawnPoint.Set(transform.position.x, _projectileYOffset, transform.position.z);
                 GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
-                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, false);
+                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, false, _projectileParent);
             }
             else
             {
                 if (hasPlayer())
                 {
-                    Player.SPlayerScript.Health -= _damage;
+                    Player.SPlayerScript.TakeDamage(_damage);
                 }
             }
 
