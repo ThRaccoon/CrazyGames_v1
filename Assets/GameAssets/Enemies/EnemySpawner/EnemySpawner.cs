@@ -11,7 +11,9 @@ public class EnemySpawner : MonoBehaviour
 
     [Space(15)]
     [Header("Multipliers")]
+    [SerializeField] private float _baseHealthMultiplier;
     [SerializeField] private float _healthMultiplier;
+    [SerializeField] private float _baseDamageMultiplier;
     [SerializeField] private float _damageMultiplier;
 
     [Space(5)]
@@ -29,14 +31,25 @@ public class EnemySpawner : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private int _incrementCounter;
 
-    
+    [HideInInspector] public static EnemySpawner SSpawnerScript;
+
+    public static bool  shouldSpawn;
+
+
     void Start()
     {
+        shouldSpawn = true;
         _spawnTimer = new GlobalTimer(0);
     }
 
     void Update()
     {
+        if(shouldSpawn == false) 
+        {
+            return;
+        }
+
+
         if (_incrementCounter > _incrementOnEvery)
         {
             _healthMultiplier++;
@@ -75,5 +88,20 @@ public class EnemySpawner : MonoBehaviour
         }
 
         _incrementCounter++;
+    }
+
+    private void ResetSpawner()
+    {
+        //Reset
+        _spawnTimer = new GlobalTimer(0);
+        _incrementCounter = 0;
+        _healthMultiplier = _baseHealthMultiplier;
+        _damageMultiplier = _baseDamageMultiplier;
+        //ClearEnemies
+        foreach (var enemy in Player.SPlayerScript.enemies)
+        {
+            Destroy(enemy);
+        }
+        shouldSpawn = true;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum EStatsType { EHealth, EHealthRegen, EAttackDamage, EAttackSpeed, EProjectileSpeed }
 
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
     [Space(15)]
     [Header("Stats")]
     [SerializeField] private float _healthBase;
+    [SerializeField] private float _healthCurrentMax;
     [SerializeField] private float _healthCurrent;
 
     [SerializeField] private float _healthRegenerationBase;
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     [Space(15)]
     [Header("Animations")]
     [SerializeField] private float _syncedAttackAnimLength;
+    [SerializeField] private float _animationAttackMultiplier;
 
     private bool _shouldSyncAttackAnim;
     #endregion
@@ -62,7 +65,6 @@ public class Player : MonoBehaviour
     [Header("Floating Text")]
     [SerializeField] private GameObject _floatingText;
     [SerializeField] private float _flotingTextYOffset;
-    [SerializeField] private int _textSize;
     #endregion
 
     private bool _canAttack = true;
@@ -77,13 +79,18 @@ public class Player : MonoBehaviour
         _attackTimer = new GlobalTimer(_attackSpeedCurrent);
         _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
 
+        if (_animator)
+        {
+            _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
+        }
+
         SPlayerScript = this;
         enemies = new List<GameObject>();
     }
 
     private void Update()
     {
-        if (_healthCurrent <= 0)
+        if (_healthCurrentMax <= 0)
         {
             Destroy(gameObject);
         }
@@ -236,32 +243,45 @@ public class Player : MonoBehaviour
 
     public void ApplyBuff(EStatsType type, float value)
     {
-        value = 1 + (value / 100);
-
+       
         switch (type)
         {
             case EStatsType.EHealth:
                 {
+                    value = 1 + (value / 100);
                     _healthCurrent *= value;
                 }
                 break;
             case EStatsType.EHealthRegen:
                 {
+                    value = 1 + (value / 100);
                     _healthRegenerationCurrent *= value;
                 }
                 break;
             case EStatsType.EAttackDamage:
                 {
+                    value = 1 + (value / 100);
                     _attackDamageCurrent *= value;
                 }
                 break;
             case EStatsType.EAttackSpeed:
                 {
-                    _attackSpeedCurrent *= value;
+                    var temp = 1 - (value / 100);
+                    _attackSpeedCurrent *= temp;
+                    _attackTimer = new GlobalTimer(_attackSpeedCurrent);
+                    _syncedAttackAnimLength *= temp;
+                    _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
+                    if(_animator)
+                    {
+                        _animationAttackMultiplier *= 1 + (value / 100);
+                        _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
+                    }
+                    
                 }
                 break;
             case EStatsType.EProjectileSpeed:
                 {
+                    value = 1 + (value / 100);
                     _projectileMoveSpeedCurrent *= value;
                 }
                 break;
@@ -289,7 +309,7 @@ public class Player : MonoBehaviour
                 break;
             case EStatsType.EAttackSpeed:
                 {
-                    _attackSpeedBase += value;
+                    _attackSpeedBase -= value;
                 }
                 break;
             case EStatsType.EProjectileSpeed:
@@ -309,4 +329,21 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
+
+    private void ResetPlayer()
+    {
+        //Health
+        _healthCurrent = _healthBase;
+        _healthCurrentMax = _healthBase;
+
+        //Regeberation
+        _healthRegenerationCurrent = _healthRegenerationBase;
+        _attackDamageCurrent = _attackDamageBase;
+
+        //Attack Speed
+        _attackSpeedCurrent = _attackSpeedBase;
+
+        //ToDo Pres 
+    }
+
 }
