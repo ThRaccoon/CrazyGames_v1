@@ -132,7 +132,7 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnBoss();
 
-            _bossSpawnTimer.Reset();
+            _bossSpawnTimer.Reset(_bossSpawnInterval);
         }
 
         _barrelSpawnTimer.Tick();
@@ -141,7 +141,7 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnBarrel();
 
-            _barrelSpawnTimer.Reset();
+            _barrelSpawnTimer.Reset(_barrelSpawnInterval);
         }
     }
 

@@ -1663,7 +1663,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1673,10 +1673,10 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1699,8 +1699,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.6257849, z: 1}
-  m_Center: {x: 0, y: 1.1762136, z: 0}
+  m_Size: {x: 1, y: 3, z: 1}
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!114 &2375671921038564369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1721,7 +1721,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _health: 25
-  _damage: 1
+  _damage: 2
   _expReward: 1
   _attackSpeed: 3
   _attackRange: 8
@@ -1729,6 +1729,7 @@ MonoBehaviour:
   _moveSpeed: 3.5
   _detectionDistance: 20
   _isRange: 1
+  _isBarrel: 0
   _syncedAttackAnimLength: 0.35
   _projectilePrefab: {fileID: 4186548445768455643, guid: 69e5b9cdc220ce046ad598e25b69acbd, type: 3}
   _projectileLifeTime: 3
