@@ -66,7 +66,7 @@ public class BuffCardManager : MonoBehaviour
     {
         if(index < _randomBuffCards.Length) 
         {
-            Player.SPlayerScript.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].value);        
+            Player._SPlayerScript.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].value);        
         }
 
     }

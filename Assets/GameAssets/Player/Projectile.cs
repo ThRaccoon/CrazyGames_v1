@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -7,6 +8,7 @@ public class Projectile : MonoBehaviour
     private float _moveSpeed;
 
     // --- Target ---
+    private Enemy _enemyScript;
     private GameObject _target;
     private Vector3 _direction;
     private LayerMask _targetLayerMask;
@@ -26,6 +28,8 @@ public class Projectile : MonoBehaviour
         _targetLayerMask = targetLayerMask;
 
         _isPlayer = isPlayer;
+
+        _enemyScript = _target.GetComponent<Enemy>();
 
         gameObject.transform.SetParent(projectileParent);
 
@@ -50,7 +54,7 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        if (_target != null && _target.GetComponent<Enemy>()._isDeadth == false)
+        if (_target != null && _enemyScript._isDead == false)
         {
             Vector3 targetPos = new Vector3(_target.transform.position.x, transform.position.y, _target.transform.position.z);
             _direction = (targetPos - transform.position).normalized;
@@ -90,7 +94,7 @@ public class Projectile : MonoBehaviour
                 {
                     playerScript.TakeDamage(_dmg);
                 }
-                
+
                 Destroy(gameObject);
             }
         }

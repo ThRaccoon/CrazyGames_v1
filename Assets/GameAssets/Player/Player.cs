@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static UnityEngine.Rendering.DebugUI;
 
 public enum EStatsType { EHealth, EHealthRegen, EAttackDamage, EAttackSpeed, EProjectileSpeed }
 
@@ -64,15 +63,17 @@ public class Player : MonoBehaviour
     [Space(15)]
     [Header("Floating Text")]
     [SerializeField] private GameObject _floatingText;
-    [SerializeField] private float _flotingTextYOffset;
+    [SerializeField] private float _floatingTextYOffset;
     #endregion
 
+    #region Runtime
     private bool _canAttack = true;
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
 
-    [HideInInspector] public static Player SPlayerScript;
-    [HideInInspector] public List<GameObject> enemies;
+    [HideInInspector] public static Player _SPlayerScript;
+    [HideInInspector] public List<GameObject> _enemies;
+    #endregion
 
     private void Awake()
     {
@@ -84,8 +85,8 @@ public class Player : MonoBehaviour
             _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
         }
 
-        SPlayerScript = this;
-        enemies = new List<GameObject>();
+        _SPlayerScript = this;
+        _enemies = new List<GameObject>();
     }
 
     private void Update()
@@ -198,7 +199,7 @@ public class Player : MonoBehaviour
         GameObject closest = null;
         float minDistance = Mathf.Infinity;
 
-        foreach (GameObject obj in enemies)
+        foreach (GameObject obj in _enemies)
         {
             if (obj == null) continue;
 
@@ -218,7 +219,9 @@ public class Player : MonoBehaviour
     {
         if (_floatingText)
         {
-            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_flotingTextYOffset - 0.5f, _flotingTextYOffset + 0.5f), transform.position.z);
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), 
+                                                UnityEngine.Random.Range(_floatingTextYOffset - 0.5f, _floatingTextYOffset + 0.5f), transform.position.z);
+            
             var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
 
             if (floatingTextObject)
@@ -234,7 +237,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    // --- Getters / Setters
+    private void ResetPlayer()
+    {
+        //Health
+        _healthCurrent = _healthBase;
+        _healthCurrentMax = _healthBase;
+
+        //Regeberation
+        _healthRegenerationCurrent = _healthRegenerationBase;
+        _attackDamageCurrent = _attackDamageBase;
+
+        //Attack Speed
+        _attackSpeedCurrent = _attackSpeedBase;
+
+        //ToDo Pres 
+    }
+
+    // --- Getters / Setters ---
     public void TakeDamage(float dmg)
     {
         _healthCurrent -= dmg;
@@ -243,7 +262,6 @@ public class Player : MonoBehaviour
 
     public void ApplyBuff(EStatsType type, float value)
     {
-       
         switch (type)
         {
             case EStatsType.EHealth:
@@ -267,16 +285,17 @@ public class Player : MonoBehaviour
             case EStatsType.EAttackSpeed:
                 {
                     var temp = 1 - (value / 100);
+                    
                     _attackSpeedCurrent *= temp;
-                    _attackTimer = new GlobalTimer(_attackSpeedCurrent);
+                    _attackTimer.Duration = _attackSpeedCurrent;
                     _syncedAttackAnimLength *= temp;
-                    _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
-                    if(_animator)
+                    _syncAnimTimer.Duration = _syncedAttackAnimLength;
+
+                    if (_animator)
                     {
                         _animationAttackMultiplier *= 1 + (value / 100);
                         _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
                     }
-                    
                 }
                 break;
             case EStatsType.EProjectileSpeed:
@@ -329,21 +348,4 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
-
-    private void ResetPlayer()
-    {
-        //Health
-        _healthCurrent = _healthBase;
-        _healthCurrentMax = _healthBase;
-
-        //Regeberation
-        _healthRegenerationCurrent = _healthRegenerationBase;
-        _attackDamageCurrent = _attackDamageBase;
-
-        //Attack Speed
-        _attackSpeedCurrent = _attackSpeedBase;
-
-        //ToDo Pres 
-    }
-
 }

@@ -1,79 +1,85 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.VFX;
 using System;
 
 public class Enemy : MonoBehaviour
 {
+    #region Components
     [Header("Components")]
     [SerializeField] private Animator _animator;
     [SerializeField] private LayerMask _targetLayerMask;
     [SerializeField] private LayerMask _ignoredLayerMask;
+    #endregion
 
-
+    #region Stats
     [Space(15)]
     [Header("Stats")]
     [SerializeField] private float _health;
     [SerializeField] private float _damage;
+    [SerializeField] private float _expReward;
+
     [SerializeField] private float _attackSpeed;
     [SerializeField] private float _attackRange;
+    [SerializeField] private float _projectileMoveSpeed;
 
     [Space(5)]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _detectionDistance;
 
-
-    [Space(15)]
-    [Header("Type")]
+    [Space(5)]
     [SerializeField] private bool _isRange;
+    [SerializeField] private bool _isBarrel;
+    #endregion
 
+    #region Animations
+    [Space(15)]
+    [Header("Animations")]
+    [SerializeField] private float _syncedAttackAnimLength;
+
+    private bool _shouldSyncAttackAnim;
+    #endregion
+
+    #region Projectile
     [Space(15)]
     [Header("Projectile")]
     [SerializeField] private GameObject _projectilePrefab;
-    [SerializeField] private float _projectileMoveSpeed;
     [SerializeField] private float _projectileLifeTime;
     [SerializeField] private float _projectileYOffset;
 
     private Transform _projectileParent;
     private Vector3 _projectileSpawnPoint;
+    #endregion
 
-
-    [Space(15)]
-    [Header("Animations")]
-    [SerializeField] private float _syncedAttackAnimLength;
-
-
+    #region Floating Text
     [Space(15)]
     [Header("Floating Text")]
     [SerializeField] private GameObject _floatingText;
-    [SerializeField] private float _flotingTextYOffset;
+    [SerializeField] private float _floatingTextYOffset;
+    #endregion
 
-
+    #region On Death
     [Space(15)]
     [Header("On Death")]
     [SerializeField] float _waitBeforeDestroy;
 
-    public bool _isDeadth;
+    [HideInInspector] public bool _isDead;
+    #endregion
 
-
-    // --- Timers ---
-    private GlobalTimer _attackTimer;
-    private GlobalTimer _syncAnimTimer;
-
+    #region Runtime
     private bool _canAttack = true;
-    private bool _shouldSyncAttackAnim;
     private bool _isChasingTarget;
     private float _distanceToTarget;
     private Vector3 _targetPos;
-
+    private GlobalTimer _attackTimer;
+    private GlobalTimer _syncAnimTimer;
+    #endregion
 
     private void Awake()
     {
         if (hasPlayer())
         {
-            Player.SPlayerScript.enemies.Add(gameObject);
+            Player._SPlayerScript._enemies.Add(gameObject);
 
-            _targetPos.Set(Player.SPlayerScript.transform.position.x, 0f, Player.SPlayerScript.transform.position.z);
+            _targetPos.Set(Player._SPlayerScript.transform.position.x, 0f, Player._SPlayerScript.transform.position.z);
         }
 
         _attackTimer = new GlobalTimer(_attackSpeed);
@@ -82,80 +88,80 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (_isDeadth)
+        if (_isDead)
         {
             return;
         }
 
         if (_health <= 0)
         {
-            _isDeadth = true;
+            _isDead = true;
 
             if (hasPlayer())
             {
-                Player.SPlayerScript._projectileTarget = null;
-                Player.SPlayerScript.enemies.Remove(gameObject);
+                Player._SPlayerScript._projectileTarget = null;
+                Player._SPlayerScript._enemies.Remove(gameObject);
             }
-
 
             BoxCollider collider = GetComponent<BoxCollider>();
             if (collider != null)
-            {
                 Destroy(collider);
-            }
 
             Rigidbody rb = GetComponent<Rigidbody>();
             if (rb != null)
-            {
                 Destroy(rb);
-            }
 
             if (_animator != null)
-            {
                 _animator.Play("Death");
-            }
 
             Destroy(gameObject, _waitBeforeDestroy);
         }
 
-        _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
-
-        if (!_isChasingTarget)
+        if (_isBarrel)
         {
-            if (_distanceToTarget <= _detectionDistance)
-            {
-                _isChasingTarget = true;
-            }
-            else
-            {
-                transform.position += transform.forward * _moveSpeed * Time.deltaTime;
-            }
+            transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
         }
-
-        if (_isChasingTarget)
+        else
         {
-            if (_distanceToTarget > _attackRange)
-            {
-                Vector3 direction = (_targetPos - transform.position).normalized;
-                transform.position += direction * _moveSpeed * Time.deltaTime;
+            _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
 
-                transform.LookAt(_targetPos);
+            if (!_isChasingTarget)
+            {
+                if (_distanceToTarget <= _detectionDistance)
+                {
+                    _isChasingTarget = true;
+                }
+                else
+                {
+                    transform.position += transform.forward * _moveSpeed * Time.deltaTime;
+                }
             }
-            else
+
+            if (_isChasingTarget)
             {
-                if (_shouldSyncAttackAnim)
+                if (_distanceToTarget > _attackRange)
                 {
-                    SyncAttackAnimation();
-                }
+                    Vector3 direction = (_targetPos - transform.position).normalized;
+                    transform.position += direction * _moveSpeed * Time.deltaTime;
 
-                if (!_canAttack && !_shouldSyncAttackAnim)
-                {
-                    AttackCooldown();
+                    transform.LookAt(_targetPos);
                 }
-
-                if (_canAttack && !_shouldSyncAttackAnim)
+                else
                 {
-                    AttackTarget();
+                    if (_shouldSyncAttackAnim)
+                    {
+                        SyncAttackAnimation();
+                    }
+
+                    if (!_canAttack && !_shouldSyncAttackAnim)
+                    {
+                        AttackCooldown();
+                    }
+
+                    if (_canAttack && !_shouldSyncAttackAnim)
+                    {
+                        AttackTarget();
+                    }
                 }
             }
         }
@@ -163,22 +169,16 @@ public class Enemy : MonoBehaviour
 
     private bool hasPlayer()
     {
-        return (Player.SPlayerScript != null && Player.SPlayerScript.enemies != null);
+        return (Player._SPlayerScript != null && Player._SPlayerScript._enemies != null);
     }
 
-
-    public void Init(float healthMultiplier, float damageMultiplier, Transform projectileParent)
+    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, Transform projectileParent)
     {
         _health *= healthMultiplier;
         _damage *= damageMultiplier;
-    
-        _projectileParent = projectileParent;
-    }
+        _expReward *= expRewardMultiplier;
 
-    public void TakeDamage(float damage)
-    {
-        _health -= damage;
-        DisplayDamage(damage);
+        _projectileParent = projectileParent;
     }
 
     private void AttackTarget()
@@ -211,7 +211,7 @@ public class Enemy : MonoBehaviour
             {
                 if (hasPlayer())
                 {
-                    Player.SPlayerScript.TakeDamage(_damage);
+                    Player._SPlayerScript.TakeDamage(_damage);
                 }
             }
 
@@ -235,7 +235,7 @@ public class Enemy : MonoBehaviour
     {
         if (_floatingText)
         {
-            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_flotingTextYOffset - 0.5f, _flotingTextYOffset + 0.5f), transform.position.z);
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_floatingTextYOffset - 0.5f, _floatingTextYOffset + 0.5f), transform.position.z);
             var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
 
             if (floatingTextObject)
@@ -249,5 +249,12 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    // --- Getters / Setters ---
+    public void TakeDamage(float damage)
+    {
+        _health -= damage;
+        DisplayDamage(damage);
     }
 }

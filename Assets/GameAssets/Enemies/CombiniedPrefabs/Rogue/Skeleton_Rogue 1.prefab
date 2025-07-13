@@ -2217,20 +2217,21 @@ MonoBehaviour:
     m_Bits: 512
   _health: 25
   _damage: 1
+  _expReward: 1
   _attackSpeed: 3
   _attackRange: 8
+  _projectileMoveSpeed: 8
   _moveSpeed: 3.5
   _detectionDistance: 20
   _isRange: 1
+  _syncedAttackAnimLength: 0.35
   _projectilePrefab: {fileID: 4186548445768455643, guid: 4a7bec143622c1b45b0014b82615f2b7, type: 3}
-  _projectileMoveSpeed: 8
   _projectileLifeTime: 3
   _projectileYOffset: 1.5
-  _syncedAttackAnimLength: 0.35
   _floatingText: {fileID: 6412869242250956483, guid: 0e0175709a17ff74793ba3189cf8fc16, type: 3}
-  _flotingTextYOffset: 2.5
+  _floatingTextYOffset: 0
   _waitBeforeDestroy: 1
-  _isDeadth: 0
+  _isDead: 0
 --- !u!1 &8406537144065556926
 GameObject:
   m_ObjectHideFlags: 0
