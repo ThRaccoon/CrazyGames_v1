@@ -4824,7 +4824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1022223924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7185,9 +7185,9 @@ MonoBehaviour:
   _damageMultiplier: 1
   _baseExpRewardMultiplier: 0
   _expRewardMultiplier: 1
-  _mobSpawnInterval: 1.5
+  _mobSpawnInterval: 3
   _bossSpawnInterval: 15
-  _barrelSpawnInterval: 20
+  _barrelSpawnInterval: 12.5
   _multipliersIncrementThreshold: 10000
   _spawnedMobCountForMultipliers: 0
   _mobTypeUnlockThreshold: 10
@@ -10786,11 +10786,11 @@ MonoBehaviour:
   _healthRegenerationCurrent: 1
   _attackDamageBase: 15
   _attackDamageCurrent: 15
-  _attackSpeedBase: 0.25
-  _attackSpeedCurrent: 0.25
+  _attackSpeedBase: 0.5
+  _attackSpeedCurrent: 0.5
   _attackRange: 40
-  _projectileMoveSpeedBase: 10
-  _projectileMoveSpeedCurrent: 10
+  _projectileMoveSpeedBase: 15
+  _projectileMoveSpeedCurrent: 15
   _syncedAttackAnimLength: 0.5
   _animationAttackMultiplier: 1
   _projectilePrefab: {fileID: 4186548445768455643, guid: ec9915b9077e1fb46b8070dc173b0609, type: 3}

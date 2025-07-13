@@ -25,29 +25,28 @@ public class RandomBuffCard
 
 public class BuffCardManager : MonoBehaviour
 {
+    [HideInInspector] public static BuffCardManager _SBuffCardManagerScript;
     [SerializeField] BuffCard[] _buffCards;
     [SerializeField] RandomBuffCard[] _randomBuffCards;
     [SerializeField] GameObject _buffParent;
+
    
     bool _canRoll = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
+        _SBuffCardManagerScript = this;
+
         if (_buffParent)
         {
             _buffParent.SetActive(false);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void RollBuff()
     {
+        GetRandomUniqueBuffs();
         _buffParent.SetActive(true);
 
     }
@@ -59,7 +58,7 @@ public class BuffCardManager : MonoBehaviour
         {
           //  _canRoll = false;
         }    
-        Debug.Log("Reroll");
+     
     }
 
     public void OnCardBuffClicked(int index)
@@ -68,6 +67,7 @@ public class BuffCardManager : MonoBehaviour
         {
             Player._SPlayerScript.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].value);        
         }
+        _buffParent.SetActive(false);
 
     }
 

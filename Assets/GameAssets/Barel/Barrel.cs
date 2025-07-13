@@ -21,6 +21,11 @@ public class Barrel : MonoBehaviour
     
     public void GiveBuff() 
     {
-    
+       if(BuffCardManager._SBuffCardManagerScript)
+        {
+            BuffCardManager._SBuffCardManagerScript.RollBuff();
+        }
+
+       Destroy(gameObject);
     }
 }
