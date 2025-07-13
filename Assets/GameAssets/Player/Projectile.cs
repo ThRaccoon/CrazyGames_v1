@@ -81,6 +81,16 @@ public class Projectile : MonoBehaviour
 
                 if (enemyScript != null)
                 {
+                    if (enemyScript._isBarrel)
+                    {
+                        var barrelScript = other.gameObject.GetComponent<Barrel>();
+
+                        if (barrelScript != null)
+                        {
+                            barrelScript.GiveBuff();
+                        }
+                    }
+
                     enemyScript.TakeDamage(_dmg);
                 }
 

@@ -7,7 +7,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform _projectileParent;
 
     [Space(5)]
-    [SerializeField] private GameObject[] _enemyPrefabs;
+    [SerializeField] private GameObject[] _mobPrefabs;
+
+    [Space(5)]
+    [SerializeField] private GameObject[] _bossPrefabs;
 
     [Space(5)]
     [SerializeField] private GameObject _barrelPrefab;
@@ -35,14 +38,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _mobSpawnInterval;
     private GlobalTimer _mobSpawnTimer;
 
+    [SerializeField] private float _bossSpawnInterval;
+    private GlobalTimer _bossSpawnTimer;
+
     [SerializeField] private float _barrelSpawnInterval;
     private GlobalTimer _barrelSpawnTimer;
-
-    [SerializeField] private float _bossSpawnInterval;
-    private GlobalTimer _bosslSpawnTimer;
-
-    public static bool _shouldSpawn;
-
     #endregion
 
     #region Counters
@@ -54,9 +54,14 @@ public class EnemySpawner : MonoBehaviour
     [Space(5)]
     [SerializeField] private float _mobTypeUnlockThreshold;
     [SerializeField] private float _spawnedMobCountForMobType;
+
+    [Space(5)]
+    [SerializeField] private float _bossTypeUnlockThreshold;
+    [SerializeField] private float _spawnedBossCountForBossType;
     #endregion
 
     #region Runtime
+    public static bool _shouldSpawn;
     [HideInInspector] public static EnemySpawner _SSpawnerScript;
     #endregion
 
@@ -64,9 +69,19 @@ public class EnemySpawner : MonoBehaviour
     [Space(15)]
     [Header("Debug")]
     [SerializeField] private int _mobTypes;
+    [SerializeField] private int _bossTypes;
     #endregion
 
-    void Update()
+    private void Awake()
+    {
+        _mobSpawnTimer = new GlobalTimer(0);
+        _barrelSpawnTimer = new GlobalTimer(_barrelSpawnInterval);
+        _bossSpawnTimer = new GlobalTimer(_bossSpawnInterval);
+
+        _shouldSpawn = true;
+    }
+
+    private void Update()
     {
         if (_shouldSpawn == false)
         {
@@ -84,7 +99,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (_spawnedMobCountForMobType > _mobTypeUnlockThreshold)
         {
-            if (_mobTypes < _enemyPrefabs.Length - 1)
+            if (_mobTypes < _mobPrefabs.Length - 1)
             {
                 _mobTypes++;
             }
@@ -92,13 +107,32 @@ public class EnemySpawner : MonoBehaviour
             _spawnedMobCountForMobType = 0;
         }
 
+        if (_spawnedBossCountForBossType > _bossTypeUnlockThreshold)
+        {
+            if (_bossTypes < _bossPrefabs.Length - 1)
+            {
+                _bossTypes++;
+            }
+
+            _spawnedBossCountForBossType = 0;
+        }
+
         _mobSpawnTimer.Tick();
 
         if (_mobSpawnTimer.Flag)
         {
-            SpawnEnemy();
+            SpawnMob();
 
             _mobSpawnTimer.Reset(_mobSpawnInterval);
+        }
+
+        _bossSpawnTimer.Tick();
+
+        if (_bossSpawnTimer.Flag)
+        {
+            SpawnBoss();
+
+            _bossSpawnTimer.Reset();
         }
 
         _barrelSpawnTimer.Tick();
@@ -111,15 +145,15 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy()
+    private void SpawnMob()
     {
-        if (_enemyPrefabs.Length == 0 || _barrelSpawnPositions.Length == 0)
+        if (_mobPrefabs.Length == 0)
         {
-            Debug.LogWarning("Spawner: enemyPrefabs or spawnPositions list is empty!");
+            Debug.LogWarning("Spawner: mob prefab list is empty!");
             return;
         }
 
-        GameObject prefab = _enemyPrefabs[UnityEngine.Random.Range(0, _mobTypes)];
+        GameObject prefab = _mobPrefabs[UnityEngine.Random.Range(0, _mobTypes + 1)];
         Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15.5f), 0, 65);
 
         var enemy = Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
@@ -132,10 +166,47 @@ public class EnemySpawner : MonoBehaviour
 
         _spawnedMobCountForMultipliers++;
         _spawnedMobCountForMobType++;
+        _spawnedBossCountForBossType++;
+    }
+
+    private void SpawnBoss()
+    {
+        if (_bossPrefabs.Length == 0)
+        {
+            Debug.LogWarning("Spawner: boss prefab list is empty!");
+            return;
+        }
+
+        GameObject prefab;
+
+        if (_bossTypes != _bossPrefabs.Length - 1)
+        {
+            prefab = _bossPrefabs[_bossTypes];
+        }
+        else
+        {
+            prefab = _bossPrefabs[UnityEngine.Random.Range(0, _bossTypes)];
+        }
+
+        Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15.5f), 0, 65);
+
+        var enemy = Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
+        var enemyScript = enemy.GetComponent<Enemy>();
+
+        if (enemyScript != null)
+        {
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent);
+        }
     }
 
     private void SpawnBarrel()
     {
+        if (_barrelPrefab == null || _barrelSpawnPositions.Length == 0)
+        {
+            Debug.LogWarning("Spawner: no barrel prefab or spawn point found!");
+            return;
+        }
+
         Vector3 position = _barrelSpawnPositions[UnityEngine.Random.Range(0, _barrelSpawnPositions.Length)];
 
         var barrel = Instantiate(_barrelPrefab, position, Quaternion.Euler(0, 0, 90));
@@ -146,7 +217,7 @@ public class EnemySpawner : MonoBehaviour
         //Reset
         _mobSpawnTimer = new GlobalTimer(0);
         _barrelSpawnTimer = new GlobalTimer(_barrelSpawnInterval);
-        _bosslSpawnTimer = new GlobalTimer(_bossSpawnInterval);
+        _bossSpawnTimer = new GlobalTimer(_bossSpawnInterval);
 
         _spawnedMobCountForMultipliers = 0;
         _spawnedMobCountForMobType = 0;

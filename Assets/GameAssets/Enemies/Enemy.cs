@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     [Space(5)]
     [SerializeField] private bool _isRange;
-    [SerializeField] private bool _isBarrel;
+    [SerializeField] public bool _isBarrel;
     #endregion
 
     #region Animations

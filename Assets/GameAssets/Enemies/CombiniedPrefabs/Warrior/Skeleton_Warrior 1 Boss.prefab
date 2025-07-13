@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: -4897187491588618398}
   - component: {fileID: 2017475510983013133}
   m_Layer: 9
-  m_Name: Skeleton_Warrior 1
+  m_Name: Skeleton_Warrior 1 Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1253,9 +1253,9 @@ MonoBehaviour:
   _ignoredLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  _health: 25
+  _health: 125
   _damage: 1
-  _expReward: 1
+  _expReward: 5
   _attackSpeed: 3
   _attackRange: 8
   _projectileMoveSpeed: 0
