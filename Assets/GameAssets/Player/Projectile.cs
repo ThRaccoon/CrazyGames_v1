@@ -58,7 +58,6 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        //if (_target != null && _target.GetComponent<Enemy>()._isDead == false)
         if (_target != null && (_enemy != null && _enemy._isDead == false))
         {
             Vector3 targetPos = new Vector3(_target.transform.position.x, transform.position.y, _target.transform.position.z);
