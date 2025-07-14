@@ -164,7 +164,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource, _deathSound);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource);
         }
 
         _spawnedMobCountForMultipliers++;
@@ -198,7 +198,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource, _deathSound);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource);
         }
     }
 

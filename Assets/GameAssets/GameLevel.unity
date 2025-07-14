@@ -7188,7 +7188,7 @@ MonoBehaviour:
   _expRewardMultiplier: 1
   _mobSpawnInterval: 3
   _bossSpawnInterval: 20
-  _barrelSpawnInterval: 25
+  _barrelSpawnInterval: 1
   _multipliersIncrementThreshold: 25
   _spawnedMobCountForMultipliers: 0
   _mobTypeUnlockThreshold: 10
@@ -7209,8 +7209,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b3109faa303d0234c8d0a8d03be8e8c4, type: 3}
+  m_Resource: {fileID: 8300000, guid: b3109faa303d0234c8d0a8d03be8e8c4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
@@ -11033,7 +11033,6 @@ MonoBehaviour:
   _floatingTextYOffset: 0
   _enemies: []
   _audioSource: {fileID: 9132245414744027225}
-  _attackSound: {fileID: 8300000, guid: 706a5b4aef966ec41aa4375f1a4312d8, type: 3}
 --- !u!95 &9132245414744027222
 Animator:
   serializedVersion: 7
@@ -11114,9 +11113,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 706a5b4aef966ec41aa4375f1a4312d8, type: 3}
+  m_Resource: {fileID: 8300000, guid: 706a5b4aef966ec41aa4375f1a4312d8, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 0.15
   m_Pitch: 1
   Loop: 0

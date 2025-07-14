@@ -8,6 +8,8 @@ public class Barrel : MonoBehaviour
     [Space(15)]
     [SerializeField] private float _lifeTime;
 
+    [SerializeField] private AudioSource _audioSource;
+
     private void Awake()
     {
         Destroy(gameObject, _lifeTime);
@@ -18,14 +20,14 @@ public class Barrel : MonoBehaviour
         transform.Rotate(_rotationAxis, _rotationSpeed * Time.deltaTime);
     }
 
-    
-    public void GiveBuff() 
+
+    public void GiveBuff()
     {
-       if(BuffCardManager._SBuffCardManagerScript)
+        _audioSource.Play();
+
+        if (BuffCardManager._SBuffCardManagerScript)
         {
             BuffCardManager._SBuffCardManagerScript.RollBuff();
         }
-
-       Destroy(gameObject);
     }
 }

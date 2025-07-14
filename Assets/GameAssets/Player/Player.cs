@@ -76,7 +76,6 @@ public class Player : MonoBehaviour
     #endregion
 
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _attackSound;
 
     private void Awake()
     {
@@ -187,8 +186,10 @@ public class Player : MonoBehaviour
 
         if (_syncAnimTimer.Flag)
         {
-            _audioSource.clip = _attackSound;
-            _audioSource.Play();
+            if (_audioSource != null)
+            {
+                _audioSource.Play();
+            }
 
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
             projectile.GetComponent<Projectile>().Init((float)Math.Round(UnityEngine.Random.Range((_attackDamageCurrent - _attackDamageCurrent * 0.1f), (_attackDamageCurrent + _attackDamageCurrent * 0.1f)), 2),
