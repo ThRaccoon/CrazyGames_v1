@@ -75,6 +75,9 @@ public class Player : MonoBehaviour
     [HideInInspector] public List<GameObject> _enemies;
     #endregion
 
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _attackSound;
+
     private void Awake()
     {
         _attackTimer = new GlobalTimer(_attackSpeedCurrent);
@@ -184,6 +187,9 @@ public class Player : MonoBehaviour
 
         if (_syncAnimTimer.Flag)
         {
+            _audioSource.clip = _attackSound;
+            _audioSource.Play();
+
             GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
             projectile.GetComponent<Projectile>().Init((float)Math.Round(UnityEngine.Random.Range((_attackDamageCurrent - _attackDamageCurrent * 0.1f), (_attackDamageCurrent + _attackDamageCurrent * 0.1f)), 2),
                                                        _projectileMoveSpeedCurrent, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _targetLayerMask, _ignoredLayerMask, true, _projectileParent);
@@ -219,9 +225,9 @@ public class Player : MonoBehaviour
     {
         if (_floatingText)
         {
-            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), 
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f),
                                                 UnityEngine.Random.Range(_floatingTextYOffset - 0.5f, _floatingTextYOffset + 0.5f), transform.position.z);
-            
+
             var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
 
             if (floatingTextObject)
@@ -285,7 +291,7 @@ public class Player : MonoBehaviour
             case EStatsType.EAttackSpeed:
                 {
                     var temp = 1 - (value / 100);
-                    
+
                     _attackSpeedCurrent *= temp;
                     _attackTimer.Duration = _attackSpeedCurrent;
                     _syncedAttackAnimLength *= temp;

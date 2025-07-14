@@ -73,6 +73,9 @@ public class Enemy : MonoBehaviour
     private GlobalTimer _syncAnimTimer;
     #endregion
 
+    private AudioSource _audioSource;
+    private AudioClip _deathSound;
+
     private void Awake()
     {
         if (hasPlayer())
@@ -95,6 +98,12 @@ public class Enemy : MonoBehaviour
 
         if (_health <= 0)
         {
+            if (!_isBarrel && (_audioSource != null && _deathSound != null))
+            {
+                _audioSource.clip = _deathSound;
+                _audioSource.Play();
+            }
+
             _isDead = true;
 
             if (hasPlayer())
@@ -172,13 +181,16 @@ public class Enemy : MonoBehaviour
         return (Player._SPlayerScript != null && Player._SPlayerScript._enemies != null);
     }
 
-    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, Transform projectileParent)
+    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, Transform projectileParent, AudioSource audioSource, AudioClip deathSound)
     {
         _health *= healthMultiplier;
         _damage *= damageMultiplier;
         _expReward *= expRewardMultiplier;
 
         _projectileParent = projectileParent;
+
+        _audioSource = audioSource;
+        _deathSound = deathSound;
     }
 
     private void AttackTarget()

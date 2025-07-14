@@ -72,6 +72,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int _bossTypes;
     #endregion
 
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _deathSound;
+
     private void Awake()
     {
         _mobSpawnTimer = new GlobalTimer(0);
@@ -161,7 +164,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource, _deathSound);
         }
 
         _spawnedMobCountForMultipliers++;
@@ -195,7 +198,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource, _deathSound);
         }
     }
 
