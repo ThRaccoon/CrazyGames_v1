@@ -1720,8 +1720,8 @@ MonoBehaviour:
   _ignoredLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  _health: 125
-  _damage: 2
+  _health: 100
+  _damage: 12
   _expReward: 5
   _attackSpeed: 3
   _attackRange: 8

@@ -2216,7 +2216,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _health: 125
-  _damage: 1
+  _damage: 6
   _expReward: 5
   _attackSpeed: 2
   _attackRange: 12

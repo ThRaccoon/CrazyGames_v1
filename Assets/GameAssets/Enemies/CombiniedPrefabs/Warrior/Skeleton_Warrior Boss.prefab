@@ -1003,13 +1003,13 @@ MonoBehaviour:
   _ignoredLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  _health: 125
-  _damage: 2
+  _health: 200
+  _damage: 15
   _expReward: 5
   _attackSpeed: 3
   _attackRange: 2.5
   _projectileMoveSpeed: 0
-  _moveSpeed: 3.5
+  _moveSpeed: 2
   _detectionDistance: 20
   _isRange: 0
   _isBarrel: 0

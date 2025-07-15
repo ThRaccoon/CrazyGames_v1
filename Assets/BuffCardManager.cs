@@ -12,7 +12,6 @@ public class BuffCard
     [TextArea] public string description;
 }
 
-
 [System.Serializable]
 public class RandomBuffCard
 {
@@ -30,10 +29,8 @@ public class BuffCardManager : MonoBehaviour
     [SerializeField] RandomBuffCard[] _randomBuffCards;
     [SerializeField] GameObject _buffParent;
 
-   
-    bool _canRoll = false;
+    bool _canRoll;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         _SBuffCardManagerScript = this;
@@ -54,18 +51,19 @@ public class BuffCardManager : MonoBehaviour
     public void OnReroll()
     {
         GetRandomUniqueBuffs();
+        
         //if(_canRoll)
-        {
-          //  _canRoll = false;
-        }    
-     
+        //{
+        //  _canRoll = false;
+        //}    
+
     }
 
     public void OnCardBuffClicked(int index)
     {
-        if(index < _randomBuffCards.Length) 
+        if (index < _randomBuffCards.Length)
         {
-            Player._SPlayerScript.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].value);        
+            Player._SPlayerScript.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].value);
         }
         _buffParent.SetActive(false);
 
@@ -73,7 +71,7 @@ public class BuffCardManager : MonoBehaviour
 
     private void GetRandomUniqueBuffs()
     {
-        if(_buffCards.Length < _randomBuffCards.Length) 
+        if (_buffCards.Length < _randomBuffCards.Length)
         {
             return;
         }
@@ -82,7 +80,7 @@ public class BuffCardManager : MonoBehaviour
 
         for (int i = 0; i < _randomBuffCards.Length; i++)
         {
-            
+
             if (_randomBuffCards[i].iconHolder != null)
             {
                 _randomBuffCards[i].iconHolder.sprite = _buffCards[i].icon;
@@ -94,12 +92,12 @@ public class BuffCardManager : MonoBehaviour
             }
             _randomBuffCards[i].value = (float)Math.Round(UnityEngine.Random.Range(_buffCards[i].minValue, _buffCards[i].maxValue), 1);
 
-            if(_randomBuffCards[i].valueHolder)
+            if (_randomBuffCards[i].valueHolder)
             {
                 _randomBuffCards[i].valueHolder.text = "+ " + _randomBuffCards[i].value + "%";
             }
 
-            _randomBuffCards[i].statsType = _buffCards[i].statsType;      
+            _randomBuffCards[i].statsType = _buffCards[i].statsType;
 
         }
 
@@ -117,6 +115,5 @@ public class BuffCardManager : MonoBehaviour
             (_buffCards[k], _buffCards[n]) = (_buffCards[n], _buffCards[k]);
         }
     }
-
 }
 
