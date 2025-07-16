@@ -28,7 +28,7 @@ public class BuffCardManager : MonoBehaviour
     [SerializeField] BuffCard[] _buffCards;
     [SerializeField] RandomBuffCard[] _randomBuffCards;
     [SerializeField] GameObject _buffParent;
-
+    
     bool _canRoll;
 
     void Awake()
@@ -45,7 +45,6 @@ public class BuffCardManager : MonoBehaviour
     {
         GetRandomUniqueBuffs();
         _buffParent.SetActive(true);
-
     }
 
     public void OnReroll()
@@ -61,6 +60,9 @@ public class BuffCardManager : MonoBehaviour
 
     public void OnCardBuffClicked(int index)
     {
+        GameManager._SGameManager.ResumeGame();
+        GameManager._SGameManager.PlayButtonSound();
+
         if (index < _randomBuffCards.Length)
         {
             Player._SPlayerScript.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].value);

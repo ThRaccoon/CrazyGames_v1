@@ -29,5 +29,7 @@ public class Barrel : MonoBehaviour
         {
             BuffCardManager._SBuffCardManagerScript.RollBuff();
         }
+
+        GameManager._SGameManager.PauseGame();
     }
 }

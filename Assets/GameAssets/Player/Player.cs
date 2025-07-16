@@ -93,15 +93,15 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (_healthCurrentMax <= 0)
+        if (_healthCurrent <= 0)
         {
             Destroy(gameObject);
         }
 
-        if (_projectileTarget == null)
+        /*if (_projectileTarget == null)
         {
             _projectileTarget = FindClosest();
-        }
+        }*/
 
         if (_shouldSyncAttackAnim)
         {
