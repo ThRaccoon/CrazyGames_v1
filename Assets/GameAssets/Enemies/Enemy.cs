@@ -6,8 +6,8 @@ public class Enemy : MonoBehaviour, IDamageable
     #region Components
     [Header("Components")]
     [SerializeField] private Animator _animator;
-    [SerializeField] private LayerMask _targetLayerMask;
-    [SerializeField] private LayerMask _ignoredLayerMask;
+    [SerializeField] private LayerMask _targetLayersMask;
+    [SerializeField] private LayerMask _ignoredLayersMask;
     #endregion
 
     #region Stats
@@ -171,7 +171,7 @@ public class Enemy : MonoBehaviour, IDamageable
                 float damage = ((float)Math.Round(UnityEngine.Random.Range((_damage - _damage * 0.1f), (_damage + _damage * 0.1f)), 2));
                 _projectileSpawnPoint.Set(transform.position.x, _projectileYOffset, transform.position.z);
                 GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
-                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, _projectileParent);
+                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayersMask, _ignoredLayersMask, _projectileParent);
             }
             else
             {

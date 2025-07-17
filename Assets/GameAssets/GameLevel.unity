@@ -7212,8 +7212,8 @@ MonoBehaviour:
   _damageMultiplier: 1
   _baseExpRewardMultiplier: 0
   _expRewardMultiplier: 1
-  _mobSpawnInterval: 1
-  _bossSpawnInterval: 44
+  _mobSpawnInterval: 2.5
+  _bossSpawnInterval: 25
   _barrelSpawnInterval: 20
   _multipliersIncrementThreshold: 12
   _spawnedMobCountForMultipliers: 0
@@ -10904,25 +10904,39 @@ MonoBehaviour:
   _playerInputManager: {fileID: 9132245414744027220}
   _mainCamera: {fileID: 330585545}
   _animator: {fileID: 9132245414744027222}
-  _targetLayerMask:
+  _targetLayersMask:
     serializedVersion: 2
     m_Bits: 512
-  _healthBase: 100
-  _healthCurrent: 100
-  _healthCurrentMax: 100
-  _healthRegenerationBase: 1
-  _healthRegenerationCurrent: 1
-  _attackDamageBase: 15
-  _attackDamageCurrent: 15
-  _attackSpeedBase: 0.5
-  _attackSpeedCurrent: 0.5
+  _ignoredLayersMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _thunderPrefab: {fileID: 5627696518775099638, guid: 390cc74915d4a054bbd897e1885047a4, type: 3}
+  _thunderCritPrefab: {fileID: 5627696518775099638, guid: 00dd6efc06d3d904f8c54712b85f5042, type: 3}
+  _thunderLifeTime: 1
+  _baseHealth: 100
+  _currentHealth: 100
+  _maxHealth: 100
+  _baseHealthRegen: 1
+  _currentHealthRegen: 1
+  _baseHealthRegenRate: 1
+  _currentHealthRegenRate: 1
+  _baseAttackDamage: 15
+  _currentAttackDamage: 15
+  _baseAttackSpeed: 0.5
+  _currentAttackSpeed: 0.5
+  _baseSplashDamage: 5
+  _currentSplashDamage: 5
+  _baseSplashRadius: 3
+  _currentSplashRadius: 3
+  _baseCritChance: 0.5
+  _currentCritChance: 0.5
+  _baseCritMultiplier: 2
+  _currentCritMultiplier: 2
   _syncedAttackAnimLength: 0.5
   _animationAttackMultiplier: 1
   _floatingText: {fileID: 6412869242250956483, guid: 0e0175709a17ff74793ba3189cf8fc16, type: 3}
   _floatingTextYOffset: 0
   _enemies: []
-  _thunderPrefab: {fileID: 5627696518775099638, guid: 390cc74915d4a054bbd897e1885047a4, type: 3}
-  _thunderLifeTime: 2
   _a: {fileID: 9132245414744027225}
   _b: {fileID: 8300000, guid: a245ee5d75348c84a89ffb7992f1dc82, type: 3}
 --- !u!95 &9132245414744027222
