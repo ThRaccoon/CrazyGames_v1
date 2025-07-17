@@ -7212,7 +7212,7 @@ MonoBehaviour:
   _damageMultiplier: 1
   _baseExpRewardMultiplier: 0
   _expRewardMultiplier: 1
-  _mobSpawnInterval: 4
+  _mobSpawnInterval: 1
   _bossSpawnInterval: 44
   _barrelSpawnInterval: 20
   _multipliersIncrementThreshold: 12
@@ -7223,7 +7223,9 @@ MonoBehaviour:
   _spawnedBossCountForBossType: 0
   _mobTypes: 0
   _bossTypes: 0
-  _audioSource: {fileID: 1745741060}
+  _barrelHealth: 0.1
+  _barrelMoveSpeed: 5
+  _barrelLifeTime: 15
   _deathSound: {fileID: 8300000, guid: b3109faa303d0234c8d0a8d03be8e8c4, type: 3}
 --- !u!82 &1745741060
 AudioSource:
@@ -10905,33 +10907,24 @@ MonoBehaviour:
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  _ignoredLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
   _healthBase: 100
-  _healthCurrentMax: 100
   _healthCurrent: 100
+  _healthCurrentMax: 100
   _healthRegenerationBase: 1
   _healthRegenerationCurrent: 1
   _attackDamageBase: 15
   _attackDamageCurrent: 15
   _attackSpeedBase: 0.5
   _attackSpeedCurrent: 0.5
-  _attackRange: 41
-  _projectileMoveSpeedBase: 15
-  _projectileMoveSpeedCurrent: 15
   _syncedAttackAnimLength: 0.5
   _animationAttackMultiplier: 1
-  _projectilePrefab: {fileID: 4186548445768455643, guid: ec9915b9077e1fb46b8070dc173b0609, type: 3}
-  _projectileParent: {fileID: 7515825}
-  _projectileSpawnPoint: {fileID: 228992661}
-  _projectileLifeTime: 3
-  _projectileYOffset: 1.25
-  _projectileTarget: {fileID: 0}
   _floatingText: {fileID: 6412869242250956483, guid: 0e0175709a17ff74793ba3189cf8fc16, type: 3}
   _floatingTextYOffset: 0
   _enemies: []
-  _audioSource: {fileID: 9132245414744027225}
+  _thunderPrefab: {fileID: 5627696518775099638, guid: 390cc74915d4a054bbd897e1885047a4, type: 3}
+  _thunderLifeTime: 2
+  _a: {fileID: 9132245414744027225}
+  _b: {fileID: 8300000, guid: a245ee5d75348c84a89ffb7992f1dc82, type: 3}
 --- !u!95 &9132245414744027222
 Animator:
   serializedVersion: 7

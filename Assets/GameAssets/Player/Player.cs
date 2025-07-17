@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum EStatsType { EHealth, EHealthRegen, EAttackDamage, EAttackSpeed, EProjectileSpeed }
+public enum EStatsType { EHealth, EHealthRegen, EAttackDamage, EAttackSpeed }
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     #region Components
     [Header("Components")]
@@ -12,15 +12,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Animator _animator;
     [SerializeField] private LayerMask _targetLayerMask;
-    [SerializeField] private LayerMask _ignoredLayerMask;
     #endregion
 
     #region Stats
     [Space(15)]
     [Header("Stats")]
     [SerializeField] private float _healthBase;
-    [SerializeField] private float _healthCurrentMax;
     [SerializeField] private float _healthCurrent;
+    [SerializeField] private float _healthCurrentMax;
 
     [SerializeField] private float _healthRegenerationBase;
     [SerializeField] private float _healthRegenerationCurrent;
@@ -30,11 +29,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _attackSpeedBase;
     [SerializeField] private float _attackSpeedCurrent;
-
-    [SerializeField] private float _attackRange;
-
-    [SerializeField] private float _projectileMoveSpeedBase;
-    [SerializeField] private float _projectileMoveSpeedCurrent;
     #endregion
 
     #region Animations
@@ -44,19 +38,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float _animationAttackMultiplier;
 
     private bool _shouldSyncAttackAnim;
-    #endregion
-
-    #region Projectile
-    [Space(15)]
-    [Header("Projectile")]
-    [SerializeField] private GameObject _projectilePrefab;
-    [SerializeField] private Transform _projectileParent;
-    [SerializeField] private Transform _projectileSpawnPoint;
-    [SerializeField] private float _projectileLifeTime;
-    [SerializeField] private float _projectileYOffset;
-
-    private Vector3 _projectileTargetInitPos;
-    [HideInInspector] public GameObject _projectileTarget;
     #endregion
 
     #region Floating Text
@@ -75,7 +56,14 @@ public class Player : MonoBehaviour
     [HideInInspector] public List<GameObject> _enemies;
     #endregion
 
-    [SerializeField] private AudioSource _audioSource;
+    private GameObject _target;
+    private BoxCollider _targetBoxCollider;
+
+    [SerializeField] private GameObject _thunderPrefab;
+    [SerializeField] private float _thunderLifeTime;
+
+    [SerializeField] private AudioSource _a;
+    [SerializeField] private AudioClip _b;
 
     private void Awake()
     {
@@ -93,16 +81,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (_healthCurrent <= 0)
-        {
-            Destroy(gameObject);
-        }
-
-        /*if (_projectileTarget == null)
-        {
-            _projectileTarget = FindClosest();
-        }*/
-
         if (_shouldSyncAttackAnim)
         {
             SyncAttackAnimation();
@@ -113,7 +91,7 @@ public class Player : MonoBehaviour
             AttackCooldown();
         }
 
-        if (_projectileTarget != null && _canAttack && !_shouldSyncAttackAnim)
+        if (_canAttack && !_shouldSyncAttackAnim)
         {
             if (AttackTarget())
             {
@@ -129,23 +107,18 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, _targetLayerMask))
         {
-            _projectileTarget = hit.collider.gameObject;
+            _target = hit.collider.gameObject;
+            _targetBoxCollider = _target.GetComponent<BoxCollider>();
 
             UpdateLookAt();
-
-            Debug.Log(_projectileTarget.name);
         }
     }
 
     private bool AttackTarget()
     {
-        float targetDistance = Vector3.Distance(transform.position, _projectileTarget.transform.position);
-
-        if (_projectileTarget != null && _attackRange >= targetDistance)
+        if (_target != null && _targetBoxCollider != null)
         {
             UpdateLookAt();
-
-            _projectileTargetInitPos = _projectileTarget.transform.position;
 
             if (_animator != null)
             {
@@ -158,14 +131,6 @@ public class Player : MonoBehaviour
         }
 
         return false;
-    }
-
-    private void UpdateLookAt()
-    {
-        if (_projectileTarget != null)
-        {
-            transform.LookAt(_projectileTarget.transform);
-        }
     }
 
     private void AttackCooldown()
@@ -186,14 +151,17 @@ public class Player : MonoBehaviour
 
         if (_syncAnimTimer.Flag)
         {
-            if (_audioSource != null)
+            if (_target != null && _targetBoxCollider != null)
             {
-                _audioSource.Play();
-            }
+                _a.clip = _b;
+                _a.Play();
 
-            GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Init((float)Math.Round(UnityEngine.Random.Range((_attackDamageCurrent - _attackDamageCurrent * 0.1f), (_attackDamageCurrent + _attackDamageCurrent * 0.1f)), 2),
-                                                       _projectileMoveSpeedCurrent, _projectileLifeTime, _projectileTargetInitPos, _projectileTarget, _targetLayerMask, _ignoredLayerMask, true, _projectileParent);
+                GameObject thunderVFX = Instantiate(_thunderPrefab, _target.transform.position, Quaternion.identity);
+                Destroy(thunderVFX, _thunderLifeTime);
+
+                IDamageable target = _target.GetComponent<IDamageable>();
+                target.TakeDamage(_attackDamageCurrent);
+            }
 
             _shouldSyncAttackAnim = false;
 
@@ -201,25 +169,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    private GameObject FindClosest()
+    private void UpdateLookAt()
     {
-        GameObject closest = null;
-        float minDistance = Mathf.Infinity;
-
-        foreach (GameObject obj in _enemies)
+        if (_target != null && _targetBoxCollider != null)
         {
-            if (obj == null) continue;
-
-            float distance = Vector3.Distance(obj.transform.position, gameObject.transform.position);
-
-            if (distance < minDistance && distance <= _attackRange)
-            {
-                minDistance = distance;
-                closest = obj;
-            }
+            transform.LookAt(_target.transform);
         }
-
-        return closest;
+        else
+        {
+            transform.rotation = Quaternion.identity;
+        }
     }
 
     private void DisplayDamage(float dmg)
@@ -260,13 +219,8 @@ public class Player : MonoBehaviour
         //ToDo Pres 
     }
 
-    // --- Getters / Setters ---
-    public void TakeDamage(float dmg)
-    {
-        _healthCurrent -= dmg;
-        DisplayDamage(dmg);
-    }
 
+    // --- Apply Buffs ---
     public void ApplyBuff(EStatsType type, float value)
     {
         switch (type)
@@ -305,12 +259,6 @@ public class Player : MonoBehaviour
                     }
                 }
                 break;
-            case EStatsType.EProjectileSpeed:
-                {
-                    value = 1 + (value / 100);
-                    _projectileMoveSpeedCurrent *= value;
-                }
-                break;
         }
     }
 
@@ -338,21 +286,38 @@ public class Player : MonoBehaviour
                     _attackSpeedBase -= value;
                 }
                 break;
-            case EStatsType.EProjectileSpeed:
-                {
-                    _projectileMoveSpeedBase += value;
-                }
-                break;
         }
     }
 
 
-    private void OnDrawGizmos()
+    // --- Interface ---
+    public void TakeDamage(float dmg)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(new Vector3(transform.position.x, transform.position.y + _projectileYOffset, transform.position.z), Vector3.forward);
+        _healthCurrent -= dmg;
+        DisplayDamage(dmg);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        // ToDo Game Over
+        // if (_healthCurrent <= 0){}
     }
 }
+
+/*private GameObject FindClosest()
+   {
+       GameObject closest = null;
+       float minDistance = Mathf.Infinity;
+
+       foreach (GameObject obj in _enemies)
+       {
+           if (obj == null) continue;
+
+           float distance = Vector3.Distance(obj.transform.position, gameObject.transform.position);
+
+           if (distance < minDistance && distance <= _attackRange)
+           {
+               minDistance = distance;
+               closest = obj;
+           }
+       }
+
+       return closest;
+   }*/

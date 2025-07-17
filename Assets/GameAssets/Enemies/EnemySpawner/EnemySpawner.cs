@@ -72,7 +72,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int _bossTypes;
     #endregion
 
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private float _barrelHealth;
+    [SerializeField] private float _barrelMoveSpeed;
+    [SerializeField] private float _barrelLifeTime;
+
+
     [SerializeField] private AudioClip _deathSound;
 
     private void Awake()
@@ -150,12 +154,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnMob()
     {
-        if (_mobPrefabs.Length == 0)
-        {
-            Debug.LogWarning("Spawner: mob prefab list is empty!");
-            return;
-        }
-
         GameObject prefab = _mobPrefabs[UnityEngine.Random.Range(0, _mobTypes + 1)];
         Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15.5f), 0, 65);
 
@@ -164,7 +162,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent);
         }
 
         _spawnedMobCountForMultipliers++;
@@ -174,12 +172,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnBoss()
     {
-        if (_bossPrefabs.Length == 0)
-        {
-            Debug.LogWarning("Spawner: boss prefab list is empty!");
-            return;
-        }
-
         GameObject prefab;
 
         if (_bossTypes != _bossPrefabs.Length - 1)
@@ -198,21 +190,20 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent, _audioSource);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _projectileParent);
         }
     }
 
     private void SpawnBarrel()
     {
-        if (_barrelPrefab == null || _barrelSpawnPositions.Length == 0)
-        {
-            Debug.LogWarning("Spawner: no barrel prefab or spawn point found!");
-            return;
-        }
-
         Vector3 position = _barrelSpawnPositions[UnityEngine.Random.Range(0, _barrelSpawnPositions.Length)];
-
         var barrel = Instantiate(_barrelPrefab, position, Quaternion.Euler(0, 0, 90));
+        var barrelScript = barrel.GetComponent<Barrel>();
+
+        if (barrelScript != null) 
+        {
+            barrelScript.Init(_barrelHealth, _barrelMoveSpeed, _barrelLifeTime);
+        }
     }
 
     private void ResetSpawner()

@@ -880,7 +880,6 @@ GameObject:
   m_Component:
   - component: {fileID: 861977594427186478}
   - component: {fileID: 9022399601266066971}
-  - component: {fileID: 3394164413458993124}
   - component: {fileID: 5308610279397096342}
   - component: {fileID: 4706898690359360352}
   m_Layer: 9
@@ -936,33 +935,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!54 &3394164413458993124
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4484581747811076669}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &5308610279397096342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1012,7 +984,6 @@ MonoBehaviour:
   _moveSpeed: 2
   _detectionDistance: 20
   _isRange: 0
-  _isBarrel: 0
   _syncedAttackAnimLength: 1
   _projectilePrefab: {fileID: 0}
   _projectileLifeTime: 0

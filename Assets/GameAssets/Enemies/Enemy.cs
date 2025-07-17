@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     #region Components
     [Header("Components")]
@@ -27,7 +27,6 @@ public class Enemy : MonoBehaviour
 
     [Space(5)]
     [SerializeField] private bool _isRange;
-    [SerializeField] public bool _isBarrel;
     #endregion
 
     #region Animations
@@ -69,11 +68,10 @@ public class Enemy : MonoBehaviour
     private bool _isChasingTarget;
     private float _distanceToTarget;
     private Vector3 _targetPos;
+    private Vector3 _direction;
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
     #endregion
-
-    private AudioSource _audioSource;
 
     private void Awake()
     {
@@ -90,116 +88,63 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (_isDead)
+        if (_isDead) return;
+
+        _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
+
+        if (!_isChasingTarget)
         {
-            return;
-        }
-
-        if (_health <= 0)
-        {
-
-
-            if (_audioSource != null)
+            if (_distanceToTarget <= _detectionDistance)
             {
-                _audioSource.Play();
+                _isChasingTarget = true;
             }
-
-            _isDead = true;
-
-            if (hasPlayer())
+            else
             {
-                Player._SPlayerScript._projectileTarget = null;
-                Player._SPlayerScript._enemies.Remove(gameObject);
+                transform.position += transform.forward * _moveSpeed * Time.deltaTime;
             }
-
-            BoxCollider collider = GetComponent<BoxCollider>();
-            if (collider != null)
-                Destroy(collider);
-
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null)
-                Destroy(rb);
-
-            if (_animator != null)
-                _animator.Play("Death");
-
-            if (_isBarrel)
-            {
-                var meshRenderer = GetComponent<MeshRenderer>();
-
-                if (meshRenderer != null)
-                {
-                    Destroy(meshRenderer);
-                }
-            }
-
-            Destroy(gameObject, _waitBeforeDestroy);
-        }
-
-        if (_isBarrel)
-        {
-            transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
         }
         else
         {
-            _distanceToTarget = Vector3.Distance(transform.position, _targetPos);
-
-            if (!_isChasingTarget)
+            if (_distanceToTarget > _attackRange)
             {
-                if (_distanceToTarget <= _detectionDistance)
-                {
-                    _isChasingTarget = true;
-                }
-                else
-                {
-                    transform.position += transform.forward * _moveSpeed * Time.deltaTime;
-                }
+                _direction = (_targetPos - transform.position).normalized;
+                transform.position += _direction * _moveSpeed * Time.deltaTime;
+
+                transform.LookAt(_targetPos);
             }
-
-            if (_isChasingTarget)
+            else
             {
-                if (_distanceToTarget > _attackRange)
+                if (_shouldSyncAttackAnim)
                 {
-                    Vector3 direction = (_targetPos - transform.position).normalized;
-                    transform.position += direction * _moveSpeed * Time.deltaTime;
-
-                    transform.LookAt(_targetPos);
+                    SyncAttackAnimation();
                 }
-                else
+
+                if (!_canAttack && !_shouldSyncAttackAnim)
                 {
-                    if (_shouldSyncAttackAnim)
-                    {
-                        SyncAttackAnimation();
-                    }
+                    AttackCooldown();
+                }
 
-                    if (!_canAttack && !_shouldSyncAttackAnim)
-                    {
-                        AttackCooldown();
-                    }
-
-                    if (_canAttack && !_shouldSyncAttackAnim)
-                    {
-                        AttackTarget();
-                    }
+                if (_canAttack && !_shouldSyncAttackAnim)
+                {
+                    AttackTarget();
                 }
             }
         }
     }
+
 
     private bool hasPlayer()
     {
         return (Player._SPlayerScript != null && Player._SPlayerScript._enemies != null);
     }
 
-    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, Transform projectileParent, AudioSource audioSource)
+    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, Transform projectileParent)
     {
         _health *= healthMultiplier;
         _damage *= damageMultiplier;
         _expReward *= expRewardMultiplier;
 
         _projectileParent = projectileParent;
-
-        _audioSource = audioSource;
     }
 
     private void AttackTarget()
@@ -226,7 +171,7 @@ public class Enemy : MonoBehaviour
                 float damage = ((float)Math.Round(UnityEngine.Random.Range((_damage - _damage * 0.1f), (_damage + _damage * 0.1f)), 2));
                 _projectileSpawnPoint.Set(transform.position.x, _projectileYOffset, transform.position.z);
                 GameObject projectile = Instantiate(_projectilePrefab, _projectileSpawnPoint, Quaternion.identity);
-                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, false, _projectileParent);
+                projectile.GetComponent<Projectile>().Init(damage, _projectileMoveSpeed, _projectileLifeTime, _targetPos, _targetLayerMask, _ignoredLayerMask, _projectileParent);
             }
             else
             {
@@ -277,5 +222,26 @@ public class Enemy : MonoBehaviour
     {
         _health -= damage;
         DisplayDamage(damage);
+
+        if (_health <= 0)
+        {
+            _isDead = true;
+
+            // Play Sound
+
+            if (hasPlayer())
+            {
+                Player._SPlayerScript._enemies.Remove(gameObject);
+            }
+
+            BoxCollider collider = GetComponent<BoxCollider>();
+            if (collider != null)
+                Destroy(collider);
+
+            if (_animator != null)
+                _animator.Play("Death");
+
+            Destroy(gameObject, _waitBeforeDestroy);
+        }
     }
 }

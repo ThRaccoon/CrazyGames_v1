@@ -1,55 +1,28 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private Enemy _enemy;
-
     // --- Stats ---
     private float _dmg;
     private float _moveSpeed;
 
     // --- Target ---
-    private GameObject _target;
+    Vector3 _targetPos;
     private Vector3 _direction;
     private LayerMask _targetLayerMask;
     private LayerMask _ignoredLayerMask;
 
-    // --- Sender ---
-    private bool _isPlayer;
 
-    // For Player
-    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetInitPos, GameObject target, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer, Transform projectileParent)
+    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask, Transform projectileParent)
     {
         _dmg = dmg;
         _moveSpeed = moveSpeed;
 
-        _direction = (targetInitPos - transform.position).normalized;
-        _target = target;
+        _targetPos.Set(targetPos.x, 1.5f, targetPos.z);
+        _direction = (_targetPos - transform.position).normalized;
+
         _targetLayerMask = targetLayerMask;
-
-        _isPlayer = isPlayer;
-
-        gameObject.transform.SetParent(projectileParent);
-
-        if (_target != null)
-        {
-            _enemy = _target.GetComponent<Enemy>();
-        }
-
-        Destroy(gameObject, lifeTime);
-    }
-
-    // For Enemy
-    public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask, bool isPlayer, Transform projectileParent)
-    {
-        _dmg = dmg;
-        _moveSpeed = moveSpeed;
-
-        _direction = (new Vector3(targetPos.x, 1.5f, targetPos.z) - transform.position).normalized;
-        _targetLayerMask = targetLayerMask;
-
-        _isPlayer = isPlayer;
+        _ignoredLayerMask = ignoredLayerMask;
 
         gameObject.transform.SetParent(projectileParent);
 
@@ -58,59 +31,22 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        if (_target != null && (_enemy != null && _enemy._isDead == false))
-        {
-            Vector3 targetPos = new Vector3(_target.transform.position.x, transform.position.y, _target.transform.position.z);
-            _direction = (targetPos - transform.position).normalized;
-            transform.position += _direction * _moveSpeed * Time.deltaTime;
-        }
-        else
-        {
-            transform.position += _direction * _moveSpeed * Time.deltaTime;
-        }
+        transform.position += _direction * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        int otherLayer = other.gameObject.layer;
+        if (((1 << other.gameObject.layer) & _ignoredLayerMask) != 0) return;
 
-        if (((1 << otherLayer) & _ignoredLayerMask.value) != 0)
-            return;
-
-        if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
+        if (((1 << other.gameObject.layer) & _targetLayerMask) != 0)
         {
-            if (_isPlayer)
+            IDamageable target = other.GetComponent<IDamageable>();
+            if (target != null)
             {
-                var enemyScript = other.gameObject.GetComponent<Enemy>();
-
-                if (enemyScript != null)
-                {
-                    if (enemyScript._isBarrel)
-                    {
-                        var barrelScript = other.gameObject.GetComponent<Barrel>();
-
-                        if (barrelScript != null)
-                        {
-                            barrelScript.GiveBuff();
-                        }
-                    }
-
-                    enemyScript.TakeDamage(_dmg);
-                }
-
-                Destroy(gameObject);
-            }
-            else
-            {
-                var playerScript = other.gameObject.GetComponent<Player>();
-
-                if (playerScript != null)
-                {
-                    playerScript.TakeDamage(_dmg);
-                }
-
-                Destroy(gameObject);
+                target.TakeDamage(_dmg);
             }
         }
+
+        Destroy(gameObject);
     }
 }
