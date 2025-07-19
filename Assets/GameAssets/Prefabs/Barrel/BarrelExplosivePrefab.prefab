@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5443913190002314203}
   - component: {fileID: 2956930027249100608}
   m_Layer: 9
-  m_Name: BarrelPrefab
+  m_Name: BarrelExplosivePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,9 +66,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7575915981058242857, guid: 226b2671c51702f4da889ba8f297f34d, type: 3}
-  - {fileID: -4973734387028869240, guid: 226b2671c51702f4da889ba8f297f34d, type: 3}
-  - {fileID: -2867747967464863736, guid: 226b2671c51702f4da889ba8f297f34d, type: 3}
+  - {fileID: 2100000, guid: 44aad708b2b16014ca3ed4a7e29887f6, type: 2}
+  - {fileID: 2100000, guid: a9dd9c9d0447dc940b202659bf5aa294, type: 2}
+  - {fileID: 2100000, guid: 44aad708b2b16014ca3ed4a7e29887f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,3 +129,4 @@ MonoBehaviour:
   _lifeTime: 15
   _breakingBarrel: {fileID: 8300000, guid: 9be9455a425dd4a409bb6c05b3ebcb91, type: 3}
   _breakingBarrelVolume: 0.25
+  _barrelType: 1

@@ -2,40 +2,73 @@ using UnityEngine;
 
 public class Barrel : MonoBehaviour, IDamageable
 {
-    [SerializeField] Vector3 _rotationAxis;
-    [SerializeField] float _rotationSpeed;
-
-    [Space(15)]
-    [SerializeField] private float _moveSpeed;
-    [SerializeField] private float _lifeTime;
-
-    [SerializeField] private AudioClip _breakingBarrel;
-    [SerializeField] private float _breakingBarrelVolume;
-
+    private BarrelData _barrelData;
+    private Vector3 _rotationAxis;
+    private float _rotationSpeed = 90;
+    private float _moveSpeed = 5;
+    private float _multiplier;
+    
     private void Update()
     {
         transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
         transform.Rotate(_rotationAxis, _rotationSpeed * Time.deltaTime);
     }
 
-    public void Init(float health, float moveSpeed, float lifeTime)
+    public void Init(BarrelData barrelData,float multiplier)
     {
-        _moveSpeed = moveSpeed;
-        _lifeTime = lifeTime;
+        _multiplier = multiplier < 1 ? 1 : multiplier;
+        _barrelData = barrelData;
+        _rotationAxis = _barrelData.rotationAxis;
+        _rotationSpeed = _barrelData.rotationSpeed;
+        _moveSpeed = _barrelData.moveSpeed;
 
-        Destroy(gameObject, _lifeTime);
+        Destroy(gameObject, _barrelData.lifeTime);
     }
 
-    public void TakeDamage(float damage)
+    void BarrelDestroy()
     {
-        GiveBuff();
+        AudioManager.SAudioManager.PlaySoundFXClip(_barrelData.breakingBarrelClip, _barrelData.breakingBarrelVolume, transform.position);
+
+
+        switch (_barrelData.type)
+        {
+            case BarrelData.EBarrelType.EBuff:
+                {
+                    GiveBuff();
+                }
+                break;
+            case BarrelData.EBarrelType.EExplosive:
+                {
+                    Explode();
+                }
+                break;
+        }
+
 
         Destroy(gameObject);
     }
 
-    public void GiveBuff()
+    public void TakeDamage(float damage)
     {
-        AudioManager.SAudioManager.PlaySoundFXClip(_breakingBarrel, _breakingBarrelVolume, transform.position);
+        BarrelDestroy();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        //If colide with Player{}
+
+        BarrelDestroy();
+        
+    }
+
+    private void Explode()
+    {
+
+    }
+
+    private void GiveBuff()
+    {
 
         if (BuffCardManager._SBuffCardManagerScript)
         {

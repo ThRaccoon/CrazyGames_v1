@@ -1,4 +1,5 @@
 using UnityEngine;
+using static BarrelData;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject[] _bossPrefabs;
 
     [Space(5)]
-    [SerializeField] private GameObject _barrelPrefab;
+    [Header("Barrels")]
+    [SerializeField] private BarrelDatabase _barrelDatabase;
     [SerializeField] private Vector3[] _barrelSpawnPositions;
     #endregion
 
@@ -69,11 +71,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int _bossTypes;
     #endregion
 
-    [SerializeField] private float _barrelHealth;
-    [SerializeField] private float _barrelMoveSpeed;
-    [SerializeField] private float _barrelLifeTime;
-
-
+  
     [SerializeField] private AudioClip _deathSound;
 
     private void Awake()
@@ -199,14 +197,31 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnBarrel()
     {
         Vector3 position = _barrelSpawnPositions[UnityEngine.Random.Range(0, _barrelSpawnPositions.Length)];
-        
-        var barrel = Instantiate(_barrelPrefab, position, Quaternion.Euler(0, 0, 90));
-        var barrelScript = barrel.GetComponent<Barrel>();
-
-        if (barrelScript != null) 
+        BarrelData barrelData = GetBarrelDataByroll(UnityEngine.Random.Range(0, 101));
+        if(barrelData != null) 
         {
-            barrelScript.Init(_barrelHealth, _barrelMoveSpeed, _barrelLifeTime);
+           var barrel = Instantiate(barrelData.prefab, position, Quaternion.Euler(0, 0, 90));
+           var barrelScript = barrel.GetComponent<Barrel>();
+
+           if (barrelScript != null) 
+           {
+                     barrelScript.Init(barrelData, _damageMultiplier);
+           }
         }
+
+    }
+
+    private BarrelData GetBarrelDataByroll(int roll) 
+    {
+       foreach (var barrel in _barrelDatabase.barrels) 
+        {
+            if(roll >= barrel.rollRangeToSpawnFrom && roll <= barrel.rollRangeToSpawnTo)
+            {
+                return barrel;
+            }
+        }
+
+       return null;
     }
 
     private void ResetSpawner()
