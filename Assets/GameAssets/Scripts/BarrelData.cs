@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BarrelData", menuName = "Scriptable Objects/BarrelData")]
 public class BarrelData : ScriptableObject
 {
-    
     public enum EBarrelType { EBuff, EExplosive }
 
     [Header("General Barrel Settings")]
     public EBarrelType type;
     public GameObject prefab;
     public float lifeTime;
+    public LayerMask targetLayersMask;
 
     [Header("SpawnChance")]
     public int rollRangeToSpawnFrom;
@@ -28,12 +28,12 @@ public class BarrelData : ScriptableObject
     public AudioClip breakingBarrelClip;
     public float breakingBarrelVolume;
 
-    [Header ("==============Barrel Types Settings==============")]
+    [Header("==============Barrel Types Settings==============")]
 
     [Space(5)]
     [Header("Explosive Barrel Settings")]
     public float ExplosionDamage;
     public float ExplosionRange;
 
-    
+
 }

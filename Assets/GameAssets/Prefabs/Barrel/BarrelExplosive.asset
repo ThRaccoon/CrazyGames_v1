@@ -15,6 +15,9 @@ MonoBehaviour:
   type: 1
   prefab: {fileID: 4909978321946014772, guid: 848ebbfbbea77904c9f8b6f2016ba4df, type: 3}
   lifeTime: 15
+  targetLayersMask:
+    serializedVersion: 2
+    m_Bits: 256
   rollRangeToSpawnFrom: 76
   rollRangeToSpawnTo: 100
   moveSpeed: 5
@@ -24,5 +27,5 @@ MonoBehaviour:
   VFXOnDestroyLifeTime: 3
   breakingBarrelClip: {fileID: 8300000, guid: 717aef52a712ea44c8c5383e25d55577, type: 3}
   breakingBarrelVolume: 0.75
-  ExplosionDamage: 15
-  ExplosionRange: 15
+  ExplosionDamage: 100
+  ExplosionRange: 7.5

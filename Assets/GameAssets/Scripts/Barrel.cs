@@ -8,14 +8,16 @@ public class Barrel : MonoBehaviour, IDamageable
     private float _rotationSpeed = 90;
     private float _moveSpeed = 5;
     private float _multiplier;
-    
+    private bool _isExploded;
+    private LayerMask _targetLayersMask;
+
     private void Update()
     {
         transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
         transform.Rotate(_rotationAxis, _rotationSpeed * Time.deltaTime);
     }
 
-    public void Init(BarrelData barrelData,float multiplier)
+    public void Init(BarrelData barrelData, float multiplier)
     {
         _multiplier = multiplier < 1 ? 1 : multiplier;
         _barrelData = barrelData;
@@ -23,13 +25,15 @@ public class Barrel : MonoBehaviour, IDamageable
         _rotationSpeed = _barrelData.rotationSpeed;
         _moveSpeed = _barrelData.moveSpeed;
 
+        _targetLayersMask = barrelData.targetLayersMask;
+
         Destroy(gameObject, _barrelData.lifeTime);
     }
 
     void BarrelDestroy()
     {
         InstantiateFXOnDestroy();
-        
+
         switch (_barrelData.type)
         {
             case BarrelData.EBarrelType.EBuff:
@@ -39,7 +43,10 @@ public class Barrel : MonoBehaviour, IDamageable
                 break;
             case BarrelData.EBarrelType.EExplosive:
                 {
-                    Explode();
+                    if (!_isExploded)
+                    {
+                        Explode();
+                    }
                 }
                 break;
         }
@@ -50,7 +57,7 @@ public class Barrel : MonoBehaviour, IDamageable
 
     public void InstantiateFXOnDestroy()
     {
-        if(_barrelData.VFXPrefabOnDestroy != null)
+        if (_barrelData.VFXPrefabOnDestroy != null)
         {
             var vfx = Instantiate(_barrelData.VFXPrefabOnDestroy, transform.position, transform.rotation);
             if (vfx != null)
@@ -69,27 +76,46 @@ public class Barrel : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-
-        //If colide with Player{}
-
-        BarrelDestroy();
-        
+        if (((1 << other.gameObject.layer) & _targetLayersMask) != 0)
+        {
+            BarrelDestroy();
+        }
     }
 
+    private Collider[] _hitColliders;
+ 
     private void Explode()
     {
+        _isExploded = true;
 
+        _hitColliders = Physics.OverlapSphere(transform.position, _barrelData.ExplosionRange);
+
+        foreach (Collider hit in _hitColliders)
+        {
+            if (hit.gameObject == gameObject) continue;
+
+            IDamageable splashTarget = hit.GetComponent<IDamageable>();
+            if (splashTarget != null)
+            {
+                splashTarget.TakeDamage(_barrelData.ExplosionDamage);
+            }
+        }
     }
 
     private void GiveBuff()
     {
-
         if (BuffCardManager._SBuffCardManagerScript)
         {
             BuffCardManager._SBuffCardManagerScript.RollBuff();
             Player._SPlayerScript.InstantiateBuffSoundVisualEffect();
         }
-
     }
 
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(transform.position, _barrelData.ExplosionRange);
+    }
 }

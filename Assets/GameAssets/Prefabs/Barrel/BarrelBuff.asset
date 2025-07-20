@@ -15,6 +15,9 @@ MonoBehaviour:
   type: 0
   prefab: {fileID: 4909978321946014772, guid: 9a081faee11520b46a84ec195d461da4, type: 3}
   lifeTime: 15
+  targetLayersMask:
+    serializedVersion: 2
+    m_Bits: 256
   rollRangeToSpawnFrom: 0
   rollRangeToSpawnTo: 75
   moveSpeed: 5

@@ -10,8 +10,8 @@ public class Projectile : MonoBehaviour
     #region Target
     private Vector3 _targetPos;
     private Vector3 _targetDir;
-    private LayerMask _targetLayerMask;
-    private LayerMask _ignoredLayerMask;
+    private LayerMask _targetLayersMask;
+    private LayerMask _ignoredLayersMask;
     #endregion
 
     public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask)
@@ -22,8 +22,8 @@ public class Projectile : MonoBehaviour
         _targetPos.Set(targetPos.x, 1.5f, targetPos.z);
         _targetDir = (_targetPos - transform.position).normalized;
 
-        _targetLayerMask = targetLayerMask;
-        _ignoredLayerMask = ignoredLayerMask;
+        _targetLayersMask = targetLayerMask;
+        _ignoredLayersMask = ignoredLayerMask;
 
         Destroy(gameObject, lifeTime);
     }
@@ -35,9 +35,9 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (((1 << other.gameObject.layer) & _ignoredLayerMask) != 0) return;
+        if (((1 << other.gameObject.layer) & _ignoredLayersMask) != 0) return;
 
-        if (((1 << other.gameObject.layer) & _targetLayerMask) != 0)
+        if (((1 << other.gameObject.layer) & _targetLayersMask) != 0)
         {
             IDamageable target = other.GetComponent<IDamageable>();
             if (target != null)
