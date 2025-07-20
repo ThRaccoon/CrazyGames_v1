@@ -28,7 +28,7 @@ public class BuffCardManager : MonoBehaviour
     [SerializeField] BuffCard[] _buffCards;
     [SerializeField] RandomBuffCard[] _randomBuffCards;
     [SerializeField] GameObject _buffParent;
-    
+
     bool _canRoll;
 
     void Awake()

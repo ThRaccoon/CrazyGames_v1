@@ -205,7 +205,7 @@ public class EnemySpawner : MonoBehaviour
 
            if (barrelScript != null) 
            {
-                     barrelScript.Init(barrelData, _damageMultiplier);
+               barrelScript.Init(barrelData, _damageMultiplier);
            }
         }
 

@@ -20,6 +20,10 @@ public class BarrelData : ScriptableObject
     public Vector3 rotationAxis;
     public float rotationSpeed;
 
+    [Header("General Barrel VFX Settings")]
+    public GameObject VFXPrefabOnDestroy;
+    public float VFXOnDestroyLifeTime;
+
     [Header("General Barrel SFX Settings")]
     public AudioClip breakingBarrelClip;
     public float breakingBarrelVolume;

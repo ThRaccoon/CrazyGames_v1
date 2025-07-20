@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum EStatsType { EHealth, EHealthRegen, EAttackDamage, EAttackSpeed, ESplashDamage }
 
@@ -12,6 +14,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private Animator _animator;
     [SerializeField] private LayerMask _targetLayersMask;
     [SerializeField] private LayerMask _ignoredLayersMask;
+    [SerializeField] private Image _healthFillImage;
     #endregion
 
     #region VFX
@@ -54,6 +57,9 @@ public class Player : MonoBehaviour, IDamageable
 
     [SerializeField] private float _baseCritMultiplier;
     [SerializeField] private float _currentCritMultiplier;
+
+    [SerializeField] private float _currentXP;
+    [SerializeField] private float _maxXP;
     #endregion
 
     #region Animations
@@ -92,6 +98,12 @@ public class Player : MonoBehaviour, IDamageable
 
     [SerializeField] private AudioClip _attackSound;
     [SerializeField, Range(0f, 1f)] private float _attackSoundVolume;
+
+    [SerializeField] private AudioClip _buffUpSFX;
+    [SerializeField, Range(0f, 1f)] private float _buffUpSFXSoundVolume;
+
+    [SerializeField] private GameObject _buffUpVFX;
+    private GameObject _buffUpInstance;
 
     private void Awake()
     {
@@ -274,10 +286,19 @@ public class Player : MonoBehaviour, IDamageable
                 _currentHealth = Mathf.Min(_currentHealth + _currentHealthRegen, _maxHealth);
 
                 _healthRegenTimer.Reset();
+                UpdateHealthBar();
             }
         }
     }
 
+    private void UpdateHealthBar()
+    {
+        float healthPercent = _currentHealth / _maxHealth;
+        if (_healthFillImage != null)
+        {
+            _healthFillImage.fillAmount = healthPercent;
+        }
+    }
     private void ResetPlayer()
     {
         //Health
@@ -298,6 +319,11 @@ public class Player : MonoBehaviour, IDamageable
     // --- Apply Buffs ---
     public void ApplyBuff(EStatsType type, float value)
     {
+        if(_buffUpInstance != null)
+        {
+            Destroy(_buffUpInstance);
+        }
+
         switch (type)
         {
             case EStatsType.EHealth:
@@ -375,12 +401,32 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    public void InstantiateBuffSoundVisualEffect()
+    {
+        if (_buffUpVFX != null)
+        {
+             Vector3 buffUpVFXPosition = new Vector3(transform.position.x, transform.position.y+0.35f, transform.position.z);
+             _buffUpInstance = Instantiate(_buffUpVFX, buffUpVFXPosition, transform.rotation);
+            
+            var ps = _buffUpInstance.GetComponent<ParticleSystem>();
+            var main = ps.main;
+            main.useUnscaledTime = true;
+        }
+
+        if(_buffUpSFX != null)
+        {
+            AudioManager.SAudioManager.PlaySoundFXClip(_buffUpSFX, _buffUpSFXSoundVolume, transform.position);
+        }
+
+        GameManager._SGameManager.PauseGame();
+    }
 
     // --- Interface ---
     public void TakeDamage(float dmg)
     {
         _currentHealth -= dmg;
         DisplayDamage(dmg);
+        UpdateHealthBar();
 
         // ToDo Game Over
         // if (_healthCurrent <= 0){}

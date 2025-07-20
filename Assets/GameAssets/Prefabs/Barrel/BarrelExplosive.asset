@@ -20,7 +20,9 @@ MonoBehaviour:
   moveSpeed: 5
   rotationAxis: {x: 0, y: 1, z: 0}
   rotationSpeed: 90
-  breakingBarrelClip: {fileID: 8300000, guid: 9be9455a425dd4a409bb6c05b3ebcb91, type: 3}
-  breakingBarrelVolume: 0.25
+  VFXPrefabOnDestroy: {fileID: 8132470267344305482, guid: 8922b5606fdc8e04c8437ff261b2d7ba, type: 3}
+  VFXOnDestroyLifeTime: 3
+  breakingBarrelClip: {fileID: 8300000, guid: 717aef52a712ea44c8c5383e25d55577, type: 3}
+  breakingBarrelVolume: 0.75
   ExplosionDamage: 15
   ExplosionRange: 15

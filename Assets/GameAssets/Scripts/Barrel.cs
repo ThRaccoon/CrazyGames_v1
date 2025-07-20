@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Barrel : MonoBehaviour, IDamageable
 {
@@ -27,9 +28,8 @@ public class Barrel : MonoBehaviour, IDamageable
 
     void BarrelDestroy()
     {
-        AudioManager.SAudioManager.PlaySoundFXClip(_barrelData.breakingBarrelClip, _barrelData.breakingBarrelVolume, transform.position);
-
-
+        InstantiateFXOnDestroy();
+        
         switch (_barrelData.type)
         {
             case BarrelData.EBarrelType.EBuff:
@@ -46,6 +46,20 @@ public class Barrel : MonoBehaviour, IDamageable
 
 
         Destroy(gameObject);
+    }
+
+    public void InstantiateFXOnDestroy()
+    {
+        if(_barrelData.VFXPrefabOnDestroy != null)
+        {
+            var vfx = Instantiate(_barrelData.VFXPrefabOnDestroy, transform.position, transform.rotation);
+            if (vfx != null)
+            {
+                Destroy(vfx, _barrelData.VFXOnDestroyLifeTime);
+            }
+        }
+
+        AudioManager.SAudioManager.PlaySoundFXClip(_barrelData.breakingBarrelClip, _barrelData.breakingBarrelVolume, transform.position);
     }
 
     public void TakeDamage(float damage)
@@ -73,8 +87,9 @@ public class Barrel : MonoBehaviour, IDamageable
         if (BuffCardManager._SBuffCardManagerScript)
         {
             BuffCardManager._SBuffCardManagerScript.RollBuff();
+            Player._SPlayerScript.InstantiateBuffSoundVisualEffect();
         }
 
-        GameManager._SGameManager.PauseGame();
     }
+
 }
