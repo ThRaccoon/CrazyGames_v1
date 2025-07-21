@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EStatsType { EHealth, EHealthRegen, EAttackDamage, EAttackSpeed, ESplashDamage }
+public enum EStatsType { EAttackDamage, EAttackSpeed, ECritMultiplier, ECritChance, ESplashDamage, ESplashRadius, EHealthRegenAmount, EHealthRegenSpeed, EHealth, EExperience }
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -18,25 +18,30 @@ public class Player : MonoBehaviour, IDamageable
     #endregion
 
     #region VFX
+    [Space(15)]
     [Header("VFX")]
     [SerializeField] private GameObject _thunderPrefab;
     [SerializeField] private GameObject _thunderCritPrefab;
 
     [SerializeField] private float _thunderLifeTime;
+
+    [Space(10)]
+    [SerializeField] private GameObject _buffUpVFX;
+    #endregion
+
+    #region SFX
+    [Header("SFX")]
+    [Space(15)]
+    [SerializeField] private AudioClip _attackSFX;
+    [SerializeField, Range(0f, 1f)] private float _attackSFXVolume;
+
+    [SerializeField] private AudioClip _buffUpSFX;
+    [SerializeField, Range(0f, 1f)] private float _buffUpSFXVolume;
     #endregion
 
     #region Stats
     [Space(15)]
     [Header("Stats")]
-    [SerializeField] private float _baseHealth;
-    [SerializeField] private float _currentHealth;
-    [SerializeField] private float _maxHealth;
-
-    [SerializeField] private float _baseHealthRegen;
-    [SerializeField] private float _currentHealthRegen;
-
-    [SerializeField] private float _baseHealthRegenRate;
-    [SerializeField] private float _currentHealthRegenRate;
 
     [Space(10)]
     [SerializeField] private float _baseAttackDamage;
@@ -45,6 +50,12 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _baseAttackSpeed;
     [SerializeField] private float _currentAttackSpeed;
 
+    [SerializeField] private float _baseCritMultiplier;
+    [SerializeField] private float _currentCritMultiplier;
+
+    [SerializeField] private float _baseCritChance;
+    [SerializeField] private float _currentCritChance;
+
     [Space(10)]
     [SerializeField] private float _baseSplashDamage;
     [SerializeField] private float _currentSplashDamage;
@@ -52,12 +63,19 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _baseSplashRadius;
     [SerializeField] private float _currentSplashRadius;
 
-    [SerializeField] private float _baseCritChance;
-    [SerializeField] private float _currentCritChance;
+    [Space(10)]
+    [SerializeField] private float _baseHealth;
+    [SerializeField] private float _currentHealth;
+    [SerializeField] private float _maxHealth;
+    private float _inverseMaxHealth;
 
-    [SerializeField] private float _baseCritMultiplier;
-    [SerializeField] private float _currentCritMultiplier;
+    [SerializeField] private float _baseHealthRegenAmount;
+    [SerializeField] private float _currentHealthRegenAmount;
 
+    [SerializeField] private float _baseHealthRegenSpeed;
+    [SerializeField] private float _currentHealthRegenSpeed;
+
+    [Space(10)]
     [SerializeField] private float _currentXP;
     [SerializeField] private float _maxXP;
     #endregion
@@ -85,6 +103,9 @@ public class Player : MonoBehaviour, IDamageable
     private BoxCollider _targetBoxCollider;
     private Collider[] _splashHitColliders;
 
+    // --- VFX ---
+    private GameObject _buffUpInstance;
+
     // --- Timers ---
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
@@ -96,20 +117,13 @@ public class Player : MonoBehaviour, IDamageable
     [HideInInspector] public List<GameObject> _enemies;
     #endregion
 
-    [SerializeField] private AudioClip _attackSound;
-    [SerializeField, Range(0f, 1f)] private float _attackSoundVolume;
-
-    [SerializeField] private AudioClip _buffUpSFX;
-    [SerializeField, Range(0f, 1f)] private float _buffUpSFXSoundVolume;
-
-    [SerializeField] private GameObject _buffUpVFX;
-    private GameObject _buffUpInstance;
-
     private void Awake()
     {
+        _inverseMaxHealth = 1f / _maxHealth;
+
         _attackTimer = new GlobalTimer(_currentAttackSpeed);
         _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
-        _healthRegenTimer = new GlobalTimer(_currentHealthRegenRate);
+        _healthRegenTimer = new GlobalTimer(_currentHealthRegenSpeed);
 
         if (_animator)
         {
@@ -197,7 +211,7 @@ public class Player : MonoBehaviour, IDamageable
         {
             if (_target != null && _targetBoxCollider != null)
             {
-                AudioManager.SAudioManager.PlaySoundFXClip(_attackSound, _attackSoundVolume, _target.transform.position);
+                AudioManager.SAudioManager.PlaySoundFXClip(_attackSFX, _attackSFXVolume, _target.transform.position);
 
                 GameObject thunderVFX;
                 float finalAttackDamage = _currentAttackDamage;
@@ -253,7 +267,33 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-    private void DisplayDamage(float dmg)
+    private void HealthRegen()
+    {
+        if (_currentHealth < _maxHealth)
+        {
+            _healthRegenTimer.Tick();
+
+            if (_healthRegenTimer.Flag)
+            {
+                _currentHealth = Mathf.Min(_currentHealth + _currentHealthRegenAmount, _maxHealth);
+
+                _healthRegenTimer.Reset();
+                UpdateHealthBar();
+            }
+        }
+    }
+
+    private void UpdateHealthBar()
+    {
+        float healthPercent = _currentHealth * _inverseMaxHealth;
+
+        if (_healthFillImage != null)
+        {
+            _healthFillImage.fillAmount = healthPercent;
+        }
+    }
+
+    private void DisplayDamage(float damage)
     {
         if (_floatingText)
         {
@@ -269,36 +309,12 @@ public class Player : MonoBehaviour, IDamageable
                 if (floatingTextMesh)
                 {
                     floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0, 100) / 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
-                    floatingTextMesh.text = dmg.ToString();
+                    floatingTextMesh.text = damage.ToString();
                 }
             }
         }
     }
 
-    private void HealthRegen()
-    {
-        if (_currentHealth < _maxHealth)
-        {
-            _healthRegenTimer.Tick();
-
-            if (_healthRegenTimer.Flag)
-            {
-                _currentHealth = Mathf.Min(_currentHealth + _currentHealthRegen, _maxHealth);
-
-                _healthRegenTimer.Reset();
-                UpdateHealthBar();
-            }
-        }
-    }
-
-    private void UpdateHealthBar()
-    {
-        float healthPercent = _currentHealth / _maxHealth;
-        if (_healthFillImage != null)
-        {
-            _healthFillImage.fillAmount = healthPercent;
-        }
-    }
     private void ResetPlayer()
     {
         //Health
@@ -306,7 +322,7 @@ public class Player : MonoBehaviour, IDamageable
         _maxHealth = _baseHealth;
 
         //Regeberation
-        _currentHealthRegen = _baseHealthRegen;
+        _currentHealthRegenAmount = _baseHealthRegenAmount;
         _currentAttackDamage = _baseAttackDamage;
 
         //Attack Speed
@@ -319,25 +335,13 @@ public class Player : MonoBehaviour, IDamageable
     // --- Apply Buffs ---
     public void ApplyBuff(EStatsType type, float value)
     {
-        if(_buffUpInstance != null)
+        if (_buffUpInstance != null)
         {
             Destroy(_buffUpInstance);
         }
 
         switch (type)
         {
-            case EStatsType.EHealth:
-                {
-                    value = 1 + (value / 100);
-                    _currentHealth *= value;
-                }
-                break;
-            case EStatsType.EHealthRegen:
-                {
-                    value = 1 + (value / 100);
-                    _currentHealthRegen *= value;
-                }
-                break;
             case EStatsType.EAttackDamage:
                 {
                     value = 1 + (value / 100);
@@ -353,17 +357,58 @@ public class Player : MonoBehaviour, IDamageable
                     _syncedAttackAnimLength *= temp;
                     _syncAnimTimer.Duration = _syncedAttackAnimLength;
 
-                    if (_animator)
+                    if (_animator != null)
                     {
                         _animationAttackMultiplier *= 1 + (value / 100);
                         _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
                     }
                 }
                 break;
+            case EStatsType.ECritMultiplier:
+                {
+                    value = 1 + (value / 100);
+                    _currentCritMultiplier *= value;
+                }
+                break;
+            case EStatsType.ECritChance:
+                {
+                    value = 1 + (value / 100);
+                    _currentCritChance *= value;
+                }
+                break;
             case EStatsType.ESplashDamage:
                 {
                     value = 1 + (value / 100);
                     _currentSplashDamage *= value;
+                }
+                break;
+            case EStatsType.ESplashRadius:
+                {
+                    value = 1 + (value / 100);
+                    _currentSplashRadius *= value;
+                }
+                break;
+            case EStatsType.EHealthRegenAmount:
+                {
+                    value = 1 + (value / 100);
+                    _currentHealthRegenAmount *= value;
+                }
+                break;
+            case EStatsType.EHealthRegenSpeed:
+                {
+                    value = 1 - (value / 100);
+                    _currentHealthRegenSpeed *= value;
+                }
+                break;
+            case EStatsType.EHealth:
+                {
+                    value = 1 + (value / 100);
+                    _currentHealth += value;
+
+                    if (_currentHealth > _maxHealth)
+                    {
+                        _currentHealth = _maxHealth;
+                    }
                 }
                 break;
         }
@@ -373,16 +418,6 @@ public class Player : MonoBehaviour, IDamageable
     {
         switch (type)
         {
-            case EStatsType.EHealth:
-                {
-                    _baseHealth += value;
-                }
-                break;
-            case EStatsType.EHealthRegen:
-                {
-                    _baseHealthRegen += value;
-                }
-                break;
             case EStatsType.EAttackDamage:
                 {
                     _baseAttackDamage += value;
@@ -393,9 +428,39 @@ public class Player : MonoBehaviour, IDamageable
                     _baseAttackSpeed -= value;
                 }
                 break;
+            case EStatsType.ECritMultiplier:
+                {
+                    _baseCritMultiplier += value;
+                }
+                break;
+            case EStatsType.ECritChance:
+                {
+                    _baseCritChance += value;
+                }
+                break;
             case EStatsType.ESplashDamage:
                 {
                     _baseSplashDamage += value;
+                }
+                break;
+            case EStatsType.ESplashRadius:
+                {
+                    _baseSplashRadius += value;
+                }
+                break;
+            case EStatsType.EHealthRegenAmount:
+                {
+                    _baseHealthRegenAmount += value;
+                }
+                break;
+            case EStatsType.EHealthRegenSpeed:
+                {
+                    _baseHealthRegenSpeed -= value;
+                }
+                break;
+            case EStatsType.EHealth:
+                {
+                    _baseHealth += value;
                 }
                 break;
         }
@@ -405,21 +470,22 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_buffUpVFX != null)
         {
-             Vector3 buffUpVFXPosition = new Vector3(transform.position.x, transform.position.y+0.35f, transform.position.z);
-             _buffUpInstance = Instantiate(_buffUpVFX, buffUpVFXPosition, transform.rotation);
-            
+            Vector3 buffUpVFXPosition = new Vector3(transform.position.x, transform.position.y + 0.35f, transform.position.z);
+            _buffUpInstance = Instantiate(_buffUpVFX, buffUpVFXPosition, transform.rotation);
+
             var ps = _buffUpInstance.GetComponent<ParticleSystem>();
             var main = ps.main;
             main.useUnscaledTime = true;
         }
 
-        if(_buffUpSFX != null)
+        if (_buffUpSFX != null)
         {
-            AudioManager.SAudioManager.PlaySoundFXClip(_buffUpSFX, _buffUpSFXSoundVolume, transform.position);
+            AudioManager.SAudioManager.PlaySoundFXClip(_buffUpSFX, _buffUpSFXVolume, transform.position);
         }
 
         GameManager._SGameManager.PauseGame();
     }
+
 
     // --- Interface ---
     public void TakeDamage(float dmg)
