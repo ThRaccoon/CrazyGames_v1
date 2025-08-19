@@ -3,37 +3,59 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    // ====================================================================================================
+    [Header("Components")]
     [SerializeField] private AudioMixer _audioMixer;
-    [SerializeField] private AudioSource _soundFX;
-    [SerializeField] private AudioSource _buttonClickSound;
+    [SerializeField] private AudioSource _SFXSource;
 
+    // ====================================================================================================
+
+    // ====================================================================================================
+    [Space(15)]
+    [Header("Click Sound")]
     [SerializeField] private AudioClip _clickSound;
     [SerializeField] private float _clickSoundVolume;
+    // ====================================================================================================
 
-    private bool _isSoundFXEnabled = true;
-    private bool _isMusicEnabled = true;
+    private bool _isSFXEnabled = true;
 
-    // Singleton
-    public static AudioManager SAudioManager;
+    public static AudioManager Instance { get; private set; }
 
     private void Awake()
     {
-        // Singleton
-        if (SAudioManager == null)
+        // === Singleton ===
+
+        if (Instance != null && Instance != this)
         {
-            SAudioManager = this;
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // ==============================
+
     }
 
-    public void PlaySoundFXClip(AudioClip clip, float volume, Vector3 spawnPoint)
+    private void Start()
     {
-        if (!_isSoundFXEnabled) return;
+        bool musicOn = PlayerPrefs.GetInt("MusicEnabled", 1) == 1;
+        ToggleMusic(musicOn);
 
-        if (_soundFX == null || clip == null) return;
+        bool SFXOn = PlayerPrefs.GetInt("SFXEnabled", 1) == 1;
+        ToggleSFX(SFXOn);
+    }
+
+    public void PlaySFXClip(AudioClip clip, float volume, Vector3 spawnPoint)
+    {
+        if (!_isSFXEnabled) return;
+
+        if (_SFXSource == null || clip == null) return;
 
         volume = Mathf.Clamp(volume, 0f, 1f);
 
-        AudioSource tempAudioSource = Instantiate(_soundFX, spawnPoint, Quaternion.identity);
+        AudioSource tempAudioSource = Instantiate(_SFXSource, spawnPoint, Quaternion.identity);
 
         tempAudioSource.clip = clip;
         tempAudioSource.volume = volume;
@@ -43,41 +65,40 @@ public class AudioManager : MonoBehaviour
         Destroy(tempAudioSource.gameObject, tempAudioSource.clip.length);
     }
 
-    // --- Interface ---
-    public void ToggleSoundFX()
+    public void ToggleMusic(bool flag)
     {
-        PlayButtonSound();
-
-        _isSoundFXEnabled = !_isSoundFXEnabled;
-
-        if (_isSoundFXEnabled)
-        {
-            _audioMixer.SetFloat("SoundFX", -80f);
-        }
-        else
-        {
-            _audioMixer.SetFloat("SoundFX", 0f);
-        }
-    }
-
-    public void ToggleMusic()
-    {
-        PlayButtonSound();
-
-        _isMusicEnabled = !_isMusicEnabled;
-
-        if (!_isMusicEnabled)
-        {
-            _audioMixer.SetFloat("Music", -80f);
-        }
-        else
+        if (flag)
         {
             _audioMixer.SetFloat("Music", 0f);
         }
+        else
+        {
+            _audioMixer.SetFloat("Music", -80f);
+        }
+
+        PlayerPrefs.SetInt("MusicEnabled", flag ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
-    public void PlayButtonSound()
+    public void ToggleSFX(bool flag)
     {
-        _buttonClickSound.Play();
+        if (flag)
+        {
+            _audioMixer.SetFloat("SoundFX", 0f);
+            _isSFXEnabled = true;
+        }
+        else
+        {
+            _audioMixer.SetFloat("SoundFX", -80f);
+            _isSFXEnabled = false;
+        }
+
+        PlayerPrefs.SetInt("SFXEnabled", flag ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public void PlayClickSound()
+    {
+        PlaySFXClip(_clickSound, _clickSoundVolume, Vector3.zero);
     }
 }

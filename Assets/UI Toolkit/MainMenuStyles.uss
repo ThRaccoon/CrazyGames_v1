@@ -1,0 +1,57 @@
+.main-container {
+    flex-grow: 1;
+    flex-direction: column;
+    
+    align-items: center;
+    justify-content: center;
+    
+    background-image: url("project://database/Assets/UI/MainMenuBackground.png?fileID=-499796783&guid=bbf206cfe3b209344abaabe18d5b5694&type=3#MainMenuBackground_0");
+}
+
+.text-buttons-container {
+    width: 40%;
+    height: 60%;
+    
+    flex-direction: column;
+    
+    align-items: center;
+    justify-content: center;
+}
+
+.text-buttons {
+    width: 50%;
+    height: 20%;
+    
+    margin-bottom: 45px;
+    
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 10px;
+    border-radius: 30px;
+    border-color: rgb(225, 145, 5);
+
+    font-size: 60px;
+    color: rgb(27, 27, 27);
+    
+    -unity-font-definition: url("project://database/Assets/UI/Fonts/Magzo.ttf");
+    -unity-text-align: middle-center;
+}
+ 
+.options-button {
+    width: 75px;
+    height: 75px;
+
+    position: absolute;
+    left: 75px;
+    bottom: 75px;
+    
+    background-color: rgb(245, 230, 205);
+
+    border-width: 10px;
+    border-radius: 15px;
+    border-color: rgb(225, 145, 5);
+}
+
+.text-buttons:hover, .options-button:hover {
+    background-color: rgb(220, 200, 180);
+} 

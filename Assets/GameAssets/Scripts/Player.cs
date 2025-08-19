@@ -1,23 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 
-public enum EStatsType { EAttackDamage, EAttackSpeed, ECritMultiplier, ECritChance, ESplashDamage, ESplashRadius, EHealthRegenAmount, EHealthRegenSpeed, EHealth, EExperience }
+public enum EStatsType { None, EAttackDamage, EAttackSpeed, ECritMultiplier, ECritChance, ESplashDamage, ESplashRadius, EHealthRegenAmount, EHealthRegenSpeed, EHealth, EExperience }
 
 public class Player : MonoBehaviour, IDamageable
 {
-    #region Components
-    [Header("Components")]
-    [SerializeField] private PlayerInputManager _playerInputManager;
+    // ====================================================================================================
+    // === General ===
+    [Header("General")]
     [SerializeField] private Camera _mainCamera;
-    [SerializeField] private Animator _animator;
+
     [SerializeField] private LayerMask _targetLayersMask;
     [SerializeField] private LayerMask _ignoredLayersMask;
-    [SerializeField] private Image _healthFillImage;
-    #endregion
+    // ====================================================================================================
 
-    #region VFX
+    // ====================================================================================================
+    // === Animations ===
+    [Space(15)]
+    [Header("Animations")]
+    [SerializeField] private Animator _animator;
+
+    [SerializeField] private float _syncedAttackAnimLength;
+    [SerializeField] private float _animationAttackMultiplier;
+
+    private bool _shouldSyncAttackAnim;
+    // ====================================================================================================
+
+    // ====================================================================================================
+    // === VFX ===
     [Space(15)]
     [Header("VFX")]
     [SerializeField] private GameObject _thunderPrefab;
@@ -25,25 +35,29 @@ public class Player : MonoBehaviour, IDamageable
 
     [SerializeField] private float _thunderLifeTime;
 
-    [Space(10)]
-    [SerializeField] private GameObject _buffUpVFX;
-    #endregion
+    [Space(5)]
+    [Header("Damage Text")]
+    [SerializeField] private GameObject _damageText;
 
-    #region SFX
-    [Header("SFX")]
+    [SerializeField] private float _damageTextYOffset;
+    // ====================================================================================================
+
+    // ====================================================================================================
+    // === SFX ===
     [Space(15)]
-    [SerializeField] private AudioClip _attackSFX;
+    [Header("SFX")]
+    [SerializeField] private AudioClip _attackSFXClip;
     [SerializeField, Range(0f, 1f)] private float _attackSFXVolume;
 
-    [SerializeField] private AudioClip _buffUpSFX;
+    [Space(5)]
+    [SerializeField] private AudioClip _buffUpSFXClip;
     [SerializeField, Range(0f, 1f)] private float _buffUpSFXVolume;
-    #endregion
+    // ====================================================================================================
 
-    #region Stats
+    // ====================================================================================================
+    // === Stats ===
     [Space(15)]
     [Header("Stats")]
-
-    [Space(10)]
     [SerializeField] private float _baseAttackDamage;
     [SerializeField] private float _currentAttackDamage;
 
@@ -56,18 +70,17 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _baseCritChance;
     [SerializeField] private float _currentCritChance;
 
-    [Space(10)]
+    [Space(5)]
     [SerializeField] private float _baseSplashDamage;
     [SerializeField] private float _currentSplashDamage;
 
     [SerializeField] private float _baseSplashRadius;
     [SerializeField] private float _currentSplashRadius;
 
-    [Space(10)]
+    [Space(5)]
     [SerializeField] private float _baseHealth;
     [SerializeField] private float _currentHealth;
     [SerializeField] private float _maxHealth;
-    private float _inverseMaxHealth;
 
     [SerializeField] private float _baseHealthRegenAmount;
     [SerializeField] private float _currentHealthRegenAmount;
@@ -75,52 +88,32 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _baseHealthRegenSpeed;
     [SerializeField] private float _currentHealthRegenSpeed;
 
-    [Space(10)]
+    [Space(5)]
     [SerializeField] private float _currentXP;
     [SerializeField] private float _maxXP;
-    #endregion
+    // ====================================================================================================
 
-    #region Animations
-    [Space(15)]
-    [Header("Animations")]
-    [SerializeField] private float _syncedAttackAnimLength;
-    [SerializeField] private float _animationAttackMultiplier;
-
-    private bool _shouldSyncAttackAnim;
-    #endregion
-
-    #region Floating Text
-    [Space(15)]
-    [Header("Floating Text")]
-    [SerializeField] private GameObject _floatingText;
-    [SerializeField] private float _floatingTextYOffset;
-    #endregion
-
-    #region Runtime
-    // --- Attack & Targeting ---
+    // ====================================================================================================
+    // === RUNTIME ===
     private bool _canAttack = true;
+
     private GameObject _target;
+
     private BoxCollider _targetBoxCollider;
     private Collider[] _splashHitColliders;
 
-    // --- VFX ---
-    private GameObject _buffUpInstance;
-
-    // --- Timers ---
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
-
     private GlobalTimer _healthRegenTimer;
+    // ====================================================================================================
 
-    // --- Runtime References ---
-    [HideInInspector] public static Player _SPlayerScript;
-    [HideInInspector] public List<GameObject> _enemies;
-    #endregion
+    // ====================================================================================================
+    // === Events ===
+    public event Action<float> OnHealthChanged;
+    // ====================================================================================================
 
-    private void Awake()
+    private void Start()
     {
-        _inverseMaxHealth = 1f / _maxHealth;
-
         _attackTimer = new GlobalTimer(_currentAttackSpeed);
         _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
         _healthRegenTimer = new GlobalTimer(_currentHealthRegenSpeed);
@@ -129,9 +122,6 @@ public class Player : MonoBehaviour, IDamageable
         {
             _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
         }
-
-        _SPlayerScript = this;
-        _enemies = new List<GameObject>();
     }
 
     private void Update()
@@ -209,10 +199,10 @@ public class Player : MonoBehaviour, IDamageable
 
         if (_syncAnimTimer.Flag)
         {
+            AudioManager.Instance.PlaySFXClip(_attackSFXClip, 0.25f, _target.transform.position);
+
             if (_target != null && _targetBoxCollider != null)
             {
-                AudioManager.SAudioManager.PlaySoundFXClip(_attackSFX, _attackSFXVolume, _target.transform.position);
-
                 GameObject thunderVFX;
                 float finalAttackDamage = _currentAttackDamage;
                 float finalSplashDamage = _currentSplashDamage;
@@ -238,8 +228,7 @@ public class Player : MonoBehaviour, IDamageable
 
                 foreach (Collider hit in _splashHitColliders)
                 {
-                    if (hit.gameObject == _target.gameObject)
-                        continue;
+                    if (hit.gameObject == _target.gameObject) continue;
 
                     IDamageable splashTarget = hit.GetComponent<IDamageable>();
                     if (splashTarget != null)
@@ -278,29 +267,20 @@ public class Player : MonoBehaviour, IDamageable
                 _currentHealth = Mathf.Min(_currentHealth + _currentHealthRegenAmount, _maxHealth);
 
                 _healthRegenTimer.Reset();
-                UpdateHealthBar();
+
+                OnHealthChanged?.Invoke(_currentHealth / _maxHealth);
             }
-        }
-    }
-
-    private void UpdateHealthBar()
-    {
-        float healthPercent = _currentHealth * _inverseMaxHealth;
-
-        if (_healthFillImage != null)
-        {
-            _healthFillImage.fillAmount = healthPercent;
         }
     }
 
     private void DisplayDamage(float damage)
     {
-        if (_floatingText)
+        if (_damageText)
         {
             Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f),
-                                                UnityEngine.Random.Range(_floatingTextYOffset - 0.5f, _floatingTextYOffset + 0.5f), transform.position.z);
+                                                UnityEngine.Random.Range(_damageTextYOffset - 0.5f, _damageTextYOffset + 0.5f), transform.position.z);
 
-            var floatingTextObject = Instantiate(_floatingText, spawnPosition, Quaternion.identity, transform);
+            var floatingTextObject = Instantiate(_damageText, spawnPosition, Quaternion.identity, transform);
 
             if (floatingTextObject)
             {
@@ -315,31 +295,10 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-    private void ResetPlayer()
-    {
-        //Health
-        _currentHealth = _baseHealth;
-        _maxHealth = _baseHealth;
-
-        //Regeberation
-        _currentHealthRegenAmount = _baseHealthRegenAmount;
-        _currentAttackDamage = _baseAttackDamage;
-
-        //Attack Speed
-        _currentAttackSpeed = _baseAttackSpeed;
-
-        //ToDo Pres 
-    }
-
 
     // --- Apply Buffs ---
     public void ApplyBuff(EStatsType type, float value)
     {
-        if (_buffUpInstance != null)
-        {
-            Destroy(_buffUpInstance);
-        }
-
         switch (type)
         {
             case EStatsType.EAttackDamage:
@@ -466,33 +425,14 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-    public void InstantiateBuffSoundVisualEffect()
-    {
-        if (_buffUpVFX != null)
-        {
-            Vector3 buffUpVFXPosition = new Vector3(transform.position.x, transform.position.y + 0.35f, transform.position.z);
-            _buffUpInstance = Instantiate(_buffUpVFX, buffUpVFXPosition, transform.rotation);
-
-            var ps = _buffUpInstance.GetComponent<ParticleSystem>();
-            var main = ps.main;
-            main.useUnscaledTime = true;
-        }
-
-        if (_buffUpSFX != null)
-        {
-            AudioManager.SAudioManager.PlaySoundFXClip(_buffUpSFX, _buffUpSFXVolume, transform.position);
-        }
-
-        GameManager._SGameManager.PauseGame();
-    }
-
-
     // --- Interface ---
     public void TakeDamage(float dmg)
     {
         _currentHealth -= dmg;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0f, _maxHealth);
+
         DisplayDamage(dmg);
-        UpdateHealthBar();
+        OnHealthChanged?.Invoke(_currentHealth / _maxHealth);
 
         // ToDo Game Over
         // if (_healthCurrent <= 0){}

@@ -2,17 +2,28 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    #region Stats
-    private float _damage;
-    private float _moveSpeed;
-    #endregion
-
-    #region Target
-    private Vector3 _targetPos;
-    private Vector3 _targetDir;
+    // ====================================================================================================
+    // === General ===
     private LayerMask _targetLayersMask;
     private LayerMask _ignoredLayersMask;
-    #endregion
+    // ====================================================================================================
+
+    // ====================================================================================================
+    // === Stats ===
+    private float _damage;
+    private float _moveSpeed;
+    // ====================================================================================================
+
+    // ====================================================================================================
+    // === Target ===
+    private Vector3 _targetPos;
+    private Vector3 _targetDir;
+    // ====================================================================================================
+
+    void Update()
+    {
+        transform.position += _targetDir * _moveSpeed * Time.deltaTime;
+    }
 
     public void Init(float dmg, float moveSpeed, float lifeTime, Vector3 targetPos, LayerMask targetLayerMask, LayerMask ignoredLayerMask)
     {
@@ -26,11 +37,6 @@ public class Projectile : MonoBehaviour
         _ignoredLayersMask = ignoredLayerMask;
 
         Destroy(gameObject, lifeTime);
-    }
-
-    void Update()
-    {
-        transform.position += _targetDir * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)

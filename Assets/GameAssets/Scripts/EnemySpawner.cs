@@ -1,49 +1,77 @@
 using UnityEngine;
-using static BarrelData;
 
 public class EnemySpawner : MonoBehaviour
 {
-    #region Components
-    [Header("Components")]
-    [Space(5)]
+    // ====================================================================================================
+    // === General ===
+    [Header("General")]
+    [SerializeField] private GameObject _target;
+    // ====================================================================================================
+
+    // ====================================================================================================
+    // === Mobs ===
+    [Space(15)]
+    [Header("Mobs")]
     [SerializeField] private GameObject[] _mobPrefabs;
+    [SerializeField] private Vector2 _mobSpawnXRange;
+    // ====================================================================================================
 
-    [Space(5)]
+    // ====================================================================================================
+    // === Bosses ===
+    [Space(15)]
+    [Header("Bosses")]
     [SerializeField] private GameObject[] _bossPrefabs;
+    [SerializeField] private Vector2 _bossSpawnXRange;
+    // ====================================================================================================
 
-    [Space(5)]
+    // ====================================================================================================
+    // === Barrels ===
+    [Space(15)]
     [Header("Barrels")]
     [SerializeField] private BarrelDatabase _barrelDatabase;
     [SerializeField] private Vector3[] _barrelSpawnPositions;
-    #endregion
+    // ====================================================================================================
 
-    #region Multipliers
+    // ====================================================================================================
+    // === SFX ===
+    [Space(15)]
+    [Header("SFX")]
+    [SerializeField] private AudioClip _deathSFXClip;
+    [SerializeField, Range(0f, 1f)] private float _deathSoundVolume;
+    // ====================================================================================================
+
+    // ====================================================================================================
+    // === Multipliers ===
     [Space(15)]
     [Header("Multipliers")]
-    [SerializeField] private float _baseHealthMultiplier;
-    [SerializeField] private float _healthMultiplier;
-
     [SerializeField] private float _baseDamageMultiplier;
     [SerializeField] private float _damageMultiplier;
 
+    [SerializeField] private float _baseHealthMultiplier;
+    [SerializeField] private float _healthMultiplier;
+
     [SerializeField] private float _baseExpRewardMultiplier;
     [SerializeField] private float _expRewardMultiplier;
-    #endregion
+    // ====================================================================================================
 
-    #region Timers
+    // ====================================================================================================
+    // === Timers ===
     [Space(15)]
     [Header("Timers")]
     [SerializeField] private float _mobSpawnInterval;
     private GlobalTimer _mobSpawnTimer;
 
+    [Space(5)]
     [SerializeField] private float _bossSpawnInterval;
     private GlobalTimer _bossSpawnTimer;
 
+    [Space(5)]
     [SerializeField] private float _barrelSpawnInterval;
     private GlobalTimer _barrelSpawnTimer;
-    #endregion
+    // ====================================================================================================
 
-    #region Counters
+    // ====================================================================================================
+    // === Counters ===
     [Space(15)]
     [Header("Counters")]
     [SerializeField] private float _multipliersIncrementThreshold;
@@ -56,31 +84,18 @@ public class EnemySpawner : MonoBehaviour
     [Space(5)]
     [SerializeField] private float _bossTypeUnlockThreshold;
     [SerializeField] private float _spawnedBossCountForBossType;
-    #endregion
+    // ====================================================================================================
 
-    #region Runtime
-    public static bool _shouldSpawn;
-    
-    public static EnemySpawner _SSpawnerScript;
-    #endregion
+    // ====================================================================================================
+    // === Runtime ===
+    private int _mobTypes;
+    private int _bossTypes;
 
-    #region Debug
-    [Space(15)]
-    [Header("Debug")]
-    [SerializeField] private int _mobTypes;
-    [SerializeField] private int _bossTypes;
-    #endregion
+    public bool _shouldSpawn { get; set; }
+    // ====================================================================================================
 
-  
-    [SerializeField] private AudioClip _deathSound;
-
-    private void Awake()
+    private void Start()
     {
-        if (_SSpawnerScript == null) 
-        {
-            _SSpawnerScript = this;
-        }
-        
         _mobSpawnTimer = new GlobalTimer(0);
         _barrelSpawnTimer = new GlobalTimer(_barrelSpawnInterval);
         _bossSpawnTimer = new GlobalTimer(_bossSpawnInterval);
@@ -155,14 +170,14 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnMob()
     {
         GameObject prefab = _mobPrefabs[UnityEngine.Random.Range(0, _mobTypes + 1)];
-        Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15.5f), 0, 65);
+        Vector3 position = new Vector3(UnityEngine.Random.Range(_mobSpawnXRange.x, _mobSpawnXRange.y), 0, 65);
 
         var enemy = Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
         var enemyScript = enemy.GetComponent<Enemy>();
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _target);
         }
 
         _spawnedMobCountForMultipliers++;
@@ -183,14 +198,14 @@ public class EnemySpawner : MonoBehaviour
             prefab = _bossPrefabs[UnityEngine.Random.Range(0, _bossTypes)];
         }
 
-        Vector3 position = new Vector3(UnityEngine.Random.Range(1.5f, 15.5f), 0, 65);
-        
+        Vector3 position = new Vector3(UnityEngine.Random.Range(_bossSpawnXRange.x, _bossSpawnXRange.y), 0, 65);
+
         var enemy = Instantiate(prefab, position, Quaternion.Euler(0, 180, 0));
         var enemyScript = enemy.GetComponent<Enemy>();
 
         if (enemyScript != null)
         {
-            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier);
+            enemyScript.Init(_healthMultiplier, _damageMultiplier, _expRewardMultiplier, _target);
         }
     }
 
@@ -198,52 +213,29 @@ public class EnemySpawner : MonoBehaviour
     {
         Vector3 position = _barrelSpawnPositions[UnityEngine.Random.Range(0, _barrelSpawnPositions.Length)];
         BarrelData barrelData = GetBarrelDataByroll(UnityEngine.Random.Range(0, 101));
-        if(barrelData != null) 
+        if (barrelData != null)
         {
-           var barrel = Instantiate(barrelData.prefab, position, Quaternion.Euler(0, 0, 90));
-           var barrelScript = barrel.GetComponent<Barrel>();
+            var barrel = Instantiate(barrelData.Prefab, position, Quaternion.Euler(0, 0, 90));
+            var barrelScript = barrel.GetComponent<Barrel>();
 
-           if (barrelScript != null) 
-           {
-               barrelScript.Init(barrelData, _damageMultiplier);
-           }
+            if (barrelScript != null)
+            {
+                barrelScript.Init(barrelData, _damageMultiplier);
+            }
         }
 
     }
 
-    private BarrelData GetBarrelDataByroll(int roll) 
+    private BarrelData GetBarrelDataByroll(int roll)
     {
-       foreach (var barrel in _barrelDatabase.barrels) 
+        foreach (var barrel in _barrelDatabase.barrels)
         {
-            if(roll >= barrel.rollRangeToSpawnFrom && roll <= barrel.rollRangeToSpawnTo)
+            if (roll >= barrel.RollChance.x && roll <= barrel.RollChance.y)
             {
                 return barrel;
             }
         }
 
-       return null;
-    }
-
-    private void ResetSpawner()
-    {
-        //Reset
-        _mobSpawnTimer = new GlobalTimer(0);
-        _barrelSpawnTimer = new GlobalTimer(_barrelSpawnInterval);
-        _bossSpawnTimer = new GlobalTimer(_bossSpawnInterval);
-
-        _spawnedMobCountForMultipliers = 0;
-        _spawnedMobCountForMobType = 0;
-
-        _healthMultiplier = _baseHealthMultiplier;
-        _damageMultiplier = _baseDamageMultiplier;
-        _expRewardMultiplier = _baseExpRewardMultiplier;
-
-        //ClearEnemies
-        foreach (var enemy in Player._SPlayerScript._enemies)
-        {
-            Destroy(enemy);
-        }
-
-        _shouldSpawn = true;
+        return null;
     }
 }

@@ -1,0 +1,132 @@
+.main-container {
+    flex-grow: 1;
+    
+    align-items: center;
+    justify-content: center;
+    
+    background-color: rgba(15, 15, 15, 0.8);
+}
+
+.options-window {
+    width: 40%;
+    height: 60%;
+    
+    align-items: center;
+    justify-content: center;
+    
+    padding-bottom: 1%;
+
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 10px;
+    border-radius: 30px;
+    border-color: rgb(225, 145, 5);
+}
+
+.options-label {
+    width: 50%;
+    height: 20%;
+    
+    position: absolute;
+    top: -12%;
+    
+    align-self: center;
+    
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 10px;
+    border-radius: 30px;
+    border-color: rgb(225, 145, 5);
+    
+    font-size: 60px;
+    color: rgb(27, 27, 27);
+    
+    -unity-font-definition: url("project://database/Assets/UI/Fonts/Magzo.ttf?fileID=12800000&guid=5c4647c38e08e554a958ce17b30daa0c&type=3#Magzo");
+    -unity-text-align: middle-center;
+}
+
+.close-button {
+    width: 75px;
+    height: 75px;
+    
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 10px;
+    border-radius: 15px;
+    border-color: rgb(225, 145, 5);
+}
+
+.buttons-container {
+    width: 60%;
+    height: 70%;
+    
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.buttons-common {
+    width: 70%;
+    height: 25%;
+    
+    margin-bottom: 20px;
+    
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 10px;
+    border-radius: 15px;
+    border-color: rgb(225, 145, 5);
+    
+    font-size: 50px;
+    color: rgb(27, 27, 27);
+    
+    -unity-font-definition: url("project://database/Assets/UI/Fonts/Magzo.ttf?fileID=12800000&guid=5c4647c38e08e554a958ce17b30daa0c&type=3#Magzo");
+}
+
+
+/* Buttons */
+.text-buttons {
+    -unity-text-align: middle-center;
+}
+
+
+/* Toggles */
+.toggle-buttons {
+    align-items: center;
+}
+
+.buttons-common .unity-toggle__input {
+    height: 75%;
+}
+
+.buttons-common .unity-toggle__checkmark {
+    width: 35px;
+    height: 35px;
+    
+    position: absolute;
+    right: 10%;
+    
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 5px;
+    border-radius: 7.5px;
+    border-color: rgb(225, 145, 5);
+}
+
+.buttons-common .unity-toggle__text {
+    margin-left: 5%;    
+    
+    -unity-text-align: middle-left;    
+}
+
+/* Pseudo */
+.text-buttons:hover {
+    background-color: rgb(220, 200, 180);
+}
+
+.close-button:hover {
+    background-color: rgb(220, 200, 180);
+}

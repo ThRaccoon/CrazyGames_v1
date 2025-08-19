@@ -1,0 +1,29 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuOptionsStyles.uss?fileID=7433441132597879392&amp;guid=6b0b7b42401f8434daa1c96711ba14a3&amp;type=3#MainMenuOptionsStyles" />
+    
+    <engine:VisualElement name="Background" class="main-container">
+        
+        <engine:VisualElement class="options-window">
+            
+            <engine:Label text="OPTIONS" class="options-label" />    
+
+            <engine:Button name="CloseButton" class="close-button" />
+            
+            <engine:VisualElement class="buttons-container">
+                
+                <engine:Button name="ResumeButton" text="RESUME" class="buttons-common text-buttons" />
+                
+                <engine:Button name="MenuButton" text="MENU" class="buttons-common text-buttons" />
+                
+                <engine:Toggle name="MusicToggle" text="MUSIC" value="true" class="buttons-common toggle-buttons" />
+                
+                <engine:Toggle name="SoundToggle" text="SOUND" value="true" class="buttons-common toggle-buttons" />
+
+            </engine:VisualElement>
+
+        </engine:VisualElement>
+    
+    </engine:VisualElement>
+
+</engine:UXML>
