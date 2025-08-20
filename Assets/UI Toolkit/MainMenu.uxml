@@ -2,15 +2,15 @@
     
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=c8c48d02f371e54469a82b8a8673e94d&amp;type=3" />
     
-    <engine:VisualElement name="Background" class="main-container">
+    <engine:VisualElement class="main-container">
         
         <engine:VisualElement class="text-buttons-container">
             
-            <engine:Button name="PlayButton" text="PLAY" class="text-buttons" />
+            <engine:Button name="PlayButton" text="PLAY" class="text-button" />
             
-            <engine:Button name="CardsButton" text="CARDS" class="text-buttons" />
+            <engine:Button name="CardsButton" text="CARDS" class="text-button" />
             
-            <engine:Button name="QuitButton" text="QUIT" class="text-buttons" />
+            <engine:Button name="QuitButton" text="QUIT" class="text-button" />
         
         </engine:VisualElement>
         

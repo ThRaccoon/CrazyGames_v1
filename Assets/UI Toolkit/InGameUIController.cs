@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class InGameUIController : IUIController, IPlayerBoundUI
@@ -7,8 +6,8 @@ public class InGameUIController : IUIController, IPlayerBoundUI
 
     private Button _optionsButton;
 
-    private VisualElement _healthProgress;
-    private VisualElement _xpProgress;
+    private VisualElement _healthBar;
+    private VisualElement _xpBar;
 
     private Player _player;
 
@@ -18,22 +17,22 @@ public class InGameUIController : IUIController, IPlayerBoundUI
 
         _optionsButton = root.Q<Button>("OptionsButton");
 
-        _healthProgress = root.Q<VisualElement>("HealthProgress");
-        _xpProgress = root.Q<VisualElement>("XpProgress");
+        _healthBar = root.Q<VisualElement>("HealthBar");
+        _xpBar = root.Q<VisualElement>("XpBar");
     }
 
     public void OnActivate()
     {
         _optionsButton.RegisterCallback<ClickEvent>(OnMenu);
 
-        _player.OnHealthChanged += SetHealthProgress;
+        _player.OnHealthChanged += UpdateHealthBar;
     }
 
     public void OnDeactivate()
     {
         _optionsButton.UnregisterCallback<ClickEvent>(OnMenu);
     
-        _player.OnHealthChanged -= SetHealthProgress;
+        _player.OnHealthChanged -= UpdateHealthBar;
     }
 
     public void BindPlayer(Player player) 
@@ -48,13 +47,13 @@ public class InGameUIController : IUIController, IPlayerBoundUI
         UIManager.Instance.ShowOverlay("Options");
     }
 
-    public void SetHealthProgress(float newValue)
+    public void UpdateHealthBar(float newValue)
     {
-        _healthProgress.style.width = Length.Percent(newValue * 100f);
+        _healthBar.style.width = Length.Percent(newValue * 100f);
     }
 
-    public void SetXpProgress(float newValue)
+    public void UpdateXpBar(float newValue)
     {
-        _xpProgress.style.width = Length.Percent(newValue * 100f);
+        _xpBar.style.width = Length.Percent(newValue * 100f);
     }
 }

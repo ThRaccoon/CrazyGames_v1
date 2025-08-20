@@ -460,9 +460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8f0f917f2570b4bade1da7c54dfd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
-  projectiles: []
-  barrels: []
 --- !u!1 &1803047484
 GameObject:
   m_ObjectHideFlags: 0

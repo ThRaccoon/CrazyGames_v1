@@ -2,7 +2,7 @@
     
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuOptionsStyles.uss?fileID=7433441132597879392&amp;guid=6b0b7b42401f8434daa1c96711ba14a3&amp;type=3#MainMenuOptionsStyles" />
     
-    <engine:VisualElement name="Background" class="main-container">
+    <engine:VisualElement class="main-container">
         
         <engine:VisualElement class="options-window">
             
@@ -12,13 +12,13 @@
             
             <engine:VisualElement class="buttons-container">
                 
-                <engine:Button name="ResumeButton" text="RESUME" class="buttons-common text-buttons" />
+                <engine:Button name="ResumeButton" text="RESUME" class="button-common text-button" />
                 
-                <engine:Button name="MenuButton" text="MENU" class="buttons-common text-buttons" />
+                <engine:Button name="MenuButton" text="MENU" class="button-common text-button" />
                 
-                <engine:Toggle name="MusicToggle" text="MUSIC" value="true" class="buttons-common toggle-buttons" />
+                <engine:Toggle name="MusicToggle" text="MUSIC" value="true" class="button-common toggle-button" />
                 
-                <engine:Toggle name="SoundToggle" text="SOUND" value="true" class="buttons-common toggle-buttons" />
+                <engine:Toggle name="SoundToggle" text="SOUND" value="true" class="button-common toggle-button" />
 
             </engine:VisualElement>
 

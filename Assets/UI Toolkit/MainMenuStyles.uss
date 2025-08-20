@@ -1,24 +1,24 @@
 .main-container {
-    flex-grow: 1;
-    flex-direction: column;
-    
+    flex-grow: 1;    
+    flex-direction: column;    
+   
     align-items: center;
     justify-content: center;
-    
-    background-image: url("project://database/Assets/UI/MainMenuBackground.png?fileID=-499796783&guid=bbf206cfe3b209344abaabe18d5b5694&type=3#MainMenuBackground_0");
+     
+    background-image: url("project://database/Assets/UI Toolkit/UI/MainMenuBackground.png");
 }
 
 .text-buttons-container {
-    width: 40%;
-    height: 60%;
-    
     flex-direction: column;
     
     align-items: center;
-    justify-content: center;
+    justify-content: center;    
+
+    width: 40%;
+    height: 60%;
 }
 
-.text-buttons {
+.text-button {
     width: 50%;
     height: 20%;
     
@@ -31,9 +31,9 @@
     border-color: rgb(225, 145, 5);
 
     font-size: 60px;
-    color: rgb(27, 27, 27);
+    color: rgb(100, 65, 35);	
     
-    -unity-font-definition: url("project://database/Assets/UI/Fonts/Magzo.ttf");
+    -unity-font-definition: url("project://database/Assets/UI Toolkit/UI/Fonts/Magzo SDF.asset");
     -unity-text-align: middle-center;
 }
  
@@ -52,6 +52,6 @@
     border-color: rgb(225, 145, 5);
 }
 
-.text-buttons:hover, .options-button:hover {
+.text-button:hover, .options-button:hover {
     background-color: rgb(220, 200, 180);
 } 
