@@ -37,7 +37,7 @@
     -unity-text-align: middle-center;
 }
  
-.options-button {
+.options-button { 
     width: 75px;
     height: 75px;
 
@@ -50,6 +50,11 @@
     border-width: 10px;
     border-radius: 15px;
     border-color: rgb(225, 145, 5);
+
+    font-size: 50px;
+    color: rgb(100, 65, 35);
+
+	-unity-font-style: bold;
 }
 
 .text-button:hover, .options-button:hover {

@@ -8,7 +8,7 @@
             
             <engine:Label text="OPTIONS" class="options-label" />    
 
-            <engine:Button name="CloseButton" class="close-button" />
+            <engine:Button name="CloseButton" text="X" class="close-button" />
             
             <engine:VisualElement class="buttons-container">
                 

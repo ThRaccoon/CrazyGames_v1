@@ -32,7 +32,7 @@
             
             </engine:VisualElement>
         
-            <engine:Button name="OptionsButton" class="options-button" />
+            <engine:Button name="OptionsButton" text="O" class="options-button" />
 
     </engine:VisualElement>
 

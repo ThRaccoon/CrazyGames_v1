@@ -9,7 +9,7 @@
 
 .options-window {
     align-items: center;
-    justify-content: center;    
+    justify-content: flex-start;    
 
     width: 40%;
     height: 60%;
@@ -22,8 +22,6 @@
 }
 
 .options-label {
-    align-self: center;    
-
     width: 50%;
     height: 20%;
     
@@ -44,6 +42,9 @@
 }
 
 .close-button {
+    align-items: center;
+    justify-content: center;
+
     width: 75px;
     height: 75px;
     
@@ -56,22 +57,26 @@
     border-width: 10px;
     border-radius: 15px;
     border-color: rgb(225, 145, 5);
+
+    font-size: 50px;
+    color: rgb(100, 65, 35);
+
+	-unity-font-style: bold;
 }
 
 .buttons-container {
-    align-items: center;
-    justify-content: flex-start;    
+    align-items: stretch;
+    justify-content: space-evenly;  
 
-    width: 60%;
-    height: 70%;
+    margin-top: 15%;
+
+    width: 40%;
+    height: 100%;
+
+    background-color: black;
 }
 
 .button-common {
-    width: 70%;
-    height: 25%;
-    
-    margin-bottom: 4%;
-    
     background-color: rgb(245, 230, 205);
     
     border-width: 10px;

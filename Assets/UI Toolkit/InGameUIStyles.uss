@@ -102,6 +102,11 @@
     border-width: 10px;
     border-radius: 15px;
     border-color: rgb(225, 145, 5);
+
+	font-size: 50px;
+    color: rgb(100, 65, 35);
+
+	-unity-font-style: bold;
 }
 
 .options-button:hover {
