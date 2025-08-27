@@ -5,6 +5,8 @@ public class OptionsUIController : IUIController
 {
     private VisualElement _root;
 
+    private VisualElement _buttonsContainer;
+
     private Button _closeButton;
     private Button _resumeButton;
     private Button _menuButton;
@@ -15,6 +17,8 @@ public class OptionsUIController : IUIController
     public void Init(VisualElement root)
     {
         _root = root;
+
+        _buttonsContainer = root.Q<VisualElement>("ButtonsContainer");
 
         _closeButton = root.Q<Button>("CloseButton");
         _resumeButton = root.Q<Button>("ResumeButton");
@@ -27,7 +31,7 @@ public class OptionsUIController : IUIController
     public void OnActivate()
     {
         GameManager.Instance.Pause();
-        
+
         _closeButton?.RegisterCallback<ClickEvent>(OnClose);
 
         _resumeButton?.RegisterCallback<ClickEvent>(OnResume);
@@ -95,9 +99,12 @@ public class OptionsUIController : IUIController
 
     private void UpdateVisibility()
     {
-        bool inGame = GameManager.Instance.CurrentState == EGameState.InGame;
-
-        _resumeButton.style.display = inGame ? DisplayStyle.Flex : DisplayStyle.None;
-        _menuButton.style.display = inGame ? DisplayStyle.Flex : DisplayStyle.None;
+        if (GameManager.Instance.CurrentState != EGameState.InGame) 
+        {
+            _buttonsContainer.style.height = Length.Percent(50f);
+            
+            _resumeButton.style.display = DisplayStyle.None;
+            _menuButton.style.display = DisplayStyle.None;
+        }
     }
 }

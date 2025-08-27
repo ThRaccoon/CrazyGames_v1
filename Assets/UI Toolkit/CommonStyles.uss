@@ -1,0 +1,51 @@
+.u-box {
+    background-color: rgb(245, 230, 205);
+
+    border-width: 10px;
+    border-color: rgb(225, 145, 5);
+}
+
+.u-box--rounded { 
+    border-radius: 15px; 
+}
+    
+.u-box--circle { 
+    border-radius: 100px; 
+}
+    
+
+.u-button-style {
+    font-size: 50px;
+    
+    color: rgb(100, 65, 35);
+    
+    -unity-font-style: bold;
+}
+
+.u-button--square { 
+    width: 75px; 
+    height: 75px; 
+}  
+
+
+.u-label-style {
+    font-size: 30px;
+    
+    color: rgb(100, 65, 35);
+    
+    white-space: normal;
+}
+
+.u-label--centered {
+    -unity-text-align: middle-center;
+}
+
+
+.u-font-primary {
+    -unity-font-definition: url("project://database/Assets/UI Toolkit/UI/Fonts/Magzo SDF.asset");
+}
+
+ 
+.u-button-style:hover {
+    background-color: rgb(220, 200, 180);
+}    

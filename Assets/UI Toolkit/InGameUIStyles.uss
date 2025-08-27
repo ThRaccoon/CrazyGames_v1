@@ -1,24 +1,69 @@
-.main-container {
+.background {
 	flex-grow: 1;
+
+	flex-direction: row;
 }
 
-.character-hud {
+
+/* --- Panels --- */
+.panel {
+	width: 33.3333%;
+    height: 100%;
+}
+
+.panel--left { 
+	justify-content: space-between;
+}
+
+.panel--middle {
+	align-items: center;
+	justify-content: center;
+}
+
+.panel--right { 
+	align-items: flex-end;
+}
+
+
+/* --- Containers --- */
+.character-status-container {
 	flex-direction: row-reverse;	
 
-	align-items: center;
-
-	width: 25%;
-	
-	margin-top: 30px;
-	margin-left: 30px;
+    align-items: center;
+	justify-content: flex-end;
+ 
+	width: 100%;
+ 
+	margin-top: 35px;
+	margin-left: 35px;
 }
 
 .bars-container {
-	width: 70%;
+	width: 50%;
 	height: 50%;
 
 	top: 5%;
-	right: 5%;	 
+	right: 4%;	 
+}
+
+.currencies-container {
+    flex-direction: row-reverse;	    
+
+    align-items: center;
+    justify-content: space-around;
+
+    width: 100%;
+    height: 16%;
+}
+
+
+/* --- Wrappers --- */
+.lvl-wrapper {
+	align-items: center;	
+	justify-content: center;		
+	 
+	width: 150px;
+	height: 150px;
 }
 
 .health-bar-wrapper {
@@ -26,18 +71,6 @@
 	height: 50%;
 
 	background-color: rgb(120, 30, 30);
-
-	border-width: 5px 5px 5px 30px;
-	border-top-right-radius: 20px;
-	border-bottom-right-radius: 20px;
-	border-color: rgb(225, 145, 5);
-}
-
-.health-bar {
-	width: 50%;
-	height: 100%;
-
-	background-color: rgb(230, 50, 50);
 }
 
 .xp-bar-wrapper {
@@ -45,70 +78,54 @@
 	height: 40%;
 
 	background-color: rgb(75, 20, 80);
-
-	border-width: 5px 5px 5px 30px;
-	border-top-right-radius: 15px;
-	border-bottom-right-radius: 15px;
-	border-color: rgb(225, 145, 5);
 }
 
-.xp-bar {
-	width: 50%;
-	height: 100%;
+.bar-wrapper--border-left-large {
+	border-width: 5px 5px 5px 35px;
+}
 
+.buffs-wrapper {
+	justify-content: flex-start;
+
+	width: 35%;
+	height: 35%;
+	
+	margin: 0px 0px 0px 35px;
+}
+
+.options-button-wrapper {   
+	left: 35px;    
+    bottom: 35px; 
+}
+
+.currency-wrapper {
+    align-items: center;
+    justify-content: space-around;
+    
+    width: 40%;
+    height: 50%;
+}
+
+.score-wrapper {
+	justify-content: space-around;
+
+	width: 40%;
+	height: 30%;
+
+	margin: 35px 0px 0px 35px;
+}
+
+
+/* --- Bars --- */
+.bar {
+	width: 75%;
+	height: 100%;
+}
+
+.bar--health {
+	background-color: rgb(230, 50, 50);
+}
+
+.bar--xp {
 	background-color: rgb(155, 40, 175);
 }
-
-.lvl-wrapper {
-	align-items: center;	
-	justify-content: center;		
-	 
-	width: 150px;
-	height: 150px;
-
-	background-color: rgb(245, 230, 205);
-
-	border-width: 10px;
-	border-radius: 100px;
-	border-color: rgb(225, 145, 5);
-}
-
-.lvl-label {
-	color: rgb(100, 65, 35);
-
-	-unity-font-definition: url("project://database/Assets/UI Toolkit/UI/Fonts/Magzo SDF.asset");
-}
-
-.lvl-text {
-	font-size: 30px;
-} 
-
-.lvl-number {
-	font-size: 35px;
-	
-	-unity-font-style: bold;
-}
-
-.options-button {
-    width: 75px;
-    height: 75px;
-
-    position: absolute;
-    left: 75px;
-    bottom: 75px;
-    
-	background-color: rgb(245, 230, 205);
-
-    border-width: 10px;
-    border-radius: 15px;
-    border-color: rgb(225, 145, 5);
-
-	font-size: 50px;
-    color: rgb(100, 65, 35);
-
-	-unity-font-style: bold;
-}
-
-.options-button:hover {
-    background-color: rgb(220, 200, 180);
-} 

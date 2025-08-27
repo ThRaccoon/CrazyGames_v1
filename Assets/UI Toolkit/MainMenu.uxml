@@ -1,21 +1,69 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     
-    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=c8c48d02f371e54469a82b8a8673e94d&amp;type=3" />
-    
-    <engine:VisualElement class="main-container">
-        
-        <engine:VisualElement class="text-buttons-container">
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyles.uss?fileID=7433441132597879392&amp;guid=d3575106d18e7a447b775ad1abe3d2ae&amp;type=3#CommonStyles" />    
+
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=c8c48d02f371e54469a82b8a8673e94d&amp;type=3#MainMenuStyles" />
+   
+   
+    <engine:VisualElement class="background">
+
+        <!-- Left panel -->
+        <engine:VisualElement class="panel panel--left">    
             
-            <engine:Button name="PlayButton" text="PLAY" class="text-button" />
+             <engine:VisualElement class="wheel-button-wrapper"> 
+
+                <engine:Button name="SpinButton" text="W" class="u-box u-box--rounded u-button-style u-button--square u-font-primary" />
+
+             </engine:VisualElement>
             
-            <engine:Button name="CardsButton" text="CARDS" class="text-button" />
+            <engine:VisualElement class="options-button-wrapper">  
+
+                <engine:Button name="OptionsButton" text="O" class="u-box u-box--rounded u-button-style u-button--square u-font-primary" />
             
-            <engine:Button name="QuitButton" text="QUIT" class="text-button" />
+            </engine:VisualElement>
+
+        </engine:VisualElement>
+
+        <!-- Middle panel -->
+        <engine:VisualElement class="panel panel--middle">    
+            
+            <engine:VisualElement class="rectangle-buttons-container">
+                
+                <engine:Button name="PlayButton" text="PLAY" class="u-box u-box--rounded u-button-style u-font-primary" />
+                
+                <engine:Button name="CardsButton" text="CARDS" class="u-box u-box--rounded u-button-style u-font-primary" />
+                
+                <engine:Button name="QuitButton" text="QUIT" class="u-box u-box--rounded u-button-style u-font-primary" />
+            
+            </engine:VisualElement>
         
         </engine:VisualElement>
-        
-        <engine:Button name="OptionsButton" text="O" class="options-button" />
-        
+
+        <!-- Right panel -->
+        <engine:VisualElement class="panel panel--right">    
+            
+            <engine:VisualElement class="currencies-container">
+                
+                <engine:VisualElement class="currencies-wrapper u-box">   
+                    
+                    <engine:Label text="Shards:" class="u-label-style u-font-primary" />
+                    
+                    <engine:Label text="0123456789" class="u-label-style u-font-primary" />
+                
+                </engine:VisualElement>
+
+                <engine:VisualElement class="currencies-wrapper u-box">   
+                    
+                    <engine:Label text="Gems:" class="u-label-style u-font-primary" />
+                    
+                    <engine:Label text="0123456789" class="u-label-style u-font-primary" />
+                
+                </engine:VisualElement>
+            
+            </engine:VisualElement>
+
+        </engine:VisualElement>
+
     </engine:VisualElement>
 
 </engine:UXML>

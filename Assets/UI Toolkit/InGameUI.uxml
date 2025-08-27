@@ -1,39 +1,91 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyles.uss?fileID=7433441132597879392&amp;guid=d3575106d18e7a447b775ad1abe3d2ae&amp;type=3#CommonStyles" />
+    
     <Style src="project://database/Assets/UI%20Toolkit/InGameUIStyles.uss?fileID=7433441132597879392&amp;guid=40b0c6ab1f8a68741bff53ac57b34475&amp;type=3#InGameUIStyles" />
     
-    <engine:VisualElement class="main-container">
-            
-            <engine:VisualElement class="character-hud">
+     
+    <engine:VisualElement class="background">
+           
+        <!-- Left panel -->
+        <engine:VisualElement class="panel panel--left">    
+             
+                <engine:VisualElement class="character-status-container">
                 
-                <engine:VisualElement class="bars-container">
+                    <engine:VisualElement class="bars-container">
                     
-                    <engine:VisualElement class="health-bar-wrapper">
+                        <engine:VisualElement class="health-bar-wrapper bar-wrapper--border-left-large u-box">
                         
-                        <engine:VisualElement name="HealthBar" class="health-bar" />
+                            <engine:VisualElement name="HealthBar" class="bar bar--health" />
                     
-                    </engine:VisualElement>
+                        </engine:VisualElement>
                     
-                    <engine:VisualElement class="xp-bar-wrapper">
+                        <engine:VisualElement class="xp-bar-wrapper bar-wrapper--border-left-large u-box">
                         
-                        <engine:VisualElement name="XpBar" class="xp-bar" />
+                            <engine:VisualElement name="XpBar" class="bar bar--xp" />
                     
+                        </engine:VisualElement>
+                
                     </engine:VisualElement>
                 
-                </engine:VisualElement>
-                
-                <engine:VisualElement class="lvl-wrapper">
+                    <engine:VisualElement class="lvl-wrapper u-box u-box--circle">
                     
-                    <engine:Label text="lvl" class="lvl-label lvl-text" />     
+                        <engine:Label text="lvl&#10;1" class="u-label-style u-label--centered u-font-primary" />     
 
-                    <engine:Label text="27" class="lvl-label lvl-number" />    
-
-                </engine:VisualElement>
+                    </engine:VisualElement>
             
-            </engine:VisualElement>
+                </engine:VisualElement>
         
-            <engine:Button name="OptionsButton" text="O" class="options-button" />
+                <engine:VisualElement class="buffs-wrapper u-box">
 
+                    <engine:Label text="Buffs:" class="u-label-style u-font-primary" />
+
+                </engine:VisualElement>
+
+                <engine:VisualElement class="in-game__options-button-wrapper">
+
+                    <engine:Button name="OptionsButton" text="O" class="options-button-wrapper u-box u-box--rounded u-button-style u-button--square u-font-primary" />
+
+                </engine:VisualElement>
+
+        </engine:VisualElement>
+
+        <!-- Middle panel -->
+        <engine:VisualElement class="panel panel--middle">    
+            
+        </engine:VisualElement>
+
+        <!-- Right panel -->
+        <engine:VisualElement class="panel panel--right">    
+            
+            <engine:VisualElement class="currencies-container">
+            
+                <engine:VisualElement class="currency-wrapper u-box">   
+
+                    <engine:Label text="Shards:&#10;0123456789" class="u-label-style u-label--centered u-font-primary" />
+
+                </engine:VisualElement>
+
+                <engine:VisualElement class="currency-wrapper u-box">   
+
+                    <engine:Label text="Gems:&#10;0123456789" class="u-label-style u-label--centered u-font-primary" />
+
+                </engine:VisualElement>
+
+            </engine:VisualElement>     
+
+            <engine:VisualElement class="score-wrapper u-box">
+
+               <engine:Label text="Wave : 012345" class="u-label-style u-font-primary" />
+
+               <engine:Label text="Bosses : 012345" class="u-label-style u-font-primary" />
+
+               <engine:Label text="Mobs : 012345" class="u-label-style u-font-primary" />
+
+            </engine:VisualElement>
+
+        </engine:VisualElement>
+        
     </engine:VisualElement>
 
 </engine:UXML>

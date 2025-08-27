@@ -10,7 +10,7 @@
 
             <engine:Button name="CloseButton" text="X" class="close-button" />
             
-            <engine:VisualElement class="buttons-container">
+            <engine:VisualElement name="ButtonsContainer" class="buttons-container">
                 
                 <engine:Button name="ResumeButton" text="RESUME" class="button-common text-button" />
                 

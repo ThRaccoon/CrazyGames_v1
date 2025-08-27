@@ -59,30 +59,28 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScreenUI(string key)
     {
-        if (_uiDocument != null)
+        if (_uiDocument == null) return;
+
+        if (!_uiEntriesLookup.ContainsKey(key)) return;
+
+        UIEntry entry = _uiEntriesLookup[key];
+        _currentScreen = entry.Uxml.CloneTree();
+        
+        _currentScreen.style.flexGrow = 1;
+
+        _uiDocument.rootVisualElement.Add(_currentScreen);
+
+        Type type = Type.GetType(entry.UIController);
+        _currentScreenController = (IUIController)Activator.CreateInstance(type);
+
+        if (_currentScreenController is IPlayerBoundUI playerBound)
         {
-            if (_uiEntriesLookup.ContainsKey(key))
-            {
-                UIEntry entry = _uiEntriesLookup[key];
-                _currentScreen = entry.Uxml.CloneTree();
-                
-                _currentScreen.style.flexGrow = 1;
-                
-                _uiDocument.rootVisualElement.Add(_currentScreen);
-
-                Type type = Type.GetType(entry.UIController);
-                _currentScreenController = (IUIController)Activator.CreateInstance(type);
-
-                if (_currentScreenController is IPlayerBoundUI playerBound)
-                {
-                    playerBound.BindPlayer(_player);
-                }
-
-                _currentScreenController.Init(_uiDocument.rootVisualElement);
-                
-                _currentScreenController.OnActivate();
-            }
+            playerBound.BindPlayer(_player);
         }
+
+        _currentScreenController.Init(_currentScreen);
+
+        _currentScreenController.OnActivate();
     }
 
     public void ClearScreenUI()
@@ -115,8 +113,9 @@ public class UIManager : MonoBehaviour
 
         Type type = Type.GetType(entry.UIController);
         _currentOverlayController = (IUIController)Activator.CreateInstance(type);
-        _currentOverlayController.Init(_uiDocument.rootVisualElement);
         
+        _currentOverlayController.Init(_uiDocument.rootVisualElement);
+
         _currentOverlayController.OnActivate();
     }
 
@@ -129,7 +128,7 @@ public class UIManager : MonoBehaviour
         _currentOverlay = null;
     }
 
-    public void BindPlayer(Player player) 
+    public void BindPlayer(Player player)
     {
         _player = player;
     }

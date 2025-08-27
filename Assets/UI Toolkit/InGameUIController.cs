@@ -1,4 +1,4 @@
-using UnityEngine.UIElements;
+  using UnityEngine.UIElements;
 
 public class InGameUIController : IUIController, IPlayerBoundUI
 {
@@ -26,16 +26,22 @@ public class InGameUIController : IUIController, IPlayerBoundUI
         _optionsButton.RegisterCallback<ClickEvent>(OnMenu);
 
         _player.OnHealthChanged += UpdateHealthBar;
+
+        if (_healthBar != null)
+            _healthBar.style.width = Length.Percent(100f);
+
+        if (_xpBar != null)
+            _xpBar.style.width = Length.Percent(0f);
     }
 
     public void OnDeactivate()
     {
         _optionsButton.UnregisterCallback<ClickEvent>(OnMenu);
-    
+
         _player.OnHealthChanged -= UpdateHealthBar;
     }
 
-    public void BindPlayer(Player player) 
+    public void BindPlayer(Player player)
     {
         _player = player;
     }
