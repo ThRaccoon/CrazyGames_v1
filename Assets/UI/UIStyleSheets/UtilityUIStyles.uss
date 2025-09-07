@@ -6,6 +6,7 @@
 
 .u-box-clr-primary {
     background-color: rgb(245, 230, 205);
+    
     border-color: rgb(225, 145, 5);
 }
 

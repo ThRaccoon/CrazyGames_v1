@@ -33,7 +33,6 @@
     border-radius: 50px;
     
     -unity-font-style: bold;
-    
     -unity-text-align: middle-center;
 }
 
@@ -61,9 +60,7 @@
     transition: background-color 0.2s ease, scale 0.2s ease;
 }
 
-.card--lower {
-    top: 5%;
-}
+.card--lower { top: 5%; }
 
 .card-text {
     white-space: normal;

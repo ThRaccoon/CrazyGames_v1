@@ -1,5 +1,6 @@
 .bg {
     flex-grow: 1;
+    
     align-items: center;
     justify-content: center;
 }
@@ -27,7 +28,6 @@
     border-radius: 50px;
     
     -unity-font-style: bold;
-    
     -unity-text-align: middle-center;
 }
 
