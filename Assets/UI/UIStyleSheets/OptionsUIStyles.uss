@@ -1,0 +1,71 @@
+.bg {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.window {
+    align-items: center;
+    justify-content: center;
+    
+    width: 40%;
+    height: 70%;
+    
+    border-width: 10px;
+}
+
+
+.header {
+    width: 50%;
+    height: 15%;
+    
+    position: absolute;
+    top: -7.5%;
+    
+    border-width: 15px;
+    border-radius: 50px;
+    
+    -unity-font-style: bold;
+    
+    -unity-text-align: middle-center;
+}
+
+
+.close-button {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+
+
+.buttons-container {
+    align-items: stretch;
+    justify-content: space-around;
+    
+    width: 40%;
+    height: 60%;
+}
+ 
+.c-toggle .unity-toggle__input {
+    flex-direction: row-reverse;
+    
+    justify-content: space-around;
+}
+
+.c-toggle .unity-toggle__checkmark {
+    width: 35px;
+    height: 35px;
+    
+    background-color: rgb(245, 230, 205);
+    
+    border-width: 5px;
+    border-radius: 10px;
+    border-color: rgb(225, 145, 5);
+}
+
+.c-toggle:hover .unity-toggle__checkmark {
+    background-color: rgb(220, 200, 180);
+    
+    scale: 1.125;
+}

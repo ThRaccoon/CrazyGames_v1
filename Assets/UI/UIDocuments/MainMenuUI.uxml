@@ -1,0 +1,60 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+
+	<Style src="project://database/Assets/UI/UIStyleSheets/UtilityUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/CommonUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/MainMenuUIStyles.uss" />
+
+	<ui:VisualElement class="bg">
+
+		<!-- Left panel -->
+		<ui:VisualElement class="panel panel--left">
+
+			<ui:Button name="WheelButton" text="W" class="wheel-button c-button c-button--square u-box-clr-primary u-text-style-primary" />
+
+			<ui:Button name="OptionsButton" text="O" class="options-button c-button c-button--square u-box-clr-primary u-text-style-primary" />
+
+		</ui:VisualElement>
+
+		<!-- Middle panel -->
+		<ui:VisualElement class="panel panel--middle">
+
+			<ui:VisualElement class="rectangle-buttons-container">
+
+				<ui:Button name="PlayButton" text="PLAY" class="c-button u-box-clr-primary u-text-style-primary" />
+
+				<ui:Button name="UpgradesButton" text="UPGRADES" class="c-button u-box-clr-primary u-text-style-primary" />
+
+				<ui:Button name="QuitButton" text="QUIT" class="c-button u-box-clr-primary u-text-style-primary" />
+
+			</ui:VisualElement>
+
+		</ui:VisualElement>
+
+		<!-- Right panel -->
+		<ui:VisualElement class="panel panel--right">
+
+			<ui:VisualElement class="currencies-container">
+
+				<ui:VisualElement class="currency-box u-box-clr-primary u-text-style-primary">
+
+					<ui:Label text="Shards:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="0123456789" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+				<ui:VisualElement class="currency-box u-box-clr-primary u-text-style-primary">
+
+					<ui:Label text="Gems:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="0123456789" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+			</ui:VisualElement>
+
+		</ui:VisualElement>
+
+	</ui:VisualElement>
+
+</ui:UXML>

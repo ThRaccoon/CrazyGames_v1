@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainMenuUIController : IUIController
+public class MainMenuUIController : IControllerUI
 {
     private VisualElement _root;
 
     private Button _playButton;
-    private Button _cardsButton;
+    private Button _upgradesButton;
     private Button _quitButton;
     private Button _optionsButton;
 
@@ -15,7 +15,7 @@ public class MainMenuUIController : IUIController
         _root = root;
 
         _playButton = root.Q<Button>("PlayButton");
-        _cardsButton = root.Q<Button>("CardsButton");
+        _upgradesButton = root.Q<Button>("UpgradesButton");
         _quitButton = root.Q<Button>("QuitButton");
         _optionsButton = root.Q<Button>("OptionsButton");
     }
@@ -23,7 +23,7 @@ public class MainMenuUIController : IUIController
     public void OnActivate()
     {
         _playButton?.RegisterCallback<ClickEvent>(OnPlay);
-        _cardsButton?.RegisterCallback<ClickEvent>(OnCards);
+        _upgradesButton?.RegisterCallback<ClickEvent>(OnUpgrades);
         _quitButton?.RegisterCallback<ClickEvent>(OnQuit);
         _optionsButton?.RegisterCallback<ClickEvent>(OnOptions);
     }
@@ -31,7 +31,7 @@ public class MainMenuUIController : IUIController
     public void OnDeactivate()
     {
         _playButton?.UnregisterCallback<ClickEvent>(OnPlay);
-        _cardsButton?.UnregisterCallback<ClickEvent>(OnCards);
+        _upgradesButton?.UnregisterCallback<ClickEvent>(OnUpgrades);
         _quitButton?.UnregisterCallback<ClickEvent>(OnQuit);
         _optionsButton?.UnregisterCallback<ClickEvent>(OnOptions);
     }
@@ -44,11 +44,11 @@ public class MainMenuUIController : IUIController
         GameManager.Instance.SetState(EGameState.InGame);
     }
 
-    public void OnCards(ClickEvent evt)
+    public void OnUpgrades(ClickEvent evt)
     {
         AudioManager.Instance.PlayClickSound();
 
-        Debug.Log("Cards");
+        UIManager.Instance.ShowOverlay("Upgrades");
     }
 
     public void OnQuit(ClickEvent evt)

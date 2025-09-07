@@ -1,0 +1,133 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+
+	<Style src="project://database/Assets/UI/UIStyleSheets/UtilityUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/CommonUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/InGameUIStyles.uss" />
+
+	<ui:VisualElement class="bg">
+
+		<!-- Left panel -->
+		<ui:VisualElement class="panel panel--left">
+
+			<ui:VisualElement class="character-status-container">
+
+				<ui:VisualElement class="status-bars-container">
+
+					<ui:VisualElement class="bar-box-hp bar-box--brd-left-large u-brd-clr-primary">
+
+						<ui:VisualElement name="HpBar" class="bar-fill bar-fill--hp" />
+
+					</ui:VisualElement>
+
+					<ui:VisualElement class="bar-box-xp bar-box--brd-left-large u-brd-clr-primary">
+
+						<ui:VisualElement name="XpBar" class="bar-fill bar-fill--xp" />
+
+					</ui:VisualElement>
+
+				</ui:VisualElement>
+
+				<ui:VisualElement class="lvl-box u-box-clr-primary">
+
+					<ui:Label text="lvl" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="012345" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+			</ui:VisualElement>
+
+			<ui:VisualElement class="buffs-box u-box-clr-primary">
+
+				<ui:Label text="Buffs:" class="u-text-style-primary u-text--small" />
+
+				<ui:Label text="AT - 5% - 23s" class="u-text-style-primary u-text--bold u-text--small" />
+
+			</ui:VisualElement>
+
+			<ui:Button name="OptionsButton" text="O" class="options-button c-button c-button--square u-box-clr-primary u-text-style-primary" />
+
+		</ui:VisualElement>
+
+		<!-- Middle panel -->
+		<ui:VisualElement class="panel panel--middle">
+
+		</ui:VisualElement>
+
+		<!-- Right panel -->
+		<ui:VisualElement class="panel panel--right">
+
+			<ui:VisualElement class="currencies-container">
+
+				<ui:VisualElement class="currency-box u-box-clr-primary">
+
+					<ui:Label text="Gems:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="0123456789" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+				<ui:VisualElement class="currency-box u-box-clr-primary">
+
+					<ui:Label text="Shards:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="0123456789" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+			</ui:VisualElement>
+
+			<ui:VisualElement class="score-box u-box-clr-primary">
+
+				<!-- Mode -->
+				<ui:VisualElement class="score-field">
+
+					<ui:Label text="Mode:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="Endless" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+				<!-- Wave -->
+				<ui:VisualElement class="score-field">
+					
+					<ui:Label text="Wave:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="012345" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+				<!-- Bosses -->
+				<ui:VisualElement class="score-field">
+
+					<ui:Label text="Bosses:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="012345" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+				<!-- Elites -->
+				<ui:VisualElement class="score-field">
+
+					<ui:Label text="Elites:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="012345" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+				<!-- Mobs -->
+				<ui:VisualElement class="score-field">
+
+					<ui:Label text="Mobs:" class="u-text-style-primary u-text--small" />
+
+					<ui:Label text="012345" class="u-text-style-primary u-text--bold u-text--small" />
+
+				</ui:VisualElement>
+
+			</ui:VisualElement>
+
+		</ui:VisualElement>
+
+	</ui:VisualElement>
+
+</ui:UXML>

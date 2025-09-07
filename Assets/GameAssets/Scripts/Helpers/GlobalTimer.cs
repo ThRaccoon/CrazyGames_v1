@@ -63,26 +63,4 @@ public class GlobalTimer
         _elapsedTime = duration;
         _flag = false;
     }
-
-
-    public bool TickReversed()
-    {
-        if (!_flag) return _flag;
-
-        _elapsedTime -= Time.deltaTime;
-
-        if (_elapsedTime <= 0)
-        {
-            _flag = false;
-            _elapsedTime = 0f;
-        }
-
-        return _flag;
-    }
-
-    public void ResetReversed()
-    {
-        _elapsedTime = _duration;
-        _flag = true;
-    }
 }

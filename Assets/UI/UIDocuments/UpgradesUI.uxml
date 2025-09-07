@@ -1,0 +1,78 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+
+	<Style src="project://database/Assets/UI/UIStyleSheets/UtilityUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/CommonUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/UpgradesUIStyles.uss" />
+
+	<ui:VisualElement class="bg u-overlay-bg-clr-primary">
+
+		<ui:VisualElement class="window u-box-clr-primary">
+
+			<ui:Label text="UPGRADES" class="header u-box-clr-primary u-text-style-primary u-text--large" />
+
+			<ui:Button name="CloseButton" text="X" class="close-button c-button c-button--square u-box-clr-primary u-text-style-primary" />
+
+			<ui:Button name="PrevButton" text="&lt;" class="rotate-button c-button u-box-clr-primary u-text-style-primary" />
+
+			<ui:VisualElement class="cards-container">
+
+				<!-- Left Card -->
+				<ui:VisualElement name="LeftCard" class="card card--lower u-box-clr-primary">
+
+					<ui:Label text="Attack Damage" class="card-text u-text-style-primary u-text--bold u-text--medium" />
+
+					<ui:Label text="+10%" class="card-text u-text-style-primary u-text--bold u-text--medium" />
+
+					<ui:VisualElement>
+
+						<ui:Label text="100 /" class="card-text u-text-style-primary u-text--small" />
+
+						<ui:Label text="Shards" class="card-text u-text-style-primary u-text--small" />
+
+					</ui:VisualElement>
+
+				</ui:VisualElement>
+
+				<!-- Middle Card -->
+				<ui:VisualElement name="MiddleCard" class="card u-box-clr-primary">
+
+					<ui:Label text="Attack Damage" class="card-text u-text-style-primary u-text--bold u-text--medium" />
+
+					<ui:Label text="+10%" class="card-text u-text-style-primary u-text--bold u-text--medium" />
+
+					<ui:VisualElement>
+
+						<ui:Label text="100 /" class="card-text u-text-style-primary u-text--small" />
+
+						<ui:Label text="Shards" class="card-text u-text-style-primary u-text--small" />
+
+					</ui:VisualElement>
+
+				</ui:VisualElement>
+
+				<!-- Right Card -->
+				<ui:VisualElement name="RightCard" class="card card--lower u-box-clr-primary">
+
+					<ui:Label text="Attack Damage" class="card-text u-text-style-primary u-text--bold u-text--medium" />
+
+					<ui:Label text="+10%" class="card-text u-text-style-primary u-text--bold u-text--medium" />
+
+					<ui:VisualElement>
+
+						<ui:Label text="100 /" class="card-text u-text-style-primary u-text--small" />
+
+						<ui:Label text="Shards" class="card-text u-text-style-primary u-text--small" />
+
+					</ui:VisualElement>
+
+				</ui:VisualElement>
+
+			</ui:VisualElement>
+
+			<ui:Button name="NextButton" text="&gt;" class="rotate-button c-button u-box-clr-primary u-text-style-primary" />
+
+		</ui:VisualElement>
+
+	</ui:VisualElement>
+
+</ui:UXML>

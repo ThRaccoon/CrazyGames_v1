@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     public EGameState CurrentState { get; private set; }
 
     public static GameManager Instance { get; private set; }
+
+    public string gameMode {  get; private set; }
 
     private void Awake()
     {
@@ -30,6 +33,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetState(EGameState.MainMenu);
+
+        
     }
 
     private void OnEnable()

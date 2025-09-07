@@ -1,0 +1,29 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+
+	<Style src="project://database/Assets/UI/UIStyleSheets/UtilityUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/CommonUIStyles.uss" />
+	<Style src="project://database/Assets/UI/UIStyleSheets/OptionsUIStyles.uss" />
+
+	<ui:VisualElement class="bg u-overlay-bg-clr-primary">
+
+		<ui:VisualElement class="window u-box-clr-primary">
+
+			<ui:Label text="OPTIONS" class="header u-box-clr-primary u-text-style-primary u-text--large" />
+
+			<ui:Button name="CloseButton" text="X" class="close-button c-button c-button--square u-box-clr-primary u-text-style-primary" />
+
+			<ui:VisualElement name="ButtonsContainer" class="buttons-container">
+
+				<ui:Button name="MenuButton" text="MENU" class="c-button u-box-clr-primary u-text-style-primary" />
+
+				<ui:Toggle name="MusicToggle" text="MUSIC" value="true" class="c-toggle u-box-clr-primary u-text-style-primary" />
+
+				<ui:Toggle name="SoundToggle" text="SOUND" value="true" class="c-toggle u-box-clr-primary u-text-style-primary" />
+
+			</ui:VisualElement>
+
+		</ui:VisualElement>
+
+	</ui:VisualElement>
+
+</ui:UXML>

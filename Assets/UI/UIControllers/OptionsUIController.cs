@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class OptionsUIController : IUIController
+public class OptionsUIController : IControllerUI
 {
     private VisualElement _root;
 
     private VisualElement _buttonsContainer;
 
     private Button _closeButton;
-    private Button _resumeButton;
     private Button _menuButton;
 
     private Toggle _musicToggle;
@@ -21,7 +20,6 @@ public class OptionsUIController : IUIController
         _buttonsContainer = root.Q<VisualElement>("ButtonsContainer");
 
         _closeButton = root.Q<Button>("CloseButton");
-        _resumeButton = root.Q<Button>("ResumeButton");
         _menuButton = root.Q<Button>("MenuButton");
 
         _musicToggle = root.Q<Toggle>("MusicToggle");
@@ -33,8 +31,6 @@ public class OptionsUIController : IUIController
         GameManager.Instance.Pause();
 
         _closeButton?.RegisterCallback<ClickEvent>(OnClose);
-
-        _resumeButton?.RegisterCallback<ClickEvent>(OnResume);
         _menuButton?.RegisterCallback<ClickEvent>(OnMenu);
 
         _musicToggle?.RegisterCallback<ChangeEvent<bool>>(OnMusic);
@@ -54,7 +50,6 @@ public class OptionsUIController : IUIController
         GameManager.Instance.Unpause();
         
         _closeButton?.UnregisterCallback<ClickEvent>(OnClose);
-        _resumeButton?.UnregisterCallback<ClickEvent>(OnResume);
         _menuButton?.UnregisterCallback<ClickEvent>(OnMenu);
 
         _musicToggle?.UnregisterCallback<ChangeEvent<bool>>(OnMusic);
@@ -69,19 +64,13 @@ public class OptionsUIController : IUIController
         UIManager.Instance.HideOverlayUI();
     }
 
-    public void OnResume(ClickEvent evt)
-    {
-        AudioManager.Instance.PlayClickSound();
-
-        UIManager.Instance.HideOverlayUI();
-    }
-
     public void OnMenu(ClickEvent evt)
     {
         AudioManager.Instance.PlayClickSound();
 
         GameManager.Instance.SetState(EGameState.MainMenu);
     }
+
 
     public void OnMusic(ChangeEvent<bool> evt)
     {
@@ -97,13 +86,11 @@ public class OptionsUIController : IUIController
         AudioManager.Instance.ToggleSFX(evt.newValue);
     }
 
+
     private void UpdateVisibility()
     {
         if (GameManager.Instance.CurrentState != EGameState.InGame) 
         {
-            _buttonsContainer.style.height = Length.Percent(50f);
-            
-            _resumeButton.style.display = DisplayStyle.None;
             _menuButton.style.display = DisplayStyle.None;
         }
     }

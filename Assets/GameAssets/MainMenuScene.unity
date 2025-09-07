@@ -385,6 +385,37 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1527412078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1527412080}
+  m_Layer: 0
+  m_Name: PlayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1527412080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527412078}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735806491
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: b8e99213c702bdd46adca6104a28b431, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 8ed81c09610006547af4f9fb72f2d14d, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 120281def7e78ec49b2fe52dfd65e486, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -619,6 +650,9 @@ MonoBehaviour:
   - <Key>k__BackingField: Options
     <Uxml>k__BackingField: {fileID: 9197481963319205126, guid: fc2bce81b4df87f4dad6d39245ece06c, type: 3}
     <UIController>k__BackingField: OptionsUIController
+  - <Key>k__BackingField: Upgrades
+    <Uxml>k__BackingField: {fileID: 9197481963319205126, guid: 484de230950bd4f429f87aba27470bdb, type: 3}
+    <UIController>k__BackingField: UpgradesUIController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -626,6 +660,7 @@ SceneRoots:
   - {fileID: 1108704349}
   - {fileID: 1735806492}
   - {fileID: 1757582732}
+  - {fileID: 1527412080}
   - {fileID: 1897510402}
   - {fileID: 1803047485}
   - {fileID: 1823291446}

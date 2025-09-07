@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
-    // ====================================================================================================
-    // === General ===
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // General
     [Header("General")]
     [SerializeField] private LayerMask _targetLayersMask;
     [SerializeField] private LayerMask _ignoredLayersMask;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === Animations ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Animations
     [Space(15)]
     [Header("Animations")]
     [SerializeField] private Animator _animator;
@@ -18,35 +19,40 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float _syncedAttackAnimLength;
 
     private bool _shouldSyncAttackAnim;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === VFX ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // VFX
     [Space(15)]
     [Header("VFX")]
     [SerializeField] private GameObject _damageText;
 
     [SerializeField] private float _damageTextYOffset;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === SFX ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SFX
     [Space(15)]
     [Header("SFX")]
     [SerializeField] private AudioClip _deathSound;
 
     [SerializeField] private float _deathSoundVolume;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === Stats ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Stats
     [Space(15)]
     [Header("Stats")]
-    [SerializeField] private float _health;
     [SerializeField] private float _damage;
     [SerializeField] private float _attackSpeed;
-    [SerializeField] private float _expReward;
 
+    [Space(5)]
+    [SerializeField] private float _defense;
+    [SerializeField] private float _health;
+    
     [Space(5)]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _detectionRange;
@@ -55,10 +61,11 @@ public class Enemy : MonoBehaviour, IDamageable
     [Space(5)]
     [Header("Type")]
     [SerializeField] private bool _isRange;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === Projectile ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Projectile
     [Space(15)]
     [Header("Projectile (Only If Range)")]
     [SerializeField] private GameObject _projectilePrefab;
@@ -68,28 +75,43 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float _projectileYOffset;
 
     private Vector3 _projectileSpawnPoint;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === On Death ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Reward Drop
+    [Space(15)]
+    [Header("Reward Drop")]
+    [SerializeField] private Vector2 _shardsReward;
+    [SerializeField] private Vector2 _gemsReward;
+
+    [Space(5)]
+    [SerializeField] private float _expReward;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // On Death
     [Space(15)]
     [Header("On Death")]
     [SerializeField] private float _waitBeforeDestroy;
 
     [HideInInspector] public bool _isDead;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === RUNTIME ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RUNTIME
     private bool _canAttack = true;
     private bool _isChasingTarget;
     private float _distanceToTarget;
     private Vector3 _targetPos;
     private Vector3 _targetDir;
     private GameObject _target;
+    private EnemySpawner _spawner;
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void Update()
     {
@@ -137,7 +159,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, GameObject target)
+    public void Init(float healthMultiplier, float damageMultiplier, float expRewardMultiplier, GameObject target, EnemySpawner spawner)
     {
         _health *= healthMultiplier;
         _damage *= damageMultiplier;
@@ -145,6 +167,8 @@ public class Enemy : MonoBehaviour, IDamageable
 
         _target = target;
         _targetPos = _target.transform.position;
+
+        _spawner = spawner;
 
         _attackTimer = new GlobalTimer(_attackSpeed);
         _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
@@ -201,8 +225,47 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+
+    public void TakeDamage(float damage)
+    {
+        float effectiveDamage = CalculateEffectiveDamage(damage);
+        _health -= effectiveDamage;
+
+        DisplayDamage(effectiveDamage);
+
+        if (_health <= 0 && !_isDead)
+            OnDeath();
+    }
+
+    private float CalculateEffectiveDamage(float damage)
+    {
+        float damageReduction = _defense / (_defense + 25f);
+        return damage * (1f - damageReduction);
+    }
+
+    private void OnDeath()
+    {
+        _isDead = true;
+
+        if (_animator != null)
+            _animator.Play("Death");
+
+        AudioManager.Instance.PlaySFXClip(_deathSound, _deathSoundVolume, transform.position);
+
+        BoxCollider collider = GetComponent<BoxCollider>();
+        if (collider != null)
+            Destroy(collider);
+
+        _spawner.OnMobDeath(this);
+
+        Destroy(gameObject, _waitBeforeDestroy);
+    }
+
+
     private void DisplayDamage(float damage)
     {
+        float roundedDamage = Mathf.Round(damage * 100f) / 100f;
+
         if (_damageText)
         {
             Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f), UnityEngine.Random.Range(_damageTextYOffset - 0.5f, _damageTextYOffset + 0.5f), transform.position.z);
@@ -215,35 +278,9 @@ public class Enemy : MonoBehaviour, IDamageable
                 if (floatingTextMesh)
                 {
                     floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0, 100) / 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
-                    floatingTextMesh.text = damage.ToString();
+                    floatingTextMesh.text = roundedDamage.ToString();
                 }
             }
-        }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        _health -= damage;
-        DisplayDamage(damage);
-
-        if (_health <= 0)
-        {
-            _isDead = true;
-
-            if (_animator != null)
-            {
-                _animator.Play("Death");
-            }
-
-            AudioManager.Instance.PlaySFXClip(_deathSound, _deathSoundVolume, transform.position);
-
-            BoxCollider collider = GetComponent<BoxCollider>();
-            if (collider != null)
-            {
-                Destroy(collider);
-            }
-
-            Destroy(gameObject, _waitBeforeDestroy);
         }
     }
 }

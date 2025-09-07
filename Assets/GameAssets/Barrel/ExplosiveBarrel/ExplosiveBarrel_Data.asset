@@ -12,20 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d258bd8ee3cc25a4a98a72835825171a, type: 3}
   m_Name: ExplosiveBarrel_Data
   m_EditorClassIdentifier: 
-  type: 1
-  prefab: {fileID: 4909978321946014772, guid: 848ebbfbbea77904c9f8b6f2016ba4df, type: 3}
-  lifeTime: 15
-  targetLayersMask:
+  <Prefab>k__BackingField: {fileID: 4909978321946014772, guid: 848ebbfbbea77904c9f8b6f2016ba4df, type: 3}
+  <TargetLayersMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 256
-  rollRangeToSpawnFrom: 75
-  rollRangeToSpawnTo: 100
-  moveSpeed: 5
-  rotationAxis: {x: 0, y: 1, z: 0}
-  rotationSpeed: 90
-  VFXPrefabOnDestroy: {fileID: 8132470267344305482, guid: 8922b5606fdc8e04c8437ff261b2d7ba, type: 3}
-  VFXOnDestroyLifeTime: 3
-  breakingBarrelClip: {fileID: 8300000, guid: 717aef52a712ea44c8c5383e25d55577, type: 3}
-  breakingBarrelVolume: 0.75
-  ExplosionDamage: 100
-  ExplosionRange: 7.5
+    m_Bits: 2304
+  <IgnoredLayersMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 16384
+  <RotationAxis>k__BackingField: {x: 0, y: 180, z: 0}
+  <ExplosionVFXPrefab>k__BackingField: {fileID: 8132470267344305482, guid: 8922b5606fdc8e04c8437ff261b2d7ba, type: 3}
+  <ExplosionVFXLifeTime>k__BackingField: 1
+  <BreakingBarrelSFXClip>k__BackingField: {fileID: 8300000, guid: 717aef52a712ea44c8c5383e25d55577, type: 3}
+  <BreakingBarrelSFXVolume>k__BackingField: 0.45
+  <MovementSpeed>k__BackingField: 5
+  <RotationSpeed>k__BackingField: 50
+  <LifeTime>k__BackingField: 20
+  <RollChance>k__BackingField: {x: 0, y: 0}
+  <Type>k__BackingField: 2
+  <ExplosionDamage>k__BackingField: 50
+  <ExplosionRange>k__BackingField: 10

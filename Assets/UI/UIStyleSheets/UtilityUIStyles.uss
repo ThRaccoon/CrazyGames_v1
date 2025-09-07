@@ -1,0 +1,28 @@
+.u-overlay-bg-clr-primary { background-color: rgba(15, 15, 15, 0.8); }
+
+.u-bg-clr-primary { background-color: rgb(245, 230, 205); }
+
+.u-brd-clr-primary { border-color: rgb(225, 145, 5); }
+
+.u-box-clr-primary {
+    background-color: rgb(245, 230, 205);
+    border-color: rgb(225, 145, 5);
+}
+
+
+.u-text-font-primary { -unity-font-definition: url("project://database/Assets/UI/UIAssets/Fonts/Magzo SDF.asset"); }
+
+.u-text--bold { -unity-font-style: bold; }
+
+.u-text--clr-primary { color: rgb(100, 65, 35); }
+
+.u-text--small { font-size: 30px; }
+.u-text--medium { font-size: 45px; }
+.u-text--large { font-size: 60px; }
+
+.u-text--centered { -unity-text-align: middle-center; }
+
+.u-text-style-primary {
+    -unity-font-definition: url("project://database/Assets/UI/UIAssets/Fonts/Magzo SDF.asset");
+    color: rgb(100, 65, 35);
+}

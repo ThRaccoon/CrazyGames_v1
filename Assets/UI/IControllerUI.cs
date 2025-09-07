@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-public interface IUIController
+public interface IControllerUI
 {
     void Init(VisualElement root);
 

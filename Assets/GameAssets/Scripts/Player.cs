@@ -1,122 +1,153 @@
 using System;
 using UnityEngine;
 
-public enum EStatsType { None, EAttackDamage, EAttackSpeed, ECritMultiplier, ECritChance, ESplashDamage, ESplashRadius, EHealthRegenAmount, EHealthRegenSpeed, EHealth, EExperience }
+public enum EStatsType { None, EAttackDamage, ECritChance, EDefense, EHealth, EHealthRegenAmount }
 
 public class Player : MonoBehaviour, IDamageable
 {
-    // ====================================================================================================
-    // === General ===
-    [Header("General")]
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // General
+    [Header("=== General ===")]
     [SerializeField] private Camera _mainCamera;
-
+    
     [SerializeField] private LayerMask _targetLayersMask;
     [SerializeField] private LayerMask _ignoredLayersMask;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === Animations ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Animations
     [Space(15)]
-    [Header("Animations")]
+    [Header("=== Animations ===")]
     [SerializeField] private Animator _animator;
-
+    
     [SerializeField] private float _syncedAttackAnimLength;
     [SerializeField] private float _animationAttackMultiplier;
-
+    
     private bool _shouldSyncAttackAnim;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === VFX ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // VFX
     [Space(15)]
-    [Header("VFX")]
+    [Header("=== VFX ===")]
     [SerializeField] private GameObject _thunderPrefab;
     [SerializeField] private GameObject _thunderCritPrefab;
-
+    
     [SerializeField] private float _thunderLifeTime;
 
-    [Space(5)]
     [Header("Damage Text")]
     [SerializeField] private GameObject _damageText;
-
+    
     [SerializeField] private float _damageTextYOffset;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === SFX ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SFX
     [Space(15)]
-    [Header("SFX")]
+    [Header("=== SFX ===")]
+
+    [Header("Attack")]
     [SerializeField] private AudioClip _attackSFXClip;
     [SerializeField, Range(0f, 1f)] private float _attackSFXVolume;
 
-    [Space(5)]
+    [Header("Buff")]
     [SerializeField] private AudioClip _buffUpSFXClip;
     [SerializeField, Range(0f, 1f)] private float _buffUpSFXVolume;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === Stats ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Stats
     [Space(15)]
-    [Header("Stats")]
+    [Header("=== Stats ===")]
+
+    [Header("Attack")]
     [SerializeField] private float _baseAttackDamage;
     [SerializeField] private float _currentAttackDamage;
-
+    
     [SerializeField] private float _baseAttackSpeed;
-    [SerializeField] private float _currentAttackSpeed;
 
-    [SerializeField] private float _baseCritMultiplier;
-    [SerializeField] private float _currentCritMultiplier;
-
+    [Header("Critical")]
     [SerializeField] private float _baseCritChance;
     [SerializeField] private float _currentCritChance;
+    
+    [SerializeField] private float _baseCritMultiplier;
 
-    [Space(5)]
-    [SerializeField] private float _baseSplashDamage;
-    [SerializeField] private float _currentSplashDamage;
-
+    [Header("Splash")]
+    [SerializeField] private float _baseSplashDamageMultiplier;
     [SerializeField] private float _baseSplashRadius;
-    [SerializeField] private float _currentSplashRadius;
 
-    [Space(5)]
+    [Header("Defense")]
+    [SerializeField] private float _baseDefense;
+    [SerializeField] private float _currentDefense;
+
+    [Header("Health")]
     [SerializeField] private float _baseHealth;
     [SerializeField] private float _currentHealth;
-    [SerializeField] private float _maxHealth;
-
+   
     [SerializeField] private float _baseHealthRegenAmount;
     [SerializeField] private float _currentHealthRegenAmount;
-
+    
     [SerializeField] private float _baseHealthRegenSpeed;
-    [SerializeField] private float _currentHealthRegenSpeed;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    [Space(5)]
-    [SerializeField] private float _currentXP;
-    [SerializeField] private float _maxXP;
-    // ====================================================================================================
 
-    // ====================================================================================================
-    // === RUNTIME ===
-    private bool _canAttack = true;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Level Up
+    [Space(15)]
+    [Header("=== Level Up ===")]
 
+    [Header("LVL")]
+    [SerializeField] private int _currentLvl;
+
+    [Header("XP")]
+    [SerializeField] private int _baseXP;
+    [SerializeField] private int _currentXP;
+    [SerializeField] private int _requiredXP;
+
+    [Header("Base Stats")]
+    [SerializeField] private float _defensePercentageIncrease;
+    [SerializeField] private float _healthPercentageIncrease;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RUNTIME
+    private bool _canAttack;
     private GameObject _target;
-
     private BoxCollider _targetBoxCollider;
     private Collider[] _splashHitColliders;
-
     private GlobalTimer _attackTimer;
     private GlobalTimer _syncAnimTimer;
     private GlobalTimer _healthRegenTimer;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ====================================================================================================
-    // === Events ===
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Events
     public event Action<float> OnHealthChanged;
-    // ====================================================================================================
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     private void Start()
     {
-        _attackTimer = new GlobalTimer(_currentAttackSpeed);
+        _currentAttackDamage = _baseAttackDamage;
+        _currentCritChance = _baseCritChance;
+
+        _currentDefense = _baseDefense;
+        _currentHealth = _baseHealth;
+        _currentHealthRegenAmount = _baseHealthRegenAmount;
+
+        _requiredXP = _baseXP * (_currentLvl * _currentLvl);
+
+        _canAttack = true;
+
+        _attackTimer = new GlobalTimer(_baseAttackSpeed);
         _syncAnimTimer = new GlobalTimer(_syncedAttackAnimLength);
-        _healthRegenTimer = new GlobalTimer(_currentHealthRegenSpeed);
+        _healthRegenTimer = new GlobalTimer(_baseHealthRegenSpeed);
 
         if (_animator)
         {
@@ -204,13 +235,15 @@ public class Player : MonoBehaviour, IDamageable
             if (_target != null && _targetBoxCollider != null)
             {
                 GameObject thunderVFX;
-                float finalAttackDamage = _currentAttackDamage;
-                float finalSplashDamage = _currentSplashDamage;
+
+                float finalAttackDamage = _currentAttackDamage * UnityEngine.Random.Range(0.9f, 1.1f);
+
+                float finalSplashDamage = (_currentAttackDamage * _baseSplashDamageMultiplier) * UnityEngine.Random.Range(0.9f, 1.1f);
 
                 if (UnityEngine.Random.value <= _currentCritChance)
                 {
-                    finalAttackDamage *= _currentCritMultiplier;
-                    finalSplashDamage *= _currentCritMultiplier;
+                    finalAttackDamage *= _baseCritMultiplier;
+                    finalSplashDamage *= _baseCritMultiplier;
 
                     thunderVFX = Instantiate(_thunderCritPrefab, _target.transform.position, Quaternion.identity);
                 }
@@ -224,17 +257,16 @@ public class Player : MonoBehaviour, IDamageable
                 IDamageable target = _target.GetComponent<IDamageable>();
                 target.TakeDamage(finalAttackDamage);
 
-                _splashHitColliders = Physics.OverlapSphere(_target.transform.position, _currentSplashRadius, ~_ignoredLayersMask);
+                _splashHitColliders = Physics.OverlapSphere(_target.transform.position, _baseSplashRadius, ~_ignoredLayersMask);
 
                 foreach (Collider hit in _splashHitColliders)
                 {
                     if (hit.gameObject == _target.gameObject) continue;
 
                     IDamageable splashTarget = hit.GetComponent<IDamageable>();
-                    if (splashTarget != null)
-                    {
-                        splashTarget.TakeDamage(finalSplashDamage);
-                    }
+
+                    splashTarget?.TakeDamage(finalSplashDamage);
+
                 }
             }
 
@@ -256,27 +288,73 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+
     private void HealthRegen()
     {
-        if (_currentHealth < _maxHealth)
+        if (_currentHealth < _baseHealth)
         {
             _healthRegenTimer.Tick();
 
             if (_healthRegenTimer.Flag)
             {
-                _currentHealth = Mathf.Min(_currentHealth + _currentHealthRegenAmount, _maxHealth);
+                _currentHealth = Mathf.Min(_currentHealth + _currentHealthRegenAmount, _baseHealth);
 
                 _healthRegenTimer.Reset();
 
-                OnHealthChanged?.Invoke(_currentHealth / _maxHealth);
+                OnHealthChanged?.Invoke(_currentHealth / _baseHealth);
             }
         }
     }
+
+    public void AddExp(int exp)
+    {
+        _currentXP += exp;
+
+        while (_currentXP >= _requiredXP)
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        _currentXP -= _requiredXP;
+        _currentLvl++;
+
+        _baseDefense += _baseDefense * _defensePercentageIncrease;
+        _baseHealth += _baseHealth * _healthPercentageIncrease;
+
+        _currentHealth = _baseHealth;
+
+        _requiredXP = _baseXP * (_currentLvl * _currentLvl);
+    }
+
+
+    // --- Interface ---
+    public void TakeDamage(float damage)
+    {
+        float damageReduction = _currentDefense / (_currentDefense + 50f);
+        float effectiveDamage = damage * (1f - damageReduction);
+
+        _currentHealth -= effectiveDamage;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0f, _baseHealth);
+
+        DisplayDamage(effectiveDamage);
+        OnHealthChanged?.Invoke(_currentHealth / _baseHealth);
+
+        if (_currentHealth <= 0f)
+        {
+            // ToDo: Game Over
+        }
+    }
+
 
     private void DisplayDamage(float damage)
     {
         if (_damageText)
         {
+            float roundedDamage = Mathf.Round(damage * 100f) / 100f;
+
             Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(transform.position.x - 1.25f, transform.position.x + 0.5f),
                                                 UnityEngine.Random.Range(_damageTextYOffset - 0.5f, _damageTextYOffset + 0.5f), transform.position.z);
 
@@ -289,153 +367,10 @@ public class Player : MonoBehaviour, IDamageable
                 if (floatingTextMesh)
                 {
                     floatingTextMesh.color = new Color(1f, UnityEngine.Random.Range(0, 100) / 255f, UnityEngine.Random.Range(0, 255) / 255f, 1f);
-                    floatingTextMesh.text = damage.ToString();
+                    floatingTextMesh.text = roundedDamage.ToString();
                 }
             }
         }
-    }
-
-
-    // --- Apply Buffs ---
-    public void ApplyBuff(EStatsType type, float value)
-    {
-        switch (type)
-        {
-            case EStatsType.EAttackDamage:
-                {
-                    value = 1 + (value / 100);
-                    _currentAttackDamage *= value;
-                }
-                break;
-            case EStatsType.EAttackSpeed:
-                {
-                    float temp = 1 - (value / 100);
-
-                    _currentAttackSpeed *= temp;
-                    _attackTimer.Duration = _currentAttackSpeed;
-                    _syncedAttackAnimLength *= temp;
-                    _syncAnimTimer.Duration = _syncedAttackAnimLength;
-
-                    if (_animator != null)
-                    {
-                        _animationAttackMultiplier *= 1 + (value / 100);
-                        _animator.SetFloat("AttackSpeedMultiplier", _animationAttackMultiplier);
-                    }
-                }
-                break;
-            case EStatsType.ECritMultiplier:
-                {
-                    value = 1 + (value / 100);
-                    _currentCritMultiplier *= value;
-                }
-                break;
-            case EStatsType.ECritChance:
-                {
-                    value = 1 + (value / 100);
-                    _currentCritChance *= value;
-                }
-                break;
-            case EStatsType.ESplashDamage:
-                {
-                    value = 1 + (value / 100);
-                    _currentSplashDamage *= value;
-                }
-                break;
-            case EStatsType.ESplashRadius:
-                {
-                    value = 1 + (value / 100);
-                    _currentSplashRadius *= value;
-                }
-                break;
-            case EStatsType.EHealthRegenAmount:
-                {
-                    value = 1 + (value / 100);
-                    _currentHealthRegenAmount *= value;
-                }
-                break;
-            case EStatsType.EHealthRegenSpeed:
-                {
-                    value = 1 - (value / 100);
-                    _currentHealthRegenSpeed *= value;
-                }
-                break;
-            case EStatsType.EHealth:
-                {
-                    value = 1 + (value / 100);
-                    _currentHealth += value;
-
-                    if (_currentHealth > _maxHealth)
-                    {
-                        _currentHealth = _maxHealth;
-                    }
-                }
-                break;
-        }
-    }
-
-    public void AddStats(EStatsType type, float value)
-    {
-        switch (type)
-        {
-            case EStatsType.EAttackDamage:
-                {
-                    _baseAttackDamage += value;
-                }
-                break;
-            case EStatsType.EAttackSpeed:
-                {
-                    _baseAttackSpeed -= value;
-                }
-                break;
-            case EStatsType.ECritMultiplier:
-                {
-                    _baseCritMultiplier += value;
-                }
-                break;
-            case EStatsType.ECritChance:
-                {
-                    _baseCritChance += value;
-                }
-                break;
-            case EStatsType.ESplashDamage:
-                {
-                    _baseSplashDamage += value;
-                }
-                break;
-            case EStatsType.ESplashRadius:
-                {
-                    _baseSplashRadius += value;
-                }
-                break;
-            case EStatsType.EHealthRegenAmount:
-                {
-                    _baseHealthRegenAmount += value;
-                }
-                break;
-            case EStatsType.EHealthRegenSpeed:
-                {
-                    _baseHealthRegenSpeed -= value;
-                }
-                break;
-            case EStatsType.EHealth:
-                {
-                    _baseHealth += value;
-                }
-                break;
-        }
-    }
-
-    // --- Interface ---
-    public void TakeDamage(float dmg)
-    {
-        _currentHealth -= dmg;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0f, _maxHealth);
-
-        DisplayDamage(dmg);
-        OnHealthChanged?.Invoke(_currentHealth / _maxHealth);
-
-        // ToDo Game Over
-        // if (_healthCurrent <= 0){}
     }
 }
 

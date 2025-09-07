@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrels:
   - {fileID: 11400000, guid: 40e6bd092db4f4946a8bc97e67614978, type: 2}
-  - {fileID: 11400000, guid: efafa23c7cb9f8d49a2a25fad21c67a4, type: 2}

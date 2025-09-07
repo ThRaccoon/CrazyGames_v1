@@ -3298,7 +3298,7 @@ Transform:
   m_GameObject: {fileID: 1745741054}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70, y: 0, z: 60}
+  m_LocalPosition: {x: 70, y: 0, z: 65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3317,48 +3317,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 8500421690129492713}
-  _mobPrefabs:
-  - {fileID: 7691492850685575951, guid: 2a42de0ba33bf2b4984ecbbe4927d36e, type: 3}
-  - {fileID: 1276373197862094712, guid: bb7f7e43f40a5a54a99e2c8259f3bab2, type: 3}
-  - {fileID: 6528388067129873977, guid: 1971ea92124718f4d8c655cc1cd65f12, type: 3}
-  - {fileID: 8007046465294484937, guid: dc0bdaaf95946f849959be45f0f9f9fb, type: 3}
-  - {fileID: 4484581747811076669, guid: 86c9c7ed6c69f5f4aa89b668e5a95bd7, type: 3}
-  - {fileID: 6326080321931030636, guid: fba0bb63d827e474e9d5a06e8c06a082, type: 3}
-  - {fileID: 3712357233187331368, guid: f6a5fbd8ee3423f4a804ff3dc6cec25b, type: 3}
-  - {fileID: 5465197081236333267, guid: 56c65eccb7ea08b4cbbdf4ffdd40a874, type: 3}
-  _mobSpawnXRange: {x: 64, y: 76}
-  _bossPrefabs:
+  _mobsSpawnXRange: {x: 64, y: 76}
+  _mobsSpawnYRange: {x: 60, y: 65}
+  _eliteMobPrefabs:
   - {fileID: 7691492850685575951, guid: 3131324f5aff1e843bf8e829fcbcfeb1, type: 3}
   - {fileID: 1276373197862094712, guid: 28e269c142f5fc847a05a4a7fa8ac4e8, type: 3}
   - {fileID: 6528388067129873977, guid: d260f6eaea09fdf4f887390e90e47923, type: 3}
   - {fileID: 8007046465294484937, guid: d2a89cda86ed11342b9efd06ed7d0da3, type: 3}
   - {fileID: 4484581747811076669, guid: 8c5a5453a67530a4cada52ceb007d6e7, type: 3}
-  - {fileID: 6326080321931030636, guid: e1d172de752ddef41ab7a2e9d95cf875, type: 3}
-  - {fileID: 3712357233187331368, guid: c053486ae4e26e24ab55e8a0a5a8894e, type: 3}
   - {fileID: 5465197081236333267, guid: a8a6f1ef615203d4ab80fc8408bbd345, type: 3}
-  _bossSpawnXRange: {x: 64, y: 76}
+  - {fileID: 3712357233187331368, guid: c053486ae4e26e24ab55e8a0a5a8894e, type: 3}
+  - {fileID: 6326080321931030636, guid: e1d172de752ddef41ab7a2e9d95cf875, type: 3}
+  _normalMobPrefabs:
+  - {fileID: 7691492850685575951, guid: 2a42de0ba33bf2b4984ecbbe4927d36e, type: 3}
+  - {fileID: 1276373197862094712, guid: bb7f7e43f40a5a54a99e2c8259f3bab2, type: 3}
+  - {fileID: 6528388067129873977, guid: 1971ea92124718f4d8c655cc1cd65f12, type: 3}
+  - {fileID: 8007046465294484937, guid: dc0bdaaf95946f849959be45f0f9f9fb, type: 3}
+  - {fileID: 4484581747811076669, guid: 86c9c7ed6c69f5f4aa89b668e5a95bd7, type: 3}
+  - {fileID: 5465197081236333267, guid: 56c65eccb7ea08b4cbbdf4ffdd40a874, type: 3}
+  - {fileID: 3712357233187331368, guid: f6a5fbd8ee3423f4a804ff3dc6cec25b, type: 3}
+  - {fileID: 6326080321931030636, guid: fba0bb63d827e474e9d5a06e8c06a082, type: 3}
   _barrelDatabase: {fileID: 11400000, guid: b2fc11beff7400a4b86c6e5f8c094697, type: 2}
   _barrelSpawnPositions:
   - {x: 64, y: 1, z: 65}
   - {x: 70, y: 1, z: 65}
   - {x: 76, y: 1, z: 65}
-  _deathSFXClip: {fileID: 8300000, guid: b3109faa303d0234c8d0a8d03be8e8c4, type: 3}
-  _deathSoundVolume: 0.25
   _baseDamageMultiplier: 0
   _damageMultiplier: 1
   _baseHealthMultiplier: 0
-  _healthMultiplier: 1
+  _healthMultiplier: 0.5
   _baseExpRewardMultiplier: 0
   _expRewardMultiplier: 1
-  _mobSpawnInterval: 2.5
-  _bossSpawnInterval: 25
-  _barrelSpawnInterval: 1
-  _multipliersIncrementThreshold: 12
-  _spawnedMobCountForMultipliers: 0
-  _mobTypeUnlockThreshold: 10
-  _spawnedMobCountForMobType: 0
-  _bossTypeUnlockThreshold: 11
-  _spawnedBossCountForBossType: 0
+  _waveFreezeTimeInterval: 10
+  _mobsSpawnInterval: 2
+  _barrelSpawnInterval: 15
+  _initialNormalMobsCountPerWave: 5
+  _incrementNormalMobsCountPerWaveStep: 3
+  _waveCount: 0
+  _eliteMobsCountThisWave: 0
+  _spawnedEliteMobsThisWave: 0
+  _normalMobsCountThisWave: 0
+  _spawnedNormalMobsThisWave: 0
 --- !u!4 &1801344111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1211585420363801112, guid: fc244872015e4c14fa37f57a87149c5e, type: 3}
@@ -6490,27 +6489,27 @@ MonoBehaviour:
   _attackSFXVolume: 0.25
   _buffUpSFXClip: {fileID: 8300000, guid: 9abfc9a8d1b91b345a9cc2672c64312c, type: 3}
   _buffUpSFXVolume: 0.25
-  _baseAttackDamage: 15
-  _currentAttackDamage: 15
+  _baseAttackDamage: 10
+  _currentAttackDamage: 0
   _baseAttackSpeed: 0.5
-  _currentAttackSpeed: 0.5
-  _baseCritMultiplier: 1.1
-  _currentCritMultiplier: 1.1
-  _baseCritChance: 0.1
-  _currentCritChance: 0.1
-  _baseSplashDamage: 5
-  _currentSplashDamage: 5
-  _baseSplashRadius: 3
-  _currentSplashRadius: 3
-  _baseHealth: 20
-  _currentHealth: 20
-  _maxHealth: 20
-  _baseHealthRegenAmount: 1
-  _currentHealthRegenAmount: 1
+  _baseCritChance: 0.05
+  _currentCritChance: 0
+  _baseCritMultiplier: 1.5
+  _baseSplashDamageMultiplier: 0.25
+  _baseSplashRadius: 2.5
+  _baseDefense: 5
+  _currentDefense: 0
+  _baseHealth: 100
+  _currentHealth: 0
+  _baseHealthRegenAmount: 2
+  _currentHealthRegenAmount: 0
   _baseHealthRegenSpeed: 2
-  _currentHealthRegenSpeed: 2
-  _currentXP: 0
-  _maxXP: 0
+  _currentLvl: 1
+  _baseExp: 10
+  _currentExp: 0
+  _requiredExp: 0
+  _defensePercentageIncrease: 0.05
+  _healthPercentageIncrease: 0.05
 --- !u!95 &9132245414744027222
 Animator:
   serializedVersion: 7

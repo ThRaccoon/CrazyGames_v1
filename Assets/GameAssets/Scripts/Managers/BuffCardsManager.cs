@@ -59,7 +59,7 @@ public class BuffCardsManager : MonoBehaviour
     {
         GameManager.Instance.Unpause();
 
-        _player.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].randomizedBuffValue);
+        //_player.ApplyBuff(_randomBuffCards[index].statsType, _randomBuffCards[index].randomizedBuffValue);
 
         _canvas.SetActive(false);
     }

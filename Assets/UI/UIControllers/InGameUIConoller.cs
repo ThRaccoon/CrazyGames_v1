@@ -1,12 +1,13 @@
-  using UnityEngine.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-public class InGameUIController : IUIController, IPlayerBoundUI
+public class InGameUIController : IControllerUI, IPlayerBoundUI
 {
     private VisualElement _root;
 
     private Button _optionsButton;
 
-    private VisualElement _healthBar;
+    private VisualElement _hpBar;
     private VisualElement _xpBar;
 
     private Player _player;
@@ -17,7 +18,7 @@ public class InGameUIController : IUIController, IPlayerBoundUI
 
         _optionsButton = root.Q<Button>("OptionsButton");
 
-        _healthBar = root.Q<VisualElement>("HealthBar");
+        _hpBar = root.Q<VisualElement>("HpBar");
         _xpBar = root.Q<VisualElement>("XpBar");
     }
 
@@ -25,10 +26,10 @@ public class InGameUIController : IUIController, IPlayerBoundUI
     {
         _optionsButton.RegisterCallback<ClickEvent>(OnMenu);
 
-        _player.OnHealthChanged += UpdateHealthBar;
+        _player.OnHealthChanged += UpdateHpBar;
 
-        if (_healthBar != null)
-            _healthBar.style.width = Length.Percent(100f);
+        if (_hpBar != null)
+            _hpBar.style.width = Length.Percent(100f);
 
         if (_xpBar != null)
             _xpBar.style.width = Length.Percent(0f);
@@ -38,7 +39,7 @@ public class InGameUIController : IUIController, IPlayerBoundUI
     {
         _optionsButton.UnregisterCallback<ClickEvent>(OnMenu);
 
-        _player.OnHealthChanged -= UpdateHealthBar;
+        _player.OnHealthChanged -= UpdateHpBar;
     }
 
     public void BindPlayer(Player player)
@@ -53,9 +54,9 @@ public class InGameUIController : IUIController, IPlayerBoundUI
         UIManager.Instance.ShowOverlay("Options");
     }
 
-    public void UpdateHealthBar(float newValue)
+    public void UpdateHpBar(float newValue)
     {
-        _healthBar.style.width = Length.Percent(newValue * 100f);
+        _hpBar.style.width = Length.Percent(newValue * 100f);
     }
 
     public void UpdateXpBar(float newValue)

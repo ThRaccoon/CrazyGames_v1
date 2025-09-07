@@ -19,10 +19,10 @@ public class UIManager : MonoBehaviour
     private Dictionary<string, UIEntry> _uiEntriesLookup;
 
     private VisualElement _currentScreen;
-    public IUIController _currentScreenController { get; private set; }
+    public IControllerUI _currentScreenController { get; private set; }
 
     private VisualElement _currentOverlay;
-    private IUIController _currentOverlayController;
+    private IControllerUI _currentOverlayController;
 
     private Player _player;
 
@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
         _uiDocument.rootVisualElement.Add(_currentScreen);
 
         Type type = Type.GetType(entry.UIController);
-        _currentScreenController = (IUIController)Activator.CreateInstance(type);
+        _currentScreenController = (IControllerUI)Activator.CreateInstance(type);
 
         if (_currentScreenController is IPlayerBoundUI playerBound)
         {
@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
         _uiDocument.rootVisualElement.Add(_currentOverlay);
 
         Type type = Type.GetType(entry.UIController);
-        _currentOverlayController = (IUIController)Activator.CreateInstance(type);
+        _currentOverlayController = (IControllerUI)Activator.CreateInstance(type);
         
         _currentOverlayController.Init(_uiDocument.rootVisualElement);
 
